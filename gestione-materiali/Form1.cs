@@ -12,27 +12,30 @@ namespace gestione_materiali
 {
     public partial class Form1 : Form
     {
-        private List<Periodo> asd;
+        private List<Periodo> Form_Periodi;
         string[] titoli = new string[]
         {
-            "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino",
-            "Da versare a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
+            "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
+            "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
         };
 
         public Form1()
         {
-            asd = new List<Periodo>();
+            Form_Periodi = new List<Periodo>();
             InitializeComponent();
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        // Carico tabella con header fissi
+        void CaricaHeaderTabella()
         {
             dataGridView1.Rows.Add(5);
             dataGridView1.AutoSize = true;
+
             for (int i = 0; i < titoli.Length; i++)
             {
                 dataGridView1.Rows[i].Cells[0].Value = titoli[i];
                 dataGridView1.Rows[i].Cells[0].ReadOnly = true;
+
                 if (i >= 2)
                 {
                     dataGridView1.Rows[i].ReadOnly = true;
@@ -41,17 +44,26 @@ namespace gestione_materiali
             }
         }
 
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CaricaHeaderTabella();
+        }
+
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
-
-            for (int i = 0; i < dataGridView1.Rows.Count; i++)
+            for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                for (int j = 1; j < dataGridView1.Rows[i].Cells.Count + 1; j++)
+                Form_Periodi.Add(new Periodo()
                 {
-                    int p = 
-                }
+                    Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value ?? -1), // Se valore == null, la variabile è uguale a -1
+                    OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value ?? -1),
+                    Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[i].Value ?? -1),
+                    Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[i].Value ?? -1),
+                    OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[i].Value ?? -1)
+                });
             }
 
+            Produzione product = new Produzione(Form_Periodi);
         }
     }
 }
