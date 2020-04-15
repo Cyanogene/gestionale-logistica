@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,6 +14,7 @@ namespace gestione_materiali
     public partial class Form1 : Form
     {
         private List<Periodo> Form_Periodi;
+        private Salvataggio salvataggio;
         string[] titoli = new string[]
         {
             "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
@@ -21,8 +23,14 @@ namespace gestione_materiali
 
         public Form1()
         {
-            Form_Periodi = new List<Periodo>();
             InitializeComponent();
+            Form_Periodi = new List<Periodo>();
+            salvataggio = new Salvataggio();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            CaricaHeaderTabella();
         }
 
         // Carico tabella con header fissi
@@ -44,12 +52,16 @@ namespace gestione_materiali
             }
         }
 
-        private void Form1_Load(object sender, EventArgs e)
+        private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
-            CaricaHeaderTabella();
+            RecuperaDatiTabella();
+            Produzione product = new Produzione(Form_Periodi);
+            Form_Periodi = product.CalcolaProgrammazioneProduzione();
+            AggiornaTabella();
         }
 
-        private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
+        // Prende i dati in input e li salva nella lista dei periodi
+        void RecuperaDatiTabella()
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
@@ -62,8 +74,38 @@ namespace gestione_materiali
                     OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[i].Value ?? -1)
                 });
             }
+        }
 
-            Produzione product = new Produzione(Form_Periodi);
+        // Dopo che è stata eseguita la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti
+        void AggiornaTabella()
+        {
+            for (int i = 1; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Rows[0].Cells[i].Value = Form_Periodi[i - 1].Previsioni;
+                dataGridView1.Rows[1].Cells[i].Value = Form_Periodi[i - 1].OrdiniVendita;
+                dataGridView1.Rows[2].Cells[i].Value = Form_Periodi[i - 1].Giacenza;
+                dataGridView1.Rows[3].Cells[i].Value = Form_Periodi[i - 1].Versamenti;
+                dataGridView1.Rows[4].Cells[i].Value = Form_Periodi[i - 1].OrdiniProduzione;
+            }
+        }
+
+        private void Btn_SalvataggioProgrammazione_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
+            Sfd_Catalogo.InitialDirectory = @"C:\";
+            Sfd_Catalogo.RestoreDirectory = true;
+            Sfd_Catalogo.FileName = "*.xml";
+            Sfd_Catalogo.DefaultExt = "xml";
+            Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
+            if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                Stream filesStream = Sfd_Catalogo.OpenFile();
+                StreamWriter sw = new StreamWriter(filesStream);
+                //distintaBase.catalogo = NodiTreeView;
+                salvataggio.SalvaProgrammazione(Form_Periodi, sw);
+                sw.Close();
+                filesStream.Close();
+            }
         }
     }
 }

@@ -15,12 +15,13 @@ namespace gestione_materiali
             Periodi = input;
         }
 
-        public void CalcolaProgrammazioneProduzione()
+        public List<Periodo> CalcolaProgrammazioneProduzione()
         {
             for (int i = 0; i < Periodi.Count; i++)
             {
                 CalcolaDati(i);
             }
+            return Periodi;
         }
 
         public void CalcolaDati(int periodo)
@@ -62,14 +63,8 @@ namespace gestione_materiali
 
         public void CalcolaOrdiniDiProduzione(int periodo)
         {
-            if (LT == 1)    //LT = Lead Time
-            {
-                Periodi[periodo].OrdiniProduzione = Periodi[periodo].Versamenti;
-            }
-            if (LT > 1)
-            {
-                Periodi[periodo - LT + 1].OrdiniProduzione = Periodi[periodo].Versamenti;
-            }
+            //LT = Lead Time
+            Periodi[periodo - LT + 1].OrdiniProduzione = Periodi[periodo].Versamenti;
         }
     }
 }

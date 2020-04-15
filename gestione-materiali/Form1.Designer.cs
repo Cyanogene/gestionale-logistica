@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.Btn_SalvataggioProgrammazione = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.periodo_0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -53,14 +53,15 @@
             this.button1.Text = "Carica prodotto";
             this.button1.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // Btn_SalvataggioProgrammazione
             // 
-            this.button2.Location = new System.Drawing.Point(673, 425);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(127, 23);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Salva prodotto";
-            this.button2.UseVisualStyleBackColor = true;
+            this.Btn_SalvataggioProgrammazione.Location = new System.Drawing.Point(673, 425);
+            this.Btn_SalvataggioProgrammazione.Name = "Btn_SalvataggioProgrammazione";
+            this.Btn_SalvataggioProgrammazione.Size = new System.Drawing.Size(127, 23);
+            this.Btn_SalvataggioProgrammazione.TabIndex = 1;
+            this.Btn_SalvataggioProgrammazione.Text = "Salva prodotto";
+            this.Btn_SalvataggioProgrammazione.UseVisualStyleBackColor = true;
+            this.Btn_SalvataggioProgrammazione.Click += new System.EventHandler(this.Btn_SalvataggioProgrammazione_Click);
             // 
             // dataGridView1
             // 
@@ -181,7 +182,7 @@
             this.ClientSize = new System.Drawing.Size(800, 450);
             this.Controls.Add(this.Btn_ProgrammazioneProduzione);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.Btn_SalvataggioProgrammazione);
             this.Controls.Add(this.button1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
@@ -195,7 +196,7 @@
         #endregion
 
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button Btn_SalvataggioProgrammazione;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Periodo;
         private System.Windows.Forms.DataGridViewTextBoxColumn periodo_0;
