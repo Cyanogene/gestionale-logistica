@@ -5,12 +5,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace distinta_base
+namespace gestione_materiali
 {
     /// <summary>
     /// Classe utilizzata per creare un nodo (radice inclusa)
     /// </summary>
-
     [Serializable]
     public class Componente
     {
@@ -24,6 +23,4 @@ namespace distinta_base
         public int PeriodoDiCopertura { get; set; }
         public List<Componente> SottoNodi = new List<Componente>();
     }
-
-
 }

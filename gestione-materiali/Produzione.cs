@@ -9,15 +9,17 @@ namespace gestione_materiali
     class Produzione
     {
         public List<Periodo> Periodi { get; set; }
+        public Componente comp;
 
-        public Produzione(List<Periodo> input)
+        public Produzione(List<Periodo> input, Componente c)
         {
             Periodi = input;
+            comp = c;
         }
 
         public List<Periodo> CalcolaProgrammazioneProduzione()
         {
-            for (int i = 0; i < Periodi.Count; i++)
+            for (int i = 1; i < Periodi.Count; i++)
             {
                 CalcolaDati(i);
             }
@@ -27,7 +29,7 @@ namespace gestione_materiali
         public void CalcolaDati(int periodo)
         {
             CalcolaGiacenza(periodo);
-            if (Periodi[periodo].Giacenza < SS) // SS = Scorta di Sicurezza
+            if (Periodi[periodo].Giacenza < comp.ScortaSicurezza)
             {
                 CalcolaVersamenti(periodo);
                 CalcolaOrdiniDiProduzione(periodo);
@@ -52,10 +54,10 @@ namespace gestione_materiali
         {
             if (Periodi[periodo].Versamenti == -1)
             {
-                int TempLotto = Lotto;
-                while (TempLotto < SS + Math.Abs(Periodi[periodo].Giacenza))
+                int TempLotto = comp.Lotto;
+                while (TempLotto < comp.ScortaSicurezza + Math.Abs(Periodi[periodo].Giacenza))
                 {
-                    TempLotto += Lotto;
+                    TempLotto += comp.Lotto;
                 }
                 Periodi[periodo].Versamenti = TempLotto;
             }
@@ -63,8 +65,7 @@ namespace gestione_materiali
 
         public void CalcolaOrdiniDiProduzione(int periodo)
         {
-            //LT = Lead Time
-            Periodi[periodo - LT + 1].OrdiniProduzione = Periodi[periodo].Versamenti;
+            Periodi[periodo - comp.LeadTime + 1].OrdiniProduzione = Periodi[periodo].Versamenti;
         }
     }
 }

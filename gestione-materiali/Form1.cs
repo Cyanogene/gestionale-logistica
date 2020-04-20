@@ -8,13 +8,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace gestione_materiali
 {
     public partial class Form1 : Form
     {
         private List<Periodo> Form_Periodi;
-        private Salvataggio salvataggio;
+        private Componente componente;
+        private List<DataGridCell> appo;
         string[] titoli = new string[]
         {
             "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
@@ -25,7 +27,7 @@ namespace gestione_materiali
         {
             InitializeComponent();
             Form_Periodi = new List<Periodo>();
-            salvataggio = new Salvataggio();
+            appo = new List<DataGridCell>();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -54,10 +56,19 @@ namespace gestione_materiali
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
-            RecuperaDatiTabella();
-            Produzione product = new Produzione(Form_Periodi);
-            Form_Periodi = product.CalcolaProgrammazioneProduzione();
-            AggiornaTabella();
+            if (ControllaCelleVuote())
+            {
+                RecuperaDatiTabella();
+                Produzione product = new Produzione(Form_Periodi, componente);
+                Form_Periodi = product.CalcolaProgrammazioneProduzione();
+                AggiornaTabella();
+            }
+
+            else
+            {
+                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
         }
 
         // Prende i dati in input e li salva nella lista dei periodi
@@ -67,13 +78,37 @@ namespace gestione_materiali
             {
                 Form_Periodi.Add(new Periodo()
                 {
-                    Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value ?? -1), // Se valore == null, la variabile è uguale a -1
-                    OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value ?? -1),
-                    Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[i].Value ?? -1),
-                    Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[i].Value ?? -1),
-                    OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[i].Value ?? -1)
+                    Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value),
+                    OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value),
+                    Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[i].Value),
+                    Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[i].Value),
+                    OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[i].Value)
                 });
             }
+        }
+
+        bool ControllaCelleVuote()
+        {
+            bool ris = true;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (!cell.ReadOnly)
+                    {
+                        if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                        {
+                            cell.Style.BackColor = Color.Tomato;
+                            ris = false;
+                        }
+                        else
+                        {
+                            cell.Style.BackColor = Color.White;
+                        }
+                    }
+                }
+            }
+            return ris;
         }
 
         // Dopo che è stata eseguita la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti
@@ -97,14 +132,35 @@ namespace gestione_materiali
             Sfd_Catalogo.FileName = "*.xml";
             Sfd_Catalogo.DefaultExt = "xml";
             Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
+
             if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
             {
                 Stream filesStream = Sfd_Catalogo.OpenFile();
                 StreamWriter sw = new StreamWriter(filesStream);
-                //distintaBase.catalogo = NodiTreeView;
-                salvataggio.SalvaProgrammazione(Form_Periodi, sw);
-                sw.Close();
+                XmlSerializer serializer = new XmlSerializer(typeof(List<Periodo>));
+                serializer.Serialize(sw, Form_Periodi);
                 filesStream.Close();
+                sw.Close();
+            }
+        }
+
+        private void Btn_CaricaComponente_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
+            Ofd_Catalogo.InitialDirectory = @"C:\";
+            Ofd_Catalogo.Filter = "XML|*.xml";
+
+            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(Ofd_Catalogo.FileName))
+                {
+                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    componente = (Componente)serializer.Deserialize(stream);
+                    stream.Close();
+                    Lbl_ComponenteCaricato.Text = $"Attualmente è caricato il componente '{componente.Nome.ToUpper()}'";
+                    Lbl_ComponenteCaricato.Visible = true;
+                }
             }
         }
     }

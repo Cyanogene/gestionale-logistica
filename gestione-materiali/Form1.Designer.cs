@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.button1 = new System.Windows.Forms.Button();
+            this.Btn_CaricaComponente = new System.Windows.Forms.Button();
             this.Btn_SalvataggioProgrammazione = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -41,17 +41,19 @@
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
+            this.Lbl_ComponenteCaricato = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.SuspendLayout();
             // 
-            // button1
+            // Btn_CaricaComponente
             // 
-            this.button1.Location = new System.Drawing.Point(673, 395);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(127, 23);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "Carica prodotto";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Btn_CaricaComponente.Location = new System.Drawing.Point(326, 275);
+            this.Btn_CaricaComponente.Name = "Btn_CaricaComponente";
+            this.Btn_CaricaComponente.Size = new System.Drawing.Size(117, 23);
+            this.Btn_CaricaComponente.TabIndex = 0;
+            this.Btn_CaricaComponente.Text = "Carica componente";
+            this.Btn_CaricaComponente.UseVisualStyleBackColor = true;
+            this.Btn_CaricaComponente.Click += new System.EventHandler(this.Btn_CaricaComponente_Click);
             // 
             // Btn_SalvataggioProgrammazione
             // 
@@ -175,27 +177,40 @@
             this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
             this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
+            // Lbl_ComponenteCaricato
+            // 
+            this.Lbl_ComponenteCaricato.AutoSize = true;
+            this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(12, 176);
+            this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
+            this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(64, 25);
+            this.Lbl_ComponenteCaricato.TabIndex = 4;
+            this.Lbl_ComponenteCaricato.Text = "label1";
+            this.Lbl_ComponenteCaricato.Visible = false;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.Lbl_ComponenteCaricato);
             this.Controls.Add(this.Btn_ProgrammazioneProduzione);
             this.Controls.Add(this.dataGridView1);
             this.Controls.Add(this.Btn_SalvataggioProgrammazione);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.Btn_CaricaComponente);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form1";
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button Btn_CaricaComponente;
         private System.Windows.Forms.Button Btn_SalvataggioProgrammazione;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Periodo;
@@ -207,6 +222,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column3;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.Button Btn_ProgrammazioneProduzione;
+        private System.Windows.Forms.Label Lbl_ComponenteCaricato;
     }
 }
 
