@@ -17,6 +17,8 @@ namespace gestione_materiali
         private List<Periodo> Form_Periodi;
         private Componente componente;
         private List<DataGridCell> appo;
+        private Programmazione program;
+
         string[] titoli = new string[]
         {
             "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
@@ -28,6 +30,7 @@ namespace gestione_materiali
             InitializeComponent();
             Form_Periodi = new List<Periodo>();
             appo = new List<DataGridCell>();
+            program = new Programmazione();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -56,6 +59,11 @@ namespace gestione_materiali
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
+            if (componente == null)
+            {
+                Carica();
+            }
+
             if (ControllaCelleVuote())
             {
                 RecuperaDatiTabella();
@@ -124,42 +132,42 @@ namespace gestione_materiali
             }
         }
 
+        void Carica()
+        {
+            componente = program.Carica(componente);
+
+            if (componente != null)
+            {
+                Lbl_ComponenteCaricato.Text = $"Attualmente è caricato il componente '{componente.Nome.ToUpper()}'";
+                Lbl_ComponenteCaricato.Visible = true;
+            }
+            else
+            {
+                MessageBox.Show("Nessun componente è stato caricato.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
         private void Btn_SalvataggioProgrammazione_Click(object sender, EventArgs e)
         {
-            SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
-            Sfd_Catalogo.InitialDirectory = @"C:\";
-            Sfd_Catalogo.RestoreDirectory = true;
-            Sfd_Catalogo.FileName = "*.xml";
-            Sfd_Catalogo.DefaultExt = "xml";
-            Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
-
-            if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
-            {
-                Stream filesStream = Sfd_Catalogo.OpenFile();
-                StreamWriter sw = new StreamWriter(filesStream);
-                XmlSerializer serializer = new XmlSerializer(typeof(List<Periodo>));
-                serializer.Serialize(sw, Form_Periodi);
-                filesStream.Close();
-                sw.Close();
-            }
+            program.Salva(Form_Periodi);
         }
 
         private void Btn_CaricaComponente_Click(object sender, EventArgs e)
         {
-            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
-            Ofd_Catalogo.InitialDirectory = @"C:\";
-            Ofd_Catalogo.Filter = "XML|*.xml";
+            Carica();
+        }
 
-            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (dataGridView1.CurrentCell.Value != null)
             {
-                if (File.Exists(Ofd_Catalogo.FileName))
+                bool ris = dataGridView1.CurrentCell.Value.ToString().All(char.IsDigit);
+
+                if (!ris)
                 {
-                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
-                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
-                    componente = (Componente)serializer.Deserialize(stream);
-                    stream.Close();
-                    Lbl_ComponenteCaricato.Text = $"Attualmente è caricato il componente '{componente.Nome.ToUpper()}'";
-                    Lbl_ComponenteCaricato.Visible = true;
+                    MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    dataGridView1.CurrentCell.Value = null;
                 }
             }
         }
