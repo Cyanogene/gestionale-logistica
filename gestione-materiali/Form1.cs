@@ -168,6 +168,12 @@ namespace gestione_materiali
                 {
                     MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.CurrentCell.Value = null;
+                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+                }
+
+                else
+                {
+                    dataGridView1.CurrentCell.Style.BackColor = Color.White;
                 }
             }
         }

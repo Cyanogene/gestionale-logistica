@@ -26,8 +26,8 @@ namespace gestione_materiali
                 StreamWriter sw = new StreamWriter(filesStream);
                 XmlSerializer serializer = new XmlSerializer(typeof(List<Periodo>));
                 serializer.Serialize(sw, p);
-                filesStream.Close();
                 sw.Close();
+                filesStream.Close();
             }
         }
 

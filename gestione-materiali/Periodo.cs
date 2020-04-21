@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace gestione_materiali
 {
     [Serializable]
-    class Periodo
+    public class Periodo
     {
         public int Previsioni { get; set; }
         public int OrdiniVendita { get; set; }
