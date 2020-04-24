@@ -43,7 +43,14 @@ namespace gestione_materiali
                 {
                     StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
                     XmlSerializer serializer = new XmlSerializer(typeof(Componente));
-                    componente = (Componente)serializer.Deserialize(stream);
+                    try
+                    {
+                        componente = (Componente)serializer.Deserialize(stream);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
                     stream.Close();
                 }
             }

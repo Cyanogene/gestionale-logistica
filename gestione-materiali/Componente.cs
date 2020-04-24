@@ -13,6 +13,7 @@ namespace gestione_materiali
         public string Nome { get; set; }
         public string Descrizione { get; set; }
         public string Codice { get; set; }
+        public string Code { get; set; }
         public int LeadTime { get; set; }
         public int LeadTimeSicurezza { get; set; }
         public int ScortaSicurezza { get; set; }

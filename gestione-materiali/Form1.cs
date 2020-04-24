@@ -18,6 +18,7 @@ namespace gestione_materiali
         private Componente componente;
         private List<DataGridCell> appo;
         private Programmazione program;
+        private DistintaBase distintaBase;
 
         string[] titoli = new string[]
         {
@@ -31,6 +32,7 @@ namespace gestione_materiali
             Form_Periodi = new List<Periodo>();
             appo = new List<DataGridCell>();
             program = new Programmazione();
+            distintaBase = new DistintaBase();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -45,7 +47,11 @@ namespace gestione_materiali
             if (componente == null)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                CaricaDistintaBase();
+                TreeNode treeNode = CaricaDistintaBase();
+                if (treeNode != null)
+                {
+                    treeView_DistintaBase.Nodes.Add(treeNode);
+                }
                 return;
             }
 
@@ -89,7 +95,17 @@ namespace gestione_materiali
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Distinta base --> Carica
-            CaricaDistintaBase();
+            treeView_DistintaBase.Nodes.Clear();
+            TreeNode treeNode = CaricaDistintaBase();
+            if (treeNode != null)
+            {
+                treeView_DistintaBase.Nodes.Add(treeNode);
+            }
+        }
+
+        private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {e.Node.Text}.";
         }
 
 
@@ -189,22 +205,24 @@ namespace gestione_materiali
         }
 
         // Chiede all'utente una distinta base e succesivamente la carica nel programma.
-        void CaricaDistintaBase()
+        TreeNode CaricaDistintaBase()
         {
             componente = program.CaricaDistintaBase(componente);
             if (componente != null)
             {
-                Lbl_ComponenteCaricato.Text = $"Attualmente è caricato il componente '{componente.Nome.ToUpper()}'";
+                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{componente.Nome.ToUpper()}'";
             }
 
             else
             {
                 MessageBox.Show("Nessun componente è stato caricato.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
+                return null;
             }
 
+            distintaBase.AggiungiANodiDistintaBase(componente);
             ControllaCelleVuote();
             MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            return distintaBase.NodeToTreeNode(componente);
         }
 
         // Controlla se la cella selezionata è valida.

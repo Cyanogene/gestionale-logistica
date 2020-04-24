@@ -45,7 +45,7 @@
             this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
             this.Lbl_Tree = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -210,16 +210,17 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
-            // treeView1
+            // treeView_DistintaBase
             // 
-            this.treeView1.Location = new System.Drawing.Point(313, 211);
-            this.treeView1.Name = "treeView1";
-            this.treeView1.Size = new System.Drawing.Size(359, 212);
-            this.treeView1.TabIndex = 6;
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(313, 211);
+            this.treeView_DistintaBase.Name = "treeView_DistintaBase";
+            this.treeView_DistintaBase.Size = new System.Drawing.Size(359, 212);
+            this.treeView_DistintaBase.TabIndex = 6;
+            this.treeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
             // Lbl_Tree
             // 
@@ -251,7 +252,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(773, 544);
             this.Controls.Add(this.Lbl_Tree);
-            this.Controls.Add(this.treeView1);
+            this.Controls.Add(this.treeView_DistintaBase);
             this.Controls.Add(this.Lbl_ComponenteCaricato);
             this.Controls.Add(this.Btn_ProgrammazioneProduzione);
             this.Controls.Add(this.dataGridView1);
@@ -287,7 +288,7 @@
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem distintaBaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
-        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.TreeView treeView_DistintaBase;
         private System.Windows.Forms.Label Lbl_Tree;
     }
 }
