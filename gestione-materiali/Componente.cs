@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace gestione_materiali
 {
-    /// <summary>
-    /// Classe utilizzata per creare un nodo (radice inclusa)
-    /// </summary>
     [Serializable]
     public class Componente
     {

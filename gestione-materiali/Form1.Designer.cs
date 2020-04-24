@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.Btn_CaricaComponente = new System.Windows.Forms.Button();
-            this.Btn_SalvataggioProgrammazione = new System.Windows.Forms.Button();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.periodo_0 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -40,30 +38,19 @@
             this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.Lbl_ComponenteCaricato = new System.Windows.Forms.Label();
+            this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.produzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.treeView1 = new System.Windows.Forms.TreeView();
+            this.Lbl_Tree = new System.Windows.Forms.Label();
+            this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
+            this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // Btn_CaricaComponente
-            // 
-            this.Btn_CaricaComponente.Location = new System.Drawing.Point(326, 275);
-            this.Btn_CaricaComponente.Name = "Btn_CaricaComponente";
-            this.Btn_CaricaComponente.Size = new System.Drawing.Size(117, 23);
-            this.Btn_CaricaComponente.TabIndex = 0;
-            this.Btn_CaricaComponente.Text = "Carica componente";
-            this.Btn_CaricaComponente.UseVisualStyleBackColor = true;
-            this.Btn_CaricaComponente.Click += new System.EventHandler(this.Btn_CaricaComponente_Click);
-            // 
-            // Btn_SalvataggioProgrammazione
-            // 
-            this.Btn_SalvataggioProgrammazione.Location = new System.Drawing.Point(673, 425);
-            this.Btn_SalvataggioProgrammazione.Name = "Btn_SalvataggioProgrammazione";
-            this.Btn_SalvataggioProgrammazione.Size = new System.Drawing.Size(127, 23);
-            this.Btn_SalvataggioProgrammazione.TabIndex = 1;
-            this.Btn_SalvataggioProgrammazione.Text = "Salva prodotto";
-            this.Btn_SalvataggioProgrammazione.UseVisualStyleBackColor = true;
-            this.Btn_SalvataggioProgrammazione.Click += new System.EventHandler(this.Btn_SalvataggioProgrammazione_Click);
             // 
             // dataGridView1
             // 
@@ -82,10 +69,10 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 12);
+            this.dataGridView1.Location = new System.Drawing.Point(12, 27);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(609, 152);
+            this.dataGridView1.Size = new System.Drawing.Size(660, 120);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             // 
@@ -168,51 +155,121 @@
             this.Column4.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             this.Column4.Width = 50;
             // 
-            // Btn_ProgrammazioneProduzione
-            // 
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(326, 225);
-            this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
-            this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(117, 44);
-            this.Btn_ProgrammazioneProduzione.TabIndex = 3;
-            this.Btn_ProgrammazioneProduzione.Text = "Programma produzione";
-            this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
-            this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
-            // 
             // Lbl_ComponenteCaricato
             // 
             this.Lbl_ComponenteCaricato.AutoSize = true;
-            this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(12, 176);
+            this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(8, 159);
             this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
-            this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(64, 25);
+            this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(183, 20);
             this.Lbl_ComponenteCaricato.TabIndex = 4;
-            this.Lbl_ComponenteCaricato.Text = "label1";
-            this.Lbl_ComponenteCaricato.Visible = false;
+            this.Lbl_ComponenteCaricato.Text = "Carica una distinta base.";
+            // 
+            // menuStrip1
+            // 
+            this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.produzioneToolStripMenuItem,
+            this.distintaBaseToolStripMenuItem});
+            this.menuStrip1.Location = new System.Drawing.Point(0, 0);
+            this.menuStrip1.Name = "menuStrip1";
+            this.menuStrip1.Size = new System.Drawing.Size(773, 24);
+            this.menuStrip1.TabIndex = 5;
+            this.menuStrip1.Text = "menuStrip1";
+            // 
+            // produzioneToolStripMenuItem
+            // 
+            this.produzioneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.salvaToolStripMenuItem,
+            this.caricaToolStripMenuItem});
+            this.produzioneToolStripMenuItem.Name = "produzioneToolStripMenuItem";
+            this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.produzioneToolStripMenuItem.Text = "Produzione";
+            // 
+            // salvaToolStripMenuItem
+            // 
+            this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.salvaToolStripMenuItem.Text = "Salva";
+            this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
+            // 
+            // caricaToolStripMenuItem
+            // 
+            this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem.Text = "Carica";
+            this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
+            // 
+            // distintaBaseToolStripMenuItem
+            // 
+            this.distintaBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.caricaToolStripMenuItem1});
+            this.distintaBaseToolStripMenuItem.Name = "distintaBaseToolStripMenuItem";
+            this.distintaBaseToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.distintaBaseToolStripMenuItem.Text = "Distinta base";
+            // 
+            // caricaToolStripMenuItem1
+            // 
+            this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem1.Text = "Carica";
+            this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
+            // 
+            // treeView1
+            // 
+            this.treeView1.Location = new System.Drawing.Point(313, 211);
+            this.treeView1.Name = "treeView1";
+            this.treeView1.Size = new System.Drawing.Size(359, 212);
+            this.treeView1.TabIndex = 6;
+            // 
+            // Lbl_Tree
+            // 
+            this.Lbl_Tree.AutoSize = true;
+            this.Lbl_Tree.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_Tree.Location = new System.Drawing.Point(309, 436);
+            this.Lbl_Tree.Name = "Lbl_Tree";
+            this.Lbl_Tree.Size = new System.Drawing.Size(298, 20);
+            this.Lbl_Tree.TabIndex = 7;
+            this.Lbl_Tree.Text = "Nessun componente è stato selezionato.";
+            // 
+            // Btn_ProgrammazioneProduzione
+            // 
+            this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
+            this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(12, 211);
+            this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
+            this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
+            this.Btn_ProgrammazioneProduzione.TabIndex = 3;
+            this.Btn_ProgrammazioneProduzione.Text = "Programma\r\nproduzione";
+            this.Btn_ProgrammazioneProduzione.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
+            this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(773, 544);
+            this.Controls.Add(this.Lbl_Tree);
+            this.Controls.Add(this.treeView1);
             this.Controls.Add(this.Lbl_ComponenteCaricato);
             this.Controls.Add(this.Btn_ProgrammazioneProduzione);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.Btn_SalvataggioProgrammazione);
-            this.Controls.Add(this.Btn_CaricaComponente);
+            this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = "Form1";
+            this.Text = "Gestione materiali";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
+            this.menuStrip1.ResumeLayout(false);
+            this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-
-        private System.Windows.Forms.Button Btn_CaricaComponente;
-        private System.Windows.Forms.Button Btn_SalvataggioProgrammazione;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.DataGridViewTextBoxColumn Periodo;
         private System.Windows.Forms.DataGridViewTextBoxColumn periodo_0;
@@ -224,6 +281,14 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Column4;
         private System.Windows.Forms.Button Btn_ProgrammazioneProduzione;
         private System.Windows.Forms.Label Lbl_ComponenteCaricato;
+        private System.Windows.Forms.MenuStrip menuStrip1;
+        private System.Windows.Forms.ToolStripMenuItem produzioneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem salvaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem distintaBaseToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
+        private System.Windows.Forms.TreeView treeView1;
+        private System.Windows.Forms.Label Lbl_Tree;
     }
 }
 

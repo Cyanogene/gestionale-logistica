@@ -36,9 +36,69 @@ namespace gestione_materiali
         private void Form1_Load(object sender, EventArgs e)
         {
             CaricaHeaderTabella();
+            CambiaStileTabella();
         }
 
-        // Carico tabella con header fissi
+        private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
+        {
+            Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
+            if (componente == null)
+            {
+                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CaricaDistintaBase();
+                return;
+            }
+
+            if (ControllaCelleVuote())
+            {
+                RecuperaDatiTabella();
+                Produzione product = new Produzione(Form_Periodi, componente);
+                Form_Periodi = product.CalcolaProgrammazioneProduzione();
+                AggiornaTabella();
+            }
+
+            else
+            {
+                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+        }
+
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (componente == null)
+            {
+                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dataGridView1.CurrentCell.Value = null;
+                return;
+            }
+            ValidaCelle();
+        }
+
+        private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Produzione --> Carica
+        }
+
+        private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Produzione --> Salva
+            program.Salva(Form_Periodi);
+        }
+
+        private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // Distinta base --> Carica
+            CaricaDistintaBase();
+        }
+
+
+        //
+        // FINE BUTTON / ELEMENTI FORM
+        //
+
+
+        // Carica una tabella con header fissi.
         void CaricaHeaderTabella()
         {
             dataGridView1.Rows.Add(5);
@@ -57,29 +117,24 @@ namespace gestione_materiali
             }
         }
 
-        private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
+        // Cambia lo stile della datagridview.
+        void CambiaStileTabella()
         {
-            if (componente == null)
-            {
-                Carica();
-            }
+            dataGridView1.Columns[0].DefaultCellStyle.Font = new Font("Verdana", 9F, FontStyle.Regular);
+            dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Verdana", 9F, FontStyle.Regular);
+            dataGridView1.BorderStyle = BorderStyle.None;
 
-            if (ControllaCelleVuote())
-            {
-                RecuperaDatiTabella();
-                Produzione product = new Produzione(Form_Periodi, componente);
-                Form_Periodi = product.CalcolaProgrammazioneProduzione();
-                AggiornaTabella();
-            }
+            dataGridView1.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(238, 239, 249);
+            dataGridView1.BackgroundColor = Color.FromArgb(240, 240, 240);
+            dataGridView1.EnableHeadersVisualStyles = false;
 
-            else
-            {
-                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None;
+            dataGridView1.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(109, 125, 230);
+            dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dataGridView1.CurrentCell.Selected = false;
         }
 
-        // Prende i dati in input e li salva nella lista dei periodi
+        // Prende i dati in input e li salva nella lista dei periodi.
         void RecuperaDatiTabella()
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
@@ -95,6 +150,7 @@ namespace gestione_materiali
             }
         }
 
+        // Evidenzia tutte le celle vuote.
         bool ControllaCelleVuote()
         {
             bool ris = true;
@@ -132,33 +188,27 @@ namespace gestione_materiali
             }
         }
 
-        void Carica()
+        // Chiede all'utente una distinta base e succesivamente la carica nel programma.
+        void CaricaDistintaBase()
         {
-            componente = program.Carica(componente);
-
+            componente = program.CaricaDistintaBase(componente);
             if (componente != null)
             {
                 Lbl_ComponenteCaricato.Text = $"Attualmente è caricato il componente '{componente.Nome.ToUpper()}'";
-                Lbl_ComponenteCaricato.Visible = true;
             }
+
             else
             {
                 MessageBox.Show("Nessun componente è stato caricato.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
+
+            ControllaCelleVuote();
+            MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void Btn_SalvataggioProgrammazione_Click(object sender, EventArgs e)
-        {
-            program.Salva(Form_Periodi);
-        }
-
-        private void Btn_CaricaComponente_Click(object sender, EventArgs e)
-        {
-            Carica();
-        }
-
-        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        // Controlla se la cella selezionata è valida.
+        void ValidaCelle()
         {
             if (dataGridView1.CurrentCell.Value != null)
             {
@@ -175,6 +225,12 @@ namespace gestione_materiali
                 {
                     dataGridView1.CurrentCell.Style.BackColor = Color.White;
                 }
+            }
+            else
+            {
+                MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dataGridView1.CurrentCell.Value = null;
+                dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
             }
         }
     }

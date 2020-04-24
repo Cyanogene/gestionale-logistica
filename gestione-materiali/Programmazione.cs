@@ -31,7 +31,7 @@ namespace gestione_materiali
             }
         }
 
-        public Componente Carica(Componente componente)
+        public Componente CaricaDistintaBase(Componente componente)
         {
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
             Ofd_Catalogo.InitialDirectory = @"C:\";
