@@ -49,12 +49,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="distinta-base">
-      <HintPath>..\..\distinta-base\distinta-base\bin\Debug\distinta-base.dll</HintPath>
-    </Reference>
-    <Reference Include="LibreriaDistintaBase">
-      <HintPath>C:\Users\matte\source\repos\LibreriaDistintaBase\LibreriaDistintaBase\bin\Debug\LibreriaDistintaBase.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />

@@ -20,5 +20,8 @@ namespace gestione_materiali
         public int Lotto { get; set; }
         public int PeriodoDiCopertura { get; set; }
         public List<Componente> SottoNodi = new List<Componente>();
+
+        [NonSerialized]
+        public List<Periodo> Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
     }
 }

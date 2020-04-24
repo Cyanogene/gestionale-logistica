@@ -14,8 +14,11 @@ namespace gestione_materiali
 {
     public partial class Form1 : Form
     {
-        private List<Periodo> Form_Periodi;
-        private Componente componente;
+        /// <summary>
+        /// Distinta base caricata in input. MODIFICARE SOLO QUANDO SI CAMBIA DISTINTA BASE
+        /// </summary>
+        private Componente inputDistintaBase;
+        private Componente componenteAttuale;
         private List<DataGridCell> appo;
         private Programmazione program;
         private DistintaBase distintaBase;
@@ -29,7 +32,7 @@ namespace gestione_materiali
         public Form1()
         {
             InitializeComponent();
-            Form_Periodi = new List<Periodo>();
+            componenteAttuale = new Componente();
             appo = new List<DataGridCell>();
             program = new Programmazione();
             distintaBase = new DistintaBase();
@@ -44,10 +47,10 @@ namespace gestione_materiali
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
             Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
-            if (componente == null)
+            if (inputDistintaBase == null)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TreeNode treeNode = CaricaDistintaBase();
+                TreeNode treeNode = FormCaricaDistintaBase();
                 if (treeNode != null)
                 {
                     treeView_DistintaBase.Nodes.Add(treeNode);
@@ -58,9 +61,9 @@ namespace gestione_materiali
             if (ControllaCelleVuote())
             {
                 RecuperaDatiTabella();
-                Produzione product = new Produzione(Form_Periodi, componente);
-                Form_Periodi = product.CalcolaProgrammazioneProduzione();
-                AggiornaTabella();
+                Produzione product = new Produzione(componenteAttuale.Produzione, componenteAttuale);
+                componenteAttuale.Produzione = product.CalcolaProgrammazioneProduzione();
+                AggiornaTabella(componenteAttuale.Produzione);
             }
 
             else
@@ -72,7 +75,7 @@ namespace gestione_materiali
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (componente == null)
+            if (inputDistintaBase == null)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
@@ -89,14 +92,14 @@ namespace gestione_materiali
         private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Salva
-            program.Salva(Form_Periodi);
+            program.Salva(inputDistintaBase.Produzione);
         }
 
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Distinta base --> Carica
             treeView_DistintaBase.Nodes.Clear();
-            TreeNode treeNode = CaricaDistintaBase();
+            TreeNode treeNode = FormCaricaDistintaBase();
             if (treeNode != null)
             {
                 treeView_DistintaBase.Nodes.Add(treeNode);
@@ -106,8 +109,32 @@ namespace gestione_materiali
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {e.Node.Text}.";
+            componenteAttuale = ComponenteDaCodice(e.Node.Text, inputDistintaBase);
+            if (componenteAttuale.Produzione.Count == 0)
+                RecuperaDatiTabella();
+            else
+                AggiornaTabella(componenteAttuale.Produzione);
         }
 
+        public Componente ComponenteDaCodice(string codice, Componente componente)
+        {
+            if (componente.Nome == codice)
+                return componente;
+
+            foreach (Componente comp in componente.SottoNodi)
+            {
+                if (comp.Nome == codice)
+                {
+                    componenteAttuale = comp;
+                }
+                else
+                {
+                    ComponenteDaCodice(codice, comp);
+                }
+            }
+            return componenteAttuale;
+        }
+        // 
 
         //
         // FINE BUTTON / ELEMENTI FORM
@@ -155,14 +182,11 @@ namespace gestione_materiali
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                Form_Periodi.Add(new Periodo()
-                {
-                    Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value),
-                    OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value),
-                    Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[i].Value),
-                    Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[i].Value),
-                    OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[i].Value)
-                });
+                componenteAttuale.Produzione[i - 1].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                componenteAttuale.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                componenteAttuale.Produzione[i - 1].Giacenza = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                componenteAttuale.Produzione[i - 1].Versamenti = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                componenteAttuale.Produzione[i - 1].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
             }
         }
 
@@ -192,25 +216,25 @@ namespace gestione_materiali
         }
 
         // Dopo che è stata eseguita la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti
-        void AggiornaTabella()
+        void AggiornaTabella(List<Periodo> inputPeriodo)
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                dataGridView1.Rows[0].Cells[i].Value = Form_Periodi[i - 1].Previsioni;
-                dataGridView1.Rows[1].Cells[i].Value = Form_Periodi[i - 1].OrdiniVendita;
-                dataGridView1.Rows[2].Cells[i].Value = Form_Periodi[i - 1].Giacenza;
-                dataGridView1.Rows[3].Cells[i].Value = Form_Periodi[i - 1].Versamenti;
-                dataGridView1.Rows[4].Cells[i].Value = Form_Periodi[i - 1].OrdiniProduzione;
+                dataGridView1.Rows[0].Cells[i].Value = inputPeriodo[i - 1].Previsioni;
+                dataGridView1.Rows[1].Cells[i].Value = inputPeriodo[i - 1].OrdiniVendita;
+                dataGridView1.Rows[2].Cells[i].Value = inputPeriodo[i - 1].Giacenza;
+                dataGridView1.Rows[3].Cells[i].Value = inputPeriodo[i - 1].Versamenti;
+                dataGridView1.Rows[4].Cells[i].Value = inputPeriodo[i - 1].OrdiniProduzione;
             }
         }
 
         // Chiede all'utente una distinta base e succesivamente la carica nel programma.
-        TreeNode CaricaDistintaBase()
+        TreeNode FormCaricaDistintaBase()
         {
-            componente = program.CaricaDistintaBase(componente);
-            if (componente != null)
+            inputDistintaBase = program.CaricaDistintaBase(inputDistintaBase);
+            if (inputDistintaBase != null)
             {
-                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{componente.Nome.ToUpper()}'";
+                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{inputDistintaBase.Nome.ToUpper()}'";
             }
 
             else
@@ -219,10 +243,10 @@ namespace gestione_materiali
                 return null;
             }
 
-            distintaBase.AggiungiANodiDistintaBase(componente);
+            distintaBase.AggiungiANodiDistintaBase(inputDistintaBase);
             ControllaCelleVuote();
             MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return distintaBase.NodeToTreeNode(componente);
+            return distintaBase.NodeToTreeNode(inputDistintaBase);
         }
 
         // Controlla se la cella selezionata è valida.

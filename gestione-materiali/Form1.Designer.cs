@@ -210,13 +210,14 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
             // treeView_DistintaBase
             // 
-            this.treeView_DistintaBase.Location = new System.Drawing.Point(313, 211);
+            this.treeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(313, 192);
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(359, 212);
             this.treeView_DistintaBase.TabIndex = 6;
@@ -237,7 +238,7 @@
             this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
             this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(12, 211);
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(12, 192);
             this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
             this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
             this.Btn_ProgrammazioneProduzione.TabIndex = 3;
