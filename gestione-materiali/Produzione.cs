@@ -31,7 +31,6 @@ namespace gestione_materiali
             {
                 calcolaProduzioneCompESottonodi(sottoComp, TempoProduzioneTotale);
             }
-            calcolaProduzioneCompESottonodi(comp, comp.LeadTime);
         }
 
         public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale)//tutti i periodi
