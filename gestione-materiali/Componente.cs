@@ -10,18 +10,16 @@ namespace gestione_materiali
     [Serializable]
     public class Componente
     {
+        
         public string Nome { get; set; }
         public string Descrizione { get; set; }
         public string Codice { get; set; }
-        public string Code { get; set; }
         public int LeadTime { get; set; }
         public int LeadTimeSicurezza { get; set; }
         public int ScortaSicurezza { get; set; }
         public int Lotto { get; set; }
         public int PeriodoDiCopertura { get; set; }
         public List<Componente> SottoNodi = new List<Componente>();
-
-        [NonSerialized]
         public List<Periodo> Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
     }
 }

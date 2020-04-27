@@ -11,61 +11,77 @@ namespace gestione_materiali
 {
     class DistintaBase
     {
-        public List<Componente> Nodi = new List<Componente>();
+        public List<Componente> Nodi = new List<Componente>();  
+        public Componente Albero = new Componente();    // contiene tutto
 
-        public Componente TreeViewToNode(TreeView TreeView)
+        public Componente TreeNodeToNode(TreeNode TreeNode)    // input: selected TreeNode _ output: selected Componente
         {
-            Componente Node = TreeNodeToNode(TreeView.Nodes[0]);
-            return Node;
-        }
-
-        public Componente TreeNodeToNode(TreeNode TreeNode)
-        {
-            Componente Componente = new Componente
-            {
-                SottoNodi = new List<Componente>()
-            };
+            Componente Componente = new Componente();
+            Nodi.Clear();
+            AggiornaNodi(Albero);
             foreach (Componente Nodo in Nodi)
             {
-                if (Nodo.Code == TreeNode.Tag.ToString())
+                if (Nodo.Codice == TreeNode.Tag.ToString() && Nodo.SottoNodi.Count == TreeNode.Nodes.Count)
                 {
                     Componente = Nodo;
                 }
             }
-            Componente.SottoNodi.Clear();
-            // Crea un nodo per ogni figlio 
-            foreach (TreeNode tn in TreeNode.Nodes)
-            {
-                Componente.SottoNodi.Add(TreeNodeToNode(tn));
-            }
             return Componente;
+        }
+
+        public void AggiornaNodi(Componente comp)
+        {
+            if (comp.SottoNodi != null)
+            {
+                foreach (Componente sottoComp in comp.SottoNodi)
+                {
+                    AggiornaNodi(sottoComp);
+                }
+            }
+            Nodi.Add(comp);
         }
 
         public TreeNode NodeToTreeNode(Componente Node)
         {
-            TreeNode Nodo = new TreeNode(Node.Nome);
-            Nodo.Tag = Node.Code;
-            if (Node.SottoNodi != null)
+            TreeNode treeNode = new TreeNode(Node.Nome);
+            treeNode.Tag = Node.Codice;
+            if (Node.SottoNodi != null && Node.SottoNodi.Count > 0)
             {
                 foreach (Componente node in Node.SottoNodi)
                 {
-                    Nodo.Nodes.Add(NodeToTreeNode(node));
+                    treeNode.Nodes.Add(NodeToTreeNode(node));
                 }
             }
-            return Nodo;
+            return treeNode;
         }
 
-        public void AggiungiANodiDistintaBase(Componente comp)
+        public Componente CaricaDistintaBase()
         {
-            foreach (Componente sottoComp in comp.SottoNodi)
-            {
-                AggiungiANodiDistintaBase(sottoComp);
-            }
+            Componente componente = new Componente();
+            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
+            Ofd_Catalogo.InitialDirectory = @"C:\";
+            Ofd_Catalogo.Filter = "XML|*.xml";
 
-            if (!Nodi.Contains(comp))
+            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
             {
-                Nodi.Add(comp);
+                if (File.Exists(Ofd_Catalogo.FileName))
+                {
+                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    try
+                    {
+                        componente = (Componente)serializer.Deserialize(stream);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    stream.Close();
+                }
             }
+            Albero = componente;
+            AggiornaNodi(Albero);
+            return componente;
         }
     }
 }

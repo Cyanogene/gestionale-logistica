@@ -48,6 +48,7 @@
             this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
             this.Lbl_Tree = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
+            this.resettaTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -202,7 +203,8 @@
             // distintaBaseToolStripMenuItem
             // 
             this.distintaBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.caricaToolStripMenuItem1});
+            this.caricaToolStripMenuItem1,
+            this.resettaTabellaToolStripMenuItem});
             this.distintaBaseToolStripMenuItem.Name = "distintaBaseToolStripMenuItem";
             this.distintaBaseToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.distintaBaseToolStripMenuItem.Text = "Distinta base";
@@ -210,7 +212,7 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
@@ -246,6 +248,13 @@
             this.Btn_ProgrammazioneProduzione.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
             this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
+            // 
+            // resettaTabellaToolStripMenuItem
+            // 
+            this.resettaTabellaToolStripMenuItem.Name = "resettaTabellaToolStripMenuItem";
+            this.resettaTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.resettaTabellaToolStripMenuItem.Text = "Resetta tabella";
+            this.resettaTabellaToolStripMenuItem.Click += new System.EventHandler(this.resettaTabellaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -291,6 +300,7 @@
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
         private System.Windows.Forms.TreeView treeView_DistintaBase;
         private System.Windows.Forms.Label Lbl_Tree;
+        private System.Windows.Forms.ToolStripMenuItem resettaTabellaToolStripMenuItem;
     }
 }
 

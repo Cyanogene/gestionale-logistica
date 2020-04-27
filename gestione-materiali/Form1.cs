@@ -14,14 +14,8 @@ namespace gestione_materiali
 {
     public partial class Form1 : Form
     {
-        /// <summary>
-        /// Distinta base caricata in input. MODIFICARE SOLO QUANDO SI CAMBIA DISTINTA BASE
-        /// </summary>
-        private Componente inputDistintaBase;
-        private Componente componenteAttuale;
-        private List<DataGridCell> appo;
-        private Programmazione program;
         private DistintaBase distintaBase;
+        private bool TabellaGenerata = false;
 
         string[] titoli = new string[]
         {
@@ -32,9 +26,6 @@ namespace gestione_materiali
         public Form1()
         {
             InitializeComponent();
-            componenteAttuale = new Componente();
-            appo = new List<DataGridCell>();
-            program = new Programmazione();
             distintaBase = new DistintaBase();
         }
 
@@ -42,28 +33,25 @@ namespace gestione_materiali
         {
             CaricaHeaderTabella();
             CambiaStileTabella();
+            Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
         }
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
-            Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
-            if (inputDistintaBase == null)
+            if (distintaBase.Albero == null)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                TreeNode treeNode = FormCaricaDistintaBase();
-                if (treeNode != null)
-                {
-                    treeView_DistintaBase.Nodes.Add(treeNode);
-                }
                 return;
             }
 
             if (ControllaCelleVuote())
             {
-                RecuperaDatiTabella();
-                Produzione product = new Produzione(componenteAttuale.Produzione, componenteAttuale);
-                componenteAttuale.Produzione = product.CalcolaProgrammazioneProduzione();
-                AggiornaTabella(componenteAttuale.Produzione);
+                List<int> p = RecuperaDatiTabellaAlbero();
+                Produzione product = new Produzione(distintaBase.Albero.Produzione[0], p);
+                product.avviaProduzione();
+                AggiornaTabella(distintaBase.Albero.Produzione);
+                TabellaGenerata = true;
+
             }
 
             else
@@ -75,7 +63,7 @@ namespace gestione_materiali
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (inputDistintaBase == null)
+            if (distintaBase.Albero == null)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
@@ -92,7 +80,7 @@ namespace gestione_materiali
         private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Salva
-            program.Salva(inputDistintaBase.Produzione);
+            Salva(distintaBase.Albero.Produzione);
         }
 
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -104,42 +92,66 @@ namespace gestione_materiali
             {
                 treeView_DistintaBase.Nodes.Add(treeNode);
             }
+            ResettaTabella();
         }
 
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {e.Node.Text}.";
-            componenteAttuale = ComponenteDaCodice(e.Node.Text, inputDistintaBase);
-            if (componenteAttuale.Produzione.Count == 0)
-                RecuperaDatiTabella();
-            else
-                AggiornaTabella(componenteAttuale.Produzione);
-        }
-
-        public Componente ComponenteDaCodice(string codice, Componente componente)
-        {
-            if (componente.Nome == codice)
-                return componente;
-
-            foreach (Componente comp in componente.SottoNodi)
+            Componente comp = distintaBase.TreeNodeToNode(e.Node);
+            if (distintaBase.Albero.Codice == comp.Codice || TabellaGenerata)
             {
-                if (comp.Nome == codice)
-                {
-                    componenteAttuale = comp;
-                }
-                else
-                {
-                    ComponenteDaCodice(codice, comp);
-                }
+                Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {e.Node.Text.ToUpper()}.";
+                AggiornaTabella(comp.Produzione);
             }
-            return componenteAttuale;
+            else
+            {
+                MessageBox.Show($"Programma la tabella di {distintaBase.Albero.Nome.ToUpper()}.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
-        // 
+
+        private void resettaTabellaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            distintaBase.Albero.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+            ClearAllSheets(distintaBase.Albero);
+            ResettaTabella();
+        }
+
 
         //
         // FINE BUTTON / ELEMENTI FORM
         //
 
+        void ResettaTabella()
+        {
+            for (int i = 1; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Rows[0].Cells[i].Value = null;
+                dataGridView1.Rows[1].Cells[i].Value = null;
+                dataGridView1.Rows[2].Cells[i].Value = null;
+                dataGridView1.Rows[3].Cells[i].Value = null;
+                dataGridView1.Rows[4].Cells[i].Value = null;
+            }
+        }
+
+        void Salva(List<Periodo> p)
+        {
+            SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
+            Sfd_Catalogo.InitialDirectory = @"C:\";
+            Sfd_Catalogo.RestoreDirectory = true;
+            Sfd_Catalogo.FileName = "*.xml";
+            Sfd_Catalogo.DefaultExt = "xml";
+            Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
+
+            if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                Stream filesStream = Sfd_Catalogo.OpenFile();
+                StreamWriter sw = new StreamWriter(filesStream);
+                XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                serializer.Serialize(sw, distintaBase.Albero);
+                sw.Close();
+                filesStream.Close();
+            }
+        }
 
         // Carica una tabella con header fissi.
         void CaricaHeaderTabella()
@@ -178,16 +190,20 @@ namespace gestione_materiali
         }
 
         // Prende i dati in input e li salva nella lista dei periodi.
-        void RecuperaDatiTabella()
+        List<int> RecuperaDatiTabellaAlbero()
         {
+            List<int> max = new List<int>();
+            distintaBase.Albero.Produzione[0].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[1].Value);
+            distintaBase.Albero.Produzione[0].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[0].Cells[1].Value);
+            distintaBase.Albero.Produzione[0].Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[1].Value);
+            distintaBase.Albero.Produzione[0].Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[1].Value);
+            distintaBase.Albero.Produzione[0].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[1].Value);
+
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                componenteAttuale.Produzione[i - 1].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
-                componenteAttuale.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
-                componenteAttuale.Produzione[i - 1].Giacenza = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
-                componenteAttuale.Produzione[i - 1].Versamenti = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
-                componenteAttuale.Produzione[i - 1].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                max.Add(Math.Max(Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value), Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value)));
             }
+            return max;
         }
 
         // Evidenzia tutte le celle vuote.
@@ -231,10 +247,10 @@ namespace gestione_materiali
         // Chiede all'utente una distinta base e succesivamente la carica nel programma.
         TreeNode FormCaricaDistintaBase()
         {
-            inputDistintaBase = program.CaricaDistintaBase(inputDistintaBase);
-            if (inputDistintaBase != null)
+            distintaBase.Albero = distintaBase.CaricaDistintaBase();
+            if (distintaBase.Albero != null)
             {
-                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{inputDistintaBase.Nome.ToUpper()}'";
+                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{distintaBase.Albero.Nome.ToUpper()}'";
             }
 
             else
@@ -243,10 +259,17 @@ namespace gestione_materiali
                 return null;
             }
 
-            distintaBase.AggiungiANodiDistintaBase(inputDistintaBase);
+            for (int i = 1; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Rows[0].Cells[i].Value = null;
+                dataGridView1.Rows[1].Cells[i].Value = null;
+                dataGridView1.Rows[2].Cells[i].Value = null;
+                dataGridView1.Rows[3].Cells[i].Value = null;
+                dataGridView1.Rows[4].Cells[i].Value = null;
+            }
+
             ControllaCelleVuote();
-            MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            return distintaBase.NodeToTreeNode(inputDistintaBase);
+            return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
 
         // Controlla se la cella selezionata è valida.
@@ -273,6 +296,17 @@ namespace gestione_materiali
                 MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
+            }
+        }
+
+        void ClearAllSheets(Componente componente)
+        {
+            foreach (Componente comp in componente.SottoNodi)
+            {
+                if (comp.Produzione.Count != 0)
+                    comp.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+                else
+                    ClearAllSheets(comp);
             }
         }
     }

@@ -8,64 +8,64 @@ namespace gestione_materiali
 {
     class Produzione
     {
-        public List<Periodo> Periodi { get; set; }
-        public Componente comp;
+        public DistintaBase distintaBase = new DistintaBase();
+        private List<int> maxTraPrevEOrdini;
 
-        public Produzione(List<Periodo> input, Componente c)
+        public Produzione(Periodo p, List<int> x)
         {
-            Periodi = input;
-            comp = c;
+            distintaBase.Albero.Produzione[0] = p;
+            maxTraPrevEOrdini = x;
         }
 
-        public List<Periodo> CalcolaProgrammazioneProduzione()
+        public void avviaProduzione()
         {
-            for (int i = 1; i < Periodi.Count; i++)
-            {
-                CalcolaDati(i);
-            }
-            return Periodi;
+            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0);
         }
 
-        public void CalcolaDati(int periodo)
+        public void calcolaProduzioneCompESottonodi(Componente comp, int LeadTimeNodiSoprastanti)
         {
-            CalcolaGiacenza(periodo);
-            if (Periodi[periodo].Giacenza < comp.ScortaSicurezza)
+            int TempoProduzioneTotale = LeadTimeNodiSoprastanti + comp.LeadTime + comp.LeadTimeSicurezza;
+            avviaProduzioneComponente(comp, TempoProduzioneTotale);
+
+            foreach (Componente sottoComp in comp.SottoNodi)
             {
-                CalcolaVersamenti(periodo);
-                CalcolaOrdiniDiProduzione(periodo);
-                Periodi[periodo].Giacenza += Periodi[periodo].Versamenti;
+                calcolaProduzioneCompESottonodi(sottoComp, TempoProduzioneTotale);
+            }
+            calcolaProduzioneCompESottonodi(comp, comp.LeadTime);
+        }
+
+        public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale)//tutti i periodi
+        {
+            for (int i = 1; i < 7; i++)
+            {
+                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i);
+            }
+        }
+
+        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
+        {
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - maxTraPrevEOrdini[periodoAdesso];
+
+            int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
+            int giacenzaFinale = giacenzainiziale;
+
+            while (giacenzainiziale < comp.ScortaSicurezza)
+            {
+                giacenzaFinale += comp.Lotto;
             }
 
+            comp.Produzione[periodoAdesso].Versamenti = giacenzaFinale - giacenzainiziale;
+            if (comp.Produzione[periodoAdesso].Versamenti == 0) return;//non devo produrre
+
+            if (periodoAdesso - TempoProduzioneTotale + 1 >= 1)
+            {
+                comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
+                comp.Produzione[periodoAdesso - TempoProduzioneTotale + 1].OrdiniProduzione = comp.Produzione[periodoAdesso].Versamenti;
+            }
             else
             {
-                Periodi[periodo].Versamenti = 0;
-                Periodi[periodo].OrdiniProduzione = 0;
+                //error ----> non si puo fare, non basta il tempo
             }
-        }
-
-        // Giacenza(periodo) = Giacenza(periodo-1) - Max(Previsioni, OrdiniVendita)
-        public void CalcolaGiacenza(int periodo)
-        {
-            Periodi[periodo].Giacenza =
-               Periodi[periodo - 1].Giacenza - Math.Max(Periodi[periodo].Previsioni, Periodi[periodo].OrdiniVendita);
-        }
-
-        public void CalcolaVersamenti(int periodo)
-        {
-            if (Periodi[periodo].Versamenti == -1)
-            {
-                int TempLotto = comp.Lotto;
-                while (TempLotto < comp.ScortaSicurezza + Math.Abs(Periodi[periodo].Giacenza))
-                {
-                    TempLotto += comp.Lotto;
-                }
-                Periodi[periodo].Versamenti = TempLotto;
-            }
-        }
-
-        public void CalcolaOrdiniDiProduzione(int periodo)
-        {
-            Periodi[periodo - comp.LeadTime + 1].OrdiniProduzione = Periodi[periodo].Versamenti;
         }
     }
 }
