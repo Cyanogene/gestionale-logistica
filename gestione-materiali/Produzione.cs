@@ -8,12 +8,12 @@ namespace gestione_materiali
 {
     class Produzione
     {
-        public DistintaBase distintaBase = new DistintaBase();
+        public DistintaBase distintaBase;
         private List<int> maxTraPrevEOrdini;
 
-        public Produzione(Periodo p, List<int> x)
+        public Produzione(DistintaBase p, List<int> x)
         {
-            distintaBase.Albero.Produzione[0] = p;
+            distintaBase = p;
             maxTraPrevEOrdini = x;
         }
 
@@ -49,7 +49,7 @@ namespace gestione_materiali
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
             int giacenzaFinale = giacenzainiziale;
 
-            while (giacenzainiziale < comp.ScortaSicurezza)
+            while (giacenzaFinale < comp.ScortaSicurezza)
             {
                 giacenzaFinale += comp.Lotto;
             }

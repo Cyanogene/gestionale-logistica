@@ -38,7 +38,7 @@ namespace gestione_materiali
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
-            if (distintaBase.Albero == null)
+            if (distintaBase.Nodi.Count == 0)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
@@ -47,11 +47,10 @@ namespace gestione_materiali
             if (ControllaCelleVuote())
             {
                 List<int> p = RecuperaDatiTabellaAlbero();
-                Produzione product = new Produzione(distintaBase.Albero.Produzione[0], p);
+                Produzione product = new Produzione(distintaBase, p);
                 product.avviaProduzione();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
-
             }
 
             else
@@ -201,7 +200,7 @@ namespace gestione_materiali
 
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                max.Add(Math.Max(Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value), Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value)));
+                max.Add(Math.Max(Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value), Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value)));
             }
             return max;
         }
