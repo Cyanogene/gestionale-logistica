@@ -62,7 +62,7 @@ namespace gestione_materiali
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
-            if (distintaBase.Albero == null)
+            if (distintaBase.Nodi.Count == 0)
             {
                 MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
@@ -110,8 +110,7 @@ namespace gestione_materiali
 
         private void resettaTabellaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            distintaBase.Albero.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
-            ClearAllSheets(distintaBase.Albero);
+            ResettaProduzioneDistintaBase(distintaBase.Albero);
             ResettaTabella();
         }
 
@@ -119,6 +118,17 @@ namespace gestione_materiali
         //
         // FINE BUTTON / ELEMENTI FORM
         //
+
+
+        // da spostare
+        void ResettaProduzioneDistintaBase(Componente comp)
+        {
+            comp.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+            foreach (Componente component in comp.SottoNodi)
+            {
+                component.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+            }
+        }
 
         void ResettaTabella()
         {
@@ -132,12 +142,13 @@ namespace gestione_materiali
             }
         }
 
+        // da spostare / modificare: salvare la DistintaBase caricata coi valori aggiornata
         void Salva(List<Periodo> p)
         {
             SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
             Sfd_Catalogo.InitialDirectory = @"C:\";
             Sfd_Catalogo.RestoreDirectory = true;
-            Sfd_Catalogo.FileName = "*.xml";
+            Sfd_Catalogo.FileName = "*_Produzione.xml";
             Sfd_Catalogo.DefaultExt = "xml";
             Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
 
@@ -192,8 +203,6 @@ namespace gestione_materiali
         List<int> RecuperaDatiTabellaAlbero()
         {
             List<int> max = new List<int>();
-            distintaBase.Albero.Produzione[0].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[1].Value);
-            distintaBase.Albero.Produzione[0].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[0].Cells[1].Value);
             distintaBase.Albero.Produzione[0].Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[1].Value);
             distintaBase.Albero.Produzione[0].Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[1].Value);
             distintaBase.Albero.Produzione[0].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[1].Value);
@@ -201,6 +210,8 @@ namespace gestione_materiali
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
                 max.Add(Math.Max(Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value), Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value)));
+                distintaBase.Albero.Produzione[i - 1].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
+                distintaBase.Albero.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value);
             }
             return max;
         }
@@ -295,17 +306,6 @@ namespace gestione_materiali
                 MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
-            }
-        }
-
-        void ClearAllSheets(Componente componente)
-        {
-            foreach (Componente comp in componente.SottoNodi)
-            {
-                if (comp.Produzione.Count != 0)
-                    comp.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
-                else
-                    ClearAllSheets(comp);
             }
         }
     }

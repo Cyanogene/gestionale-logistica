@@ -10,7 +10,6 @@ namespace gestione_materiali
     [Serializable]
     public class Componente
     {
-        
         public string Nome { get; set; }
         public string Descrizione { get; set; }
         public string Codice { get; set; }
