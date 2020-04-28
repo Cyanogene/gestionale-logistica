@@ -55,7 +55,36 @@ namespace gestione_materiali
             return treeNode;
         }
 
-        public Componente CaricaDistintaBase()
+        public void ResettaProduzioneDistintaBase(Componente comp)
+        {
+            comp.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+            foreach (Componente component in comp.SottoNodi)
+            {
+                component.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+            }
+        }
+
+        public void Salva()
+        {
+            SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
+            Sfd_Catalogo.InitialDirectory = @"C:\";
+            Sfd_Catalogo.RestoreDirectory = true;
+            Sfd_Catalogo.FileName = $"{Albero.Nome}_Produzione.xml";
+            Sfd_Catalogo.DefaultExt = "xml";
+            Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
+
+            if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                Stream filesStream = Sfd_Catalogo.OpenFile();
+                StreamWriter sw = new StreamWriter(filesStream);
+                XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                serializer.Serialize(sw, Albero);
+                sw.Close();
+                filesStream.Close();
+            }
+        }
+
+        public Componente Carica()
         {
             Componente componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
@@ -71,6 +100,8 @@ namespace gestione_materiali
                     try
                     {
                         componente = (Componente)serializer.Deserialize(stream);
+                        componente.Produzione.RemoveRange(0, 7);
+                        FixDistintaBase(componente);
                         Nodi.Clear();
                         AggiornaNodi(componente);
                     }
@@ -83,6 +114,15 @@ namespace gestione_materiali
             }
             Albero = componente;
             return componente;
+        }
+
+        public void FixDistintaBase(Componente comp)
+        {
+            foreach (Componente componente in comp.SottoNodi)
+            {
+                componente.Produzione.RemoveRange(0, 7);
+                FixDistintaBase(componente);
+            }
         }
     }
 }

@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.IO;
+using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace gestione_materiali
 {
     class Produzione
     {
+        // Tasto destro su nodo treeView:
+        // Mostra produzione componente (singola)
+        // Mostra produzione componente (unisce tutte le tabelle di un componente in una unica produzione)
+        // Informazioni (mostra info Componente)
+
         public DistintaBase distintaBase;
         private List<int> maxTraPrevEOrdini;
 

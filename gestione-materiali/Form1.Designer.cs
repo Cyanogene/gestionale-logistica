@@ -48,7 +48,7 @@
             this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
             this.Lbl_Tree = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
-            this.resettaTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -181,7 +181,8 @@
             // 
             this.produzioneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.salvaToolStripMenuItem,
-            this.caricaToolStripMenuItem});
+            this.caricaToolStripMenuItem,
+            this.pulisciTabellaToolStripMenuItem});
             this.produzioneToolStripMenuItem.Name = "produzioneToolStripMenuItem";
             this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
             this.produzioneToolStripMenuItem.Text = "Produzione";
@@ -189,22 +190,21 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
             // distintaBaseToolStripMenuItem
             // 
             this.distintaBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.caricaToolStripMenuItem1,
-            this.resettaTabellaToolStripMenuItem});
+            this.caricaToolStripMenuItem1});
             this.distintaBaseToolStripMenuItem.Name = "distintaBaseToolStripMenuItem";
             this.distintaBaseToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.distintaBaseToolStripMenuItem.Text = "Distinta base";
@@ -249,12 +249,12 @@
             this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
             this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
-            // resettaTabellaToolStripMenuItem
+            // pulisciTabellaToolStripMenuItem
             // 
-            this.resettaTabellaToolStripMenuItem.Name = "resettaTabellaToolStripMenuItem";
-            this.resettaTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.resettaTabellaToolStripMenuItem.Text = "Resetta tabella";
-            this.resettaTabellaToolStripMenuItem.Click += new System.EventHandler(this.resettaTabellaToolStripMenuItem_Click);
+            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
+            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -300,7 +300,7 @@
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
         private System.Windows.Forms.TreeView treeView_DistintaBase;
         private System.Windows.Forms.Label Lbl_Tree;
-        private System.Windows.Forms.ToolStripMenuItem resettaTabellaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
     }
 }
 
