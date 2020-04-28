@@ -87,9 +87,10 @@ namespace gestione_materiali
             if (treeNode != null)
             {
                 treeView_DistintaBase.Nodes.Add(treeNode);
+                AggiornaTabella(distintaBase.Albero.Produzione);
+                TabellaGenerata = true;
             }
-            AggiornaTabella(distintaBase.Albero.Produzione);
-            TabellaGenerata = true;
+            
         }
 
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
