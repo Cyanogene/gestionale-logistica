@@ -57,7 +57,7 @@ namespace gestione_materiali
 
         public Componente CaricaDistintaBase()
         {
-            Componente componente = new Componente();
+            Componente componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
             Ofd_Catalogo.InitialDirectory = @"C:\";
             Ofd_Catalogo.Filter = "XML|*.xml";
@@ -71,6 +71,8 @@ namespace gestione_materiali
                     try
                     {
                         componente = (Componente)serializer.Deserialize(stream);
+                        Nodi.Clear();
+                        AggiornaNodi(componente);
                     }
                     catch
                     {
@@ -80,7 +82,6 @@ namespace gestione_materiali
                 }
             }
             Albero = componente;
-            AggiornaNodi(Albero);
             return componente;
         }
     }
