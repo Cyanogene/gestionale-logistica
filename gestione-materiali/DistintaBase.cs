@@ -55,12 +55,16 @@ namespace gestione_materiali
             return treeNode;
         }
 
-        public void ResettaProduzioneDistintaBase(Componente comp)
+        public void ResettaProduzioneDistintaBase(Componente comp, int NumPeriodi)
         {
-            comp.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
-            foreach (Componente component in comp.SottoNodi)
+            comp.Produzione = new List<Periodo>();
+            for (int i=0; i< NumPeriodi; i++)
             {
-                component.Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+                comp.Produzione.Add(new Periodo());
+            }
+            foreach (Componente sottoComp in comp.SottoNodi)
+            {
+                ResettaProduzioneDistintaBase(sottoComp, NumPeriodi);
             }
         }
 
@@ -84,7 +88,7 @@ namespace gestione_materiali
             }
         }
 
-        public Componente Carica()
+        public Componente Carica(int NumPeriodi)
         {
             Componente componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
@@ -100,8 +104,7 @@ namespace gestione_materiali
                     try
                     {
                         componente = (Componente)serializer.Deserialize(stream);
-                        componente.Produzione.RemoveRange(0, 7);
-                        FixDistintaBase(componente);
+                        ResettaProduzioneDistintaBase(componente, NumPeriodi);
                         Nodi.Clear();
                         AggiornaNodi(componente);
                     }
@@ -115,14 +118,6 @@ namespace gestione_materiali
             Albero = componente;
             return componente;
         }
-
-        public void FixDistintaBase(Componente comp)
-        {
-            foreach (Componente componente in comp.SottoNodi)
-            {
-                componente.Produzione.RemoveRange(0, 7);
-                FixDistintaBase(componente);
-            }
-        }
+        
     }
 }

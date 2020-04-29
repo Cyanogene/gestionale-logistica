@@ -83,7 +83,7 @@ namespace gestione_materiali
             // Produzione --> Carica
             SvuotaTabella();
             treeView_DistintaBase.Nodes.Clear();
-            TreeNode treeNode = FormCaricaDistintaBase();
+            TreeNode treeNode = FormCaricaDistintaBase(0);
             if (treeNode != null)
             {
                 treeView_DistintaBase.Nodes.Add(treeNode);
@@ -98,7 +98,7 @@ namespace gestione_materiali
             // Produzione --> Pulisci tabella
             if (TabellaGenerata)
             {
-                distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
+                distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero, dataGridView1.ColumnCount);
                 SvuotaTabella();
                 TabellaGenerata = false;
             }
@@ -114,7 +114,7 @@ namespace gestione_materiali
             // Distinta base --> Carica
             SvuotaTabella();
             treeView_DistintaBase.Nodes.Clear();
-            TreeNode treeNode = FormCaricaDistintaBase();
+            TreeNode treeNode = FormCaricaDistintaBase(dataGridView1.ColumnCount);
             if (treeNode != null)
             {
                 treeView_DistintaBase.Nodes.Add(treeNode);
@@ -164,7 +164,6 @@ namespace gestione_materiali
                 {
                     if (!cell.ReadOnly)
                     {
-                        cell.Style.BackColor = Color.Tomato;
                         cell.Value = null;
                     }
                     else
@@ -242,7 +241,7 @@ namespace gestione_materiali
         /// <returns></returns>
         bool ControllaCelleVuote()
         {
-            bool ris = true;
+            bool Ok = true;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
                 foreach (DataGridViewCell cell in row.Cells)
@@ -252,7 +251,7 @@ namespace gestione_materiali
                         if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
                         {
                             cell.Style.BackColor = Color.Tomato;
-                            ris = false;
+                            Ok = false;
                         }
                         else
                         {
@@ -261,7 +260,7 @@ namespace gestione_materiali
                     }
                 }
             }
-            return ris;
+            return Ok;
         }
 
         /// <summary>
@@ -284,9 +283,9 @@ namespace gestione_materiali
         /// Chiede all'utente una distinta base e succesivamente la carica nel programma.
         /// </summary>
         /// <returns></returns>        
-        TreeNode FormCaricaDistintaBase()
+        TreeNode FormCaricaDistintaBase(int NumPeriodi)
         {
-            distintaBase.Albero = distintaBase.Carica();
+            distintaBase.Albero = distintaBase.Carica(NumPeriodi);
             if (distintaBase.Albero != null)
             {
                 Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{distintaBase.Albero.Nome.ToUpper()}'";
