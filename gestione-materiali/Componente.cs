@@ -18,7 +18,8 @@ namespace gestione_materiali
         public int ScortaSicurezza { get; set; }
         public int Lotto { get; set; }
         public int PeriodoDiCopertura { get; set; }
+        public int CoefficenteUtilizzo { get; set; }
         public List<Componente> SottoNodi = new List<Componente>();
-        public List<Periodo> Produzione = new List<Periodo>() { new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo(), new Periodo() };
+        public List<Periodo> Produzione = new List<Periodo>();
     }
 }

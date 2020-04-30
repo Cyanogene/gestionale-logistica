@@ -17,41 +17,52 @@ namespace gestione_materiali
         // Informazioni (mostra info Componente)
 
         public DistintaBase distintaBase;
-        private List<int> maxTraPrevEOrdini;
+        public int NumPeriodi = 0;
 
-        public Produzione(DistintaBase p, List<int> x)
+        public Produzione(DistintaBase albero, int numPeriodi)
         {
-            distintaBase = p;
-            maxTraPrevEOrdini = x;
+            distintaBase = albero;
+            NumPeriodi = numPeriodi;
         }
 
         public void avviaProduzione()
         {
-            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0);
+            List<int> FabbisognoComp = new List<int>();
+            foreach(Periodo periodo in distintaBase.Albero.Produzione)
+            {
+                FabbisognoComp.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
+            }
+            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0, FabbisognoComp);
         }
 
-        public void calcolaProduzioneCompESottonodi(Componente comp, int LeadTimeNodiSoprastanti)
+        public void calcolaProduzioneCompESottonodi(Componente comp, int LeadTimeNodiSoprastanti, List<int> FabbisognoComp)
         {
             int TempoProduzioneTotale = LeadTimeNodiSoprastanti + comp.LeadTime + comp.LeadTimeSicurezza;
-            avviaProduzioneComponente(comp, TempoProduzioneTotale);
+            List<int> fabbisognoComp = new List<int>();
+            for (int i=0; i<FabbisognoComp.Count; i++)
+            {
+                fabbisognoComp.Add(FabbisognoComp[i]*comp.CoefficenteUtilizzo);
+            }
+            avviaProduzioneComponente(comp, TempoProduzioneTotale, fabbisognoComp);
 
             foreach (Componente sottoComp in comp.SottoNodi)
             {
-                calcolaProduzioneCompESottonodi(sottoComp, TempoProduzioneTotale);
+                calcolaProduzioneCompESottonodi(sottoComp, TempoProduzioneTotale, fabbisognoComp);
             }
+
         }
 
-        public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale)//tutti i periodi
+        public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale, List<int> FabbisognoComp)//tutti i periodi
         {
-            for (int i = 1; i < 7; i++)
+            for (int i = 1; i < NumPeriodi+1; i++)
             {
-                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i);
+                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i, FabbisognoComp);
             }
         }
 
-        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
+        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso, List<int> FabbisognoComp)//di 1 periodo
         {
-            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - maxTraPrevEOrdini[periodoAdesso];
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - FabbisognoComp[periodoAdesso];
 
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
             int giacenzaFinale = giacenzainiziale;
@@ -64,14 +75,15 @@ namespace gestione_materiali
             comp.Produzione[periodoAdesso].Versamenti = giacenzaFinale - giacenzainiziale;
             if (comp.Produzione[periodoAdesso].Versamenti == 0) return;//non devo produrre
 
-            if (periodoAdesso - TempoProduzioneTotale + 1 >= 1)
+            if (periodoAdesso - TempoProduzioneTotale + 1 >= 0)
             {
                 comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
                 comp.Produzione[periodoAdesso - TempoProduzioneTotale + 1].OrdiniProduzione = comp.Produzione[periodoAdesso].Versamenti;
             }
             else
             {
-                //error ----> non si puo fare, non basta il tempo
+                comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
+                //non ho abbastanza tempo per produrre
             }
         }
     }

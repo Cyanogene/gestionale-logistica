@@ -13,21 +13,35 @@ namespace gestione_materiali
     {
         public List<Componente> Nodi = new List<Componente>();  
         public Componente Albero = new Componente();    // contiene tutto
+        public int NumPeriodi;
 
-        public Componente TreeNodeToNode(TreeNode TreeNode)    // input: selected TreeNode _ output: selected Componente
+        public Componente TreeNodeToNode(TreeNode TreeNode, TreeNode PadreTreeNode)    // input: selected TreeNode _ output: selected Componente
         {
             Componente Componente = new Componente();
+            Componente Padre = new Componente();
             Nodi.Clear();
             AggiornaNodi(Albero);
+            if(PadreTreeNode==null)
+            {
+                return Albero;
+            }
             foreach (Componente Nodo in Nodi)
             {
-                if (Nodo.Codice == TreeNode.Tag.ToString() && Nodo.SottoNodi.Count == TreeNode.Nodes.Count)
+                if (Nodo.Codice == PadreTreeNode.Tag.ToString() && Nodo.SottoNodi.Count == PadreTreeNode.Nodes.Count)
                 {
-                    Componente = Nodo;
+                    Padre = Nodo;
+                }
+            }
+            foreach(Componente sottoNodo in Padre.SottoNodi)
+            {
+                if (sottoNodo.Codice == TreeNode.Tag.ToString() && sottoNodo.SottoNodi.Count == TreeNode.Nodes.Count)
+                {
+                    Componente = sottoNodo;
                 }
             }
             return Componente;
         }
+        
 
         public void AggiornaNodi(Componente comp)
         {
@@ -43,7 +57,8 @@ namespace gestione_materiali
 
         public TreeNode NodeToTreeNode(Componente Node)
         {
-            TreeNode treeNode = new TreeNode(Node.Nome);
+            string Nome = Node.Nome;
+            TreeNode treeNode = new TreeNode(Nome);
             treeNode.Tag = Node.Codice;
             if (Node.SottoNodi != null && Node.SottoNodi.Count > 0)
             {
@@ -55,16 +70,16 @@ namespace gestione_materiali
             return treeNode;
         }
 
-        public void ResettaProduzioneDistintaBase(Componente comp, int NumPeriodi)
+        public void ResettaProduzioneDistintaBase(Componente comp)
         {
             comp.Produzione = new List<Periodo>();
-            for (int i=0; i< NumPeriodi; i++)
+            for (int i=0; i< NumPeriodi+1; i++)
             {
                 comp.Produzione.Add(new Periodo());
             }
             foreach (Componente sottoComp in comp.SottoNodi)
             {
-                ResettaProduzioneDistintaBase(sottoComp, NumPeriodi);
+                ResettaProduzioneDistintaBase(sottoComp);
             }
         }
 
@@ -104,7 +119,7 @@ namespace gestione_materiali
                     try
                     {
                         componente = (Componente)serializer.Deserialize(stream);
-                        ResettaProduzioneDistintaBase(componente, NumPeriodi);
+                        ResettaProduzioneDistintaBase(componente);
                         Nodi.Clear();
                         AggiornaNodi(componente);
                     }

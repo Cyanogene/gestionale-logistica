@@ -43,14 +43,16 @@
             this.produzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
-            this.Lbl_Tree = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
-            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.numericUpAndDown_Periodi = new System.Windows.Forms.NumericUpDown();
+            this.label1 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -70,10 +72,11 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(12, 27);
+            this.dataGridView1.Location = new System.Drawing.Point(81, 44);
+            this.dataGridView1.MaximumSize = new System.Drawing.Size(1100, 140);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
-            this.dataGridView1.Size = new System.Drawing.Size(660, 120);
+            this.dataGridView1.Size = new System.Drawing.Size(1100, 140);
             this.dataGridView1.TabIndex = 2;
             this.dataGridView1.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellEndEdit);
             // 
@@ -160,7 +163,7 @@
             // 
             this.Lbl_ComponenteCaricato.AutoSize = true;
             this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(8, 159);
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(616, 283);
             this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
             this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(183, 20);
             this.Lbl_ComponenteCaricato.TabIndex = 4;
@@ -173,7 +176,7 @@
             this.distintaBaseToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(773, 24);
+            this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
             this.menuStrip1.TabIndex = 5;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -190,16 +193,23 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
+            // 
+            // pulisciTabellaToolStripMenuItem
+            // 
+            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
+            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
             // distintaBaseToolStripMenuItem
             // 
@@ -212,35 +222,25 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
             // treeView_DistintaBase
             // 
             this.treeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView_DistintaBase.Location = new System.Drawing.Point(313, 192);
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(620, 306);
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
-            this.treeView_DistintaBase.Size = new System.Drawing.Size(359, 212);
+            this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
             this.treeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
-            // 
-            // Lbl_Tree
-            // 
-            this.Lbl_Tree.AutoSize = true;
-            this.Lbl_Tree.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_Tree.Location = new System.Drawing.Point(309, 436);
-            this.Lbl_Tree.Name = "Lbl_Tree";
-            this.Lbl_Tree.Size = new System.Drawing.Size(298, 20);
-            this.Lbl_Tree.TabIndex = 7;
-            this.Lbl_Tree.Text = "Nessun componente è stato selezionato.";
             // 
             // Btn_ProgrammazioneProduzione
             // 
             this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
             this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(12, 192);
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(447, 528);
             this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
             this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
             this.Btn_ProgrammazioneProduzione.TabIndex = 3;
@@ -249,19 +249,37 @@
             this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
             this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
-            // pulisciTabellaToolStripMenuItem
+            // numericUpAndDown_Periodi
             // 
-            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
-            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
+            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(81, 209);
+            this.numericUpAndDown_Periodi.Name = "numericUpAndDown_Periodi";
+            this.numericUpAndDown_Periodi.Size = new System.Drawing.Size(120, 20);
+            this.numericUpAndDown_Periodi.TabIndex = 8;
+            this.numericUpAndDown_Periodi.Value = new decimal(new int[] {
+            6,
+            0,
+            0,
+            0});
+            this.numericUpAndDown_Periodi.ValueChanged += new System.EventHandler(this.numericUpDown1_ValueChanged);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(77, 187);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(218, 20);
+            this.label1.TabIndex = 9;
+            this.label1.Text = "Seleziona il  numero di periodi";
+            this.label1.Click += new System.EventHandler(this.label1_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(773, 544);
-            this.Controls.Add(this.Lbl_Tree);
+            this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.label1);
+            this.Controls.Add(this.numericUpAndDown_Periodi);
             this.Controls.Add(this.treeView_DistintaBase);
             this.Controls.Add(this.Lbl_ComponenteCaricato);
             this.Controls.Add(this.Btn_ProgrammazioneProduzione);
@@ -275,6 +293,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -299,8 +318,9 @@
         private System.Windows.Forms.ToolStripMenuItem distintaBaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
         private System.Windows.Forms.TreeView treeView_DistintaBase;
-        private System.Windows.Forms.Label Lbl_Tree;
         private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
+        private System.Windows.Forms.NumericUpDown numericUpAndDown_Periodi;
+        private System.Windows.Forms.Label label1;
     }
 }
 

@@ -16,6 +16,7 @@ namespace gestione_materiali
     {
         private DistintaBase distintaBase;
         private bool TabellaGenerata = false;
+        int NumPeriodi = 6;
 
         string[] titoli = new string[]
         {
@@ -46,8 +47,8 @@ namespace gestione_materiali
 
             if (ControllaCelleVuote())
             {
-                List<int> p = RecuperaDatiTabellaAlbero();
-                Produzione product = new Produzione(distintaBase, p);
+                CaricaDatiTabellaInAlbero();
+                Produzione product = new Produzione(distintaBase, NumPeriodi);
                 product.avviaProduzione();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
@@ -65,9 +66,7 @@ namespace gestione_materiali
             // Produzione --> Salva
             if (TabellaGenerata)
             {
-                Produzione prod = new Produzione(distintaBase, null);
                 distintaBase.Salva();
-                AggiornaTabella(distintaBase.Albero.Produzione);
             }
 
             else
@@ -90,7 +89,7 @@ namespace gestione_materiali
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
             }
-            
+
         }
 
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -98,7 +97,7 @@ namespace gestione_materiali
             // Produzione --> Pulisci tabella
             if (TabellaGenerata)
             {
-                distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero, dataGridView1.ColumnCount);
+                distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
                 SvuotaTabella();
                 TabellaGenerata = false;
             }
@@ -123,10 +122,11 @@ namespace gestione_materiali
 
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            Componente comp = distintaBase.TreeNodeToNode(e.Node);
+            TreeNode treePadre = null;
+            if (treeView_DistintaBase.SelectedNode.Parent != null) treePadre = treeView_DistintaBase.SelectedNode.Parent;
+            Componente comp = distintaBase.TreeNodeToNode(e.Node, treePadre);
             if (distintaBase.Albero.Codice == comp.Codice || TabellaGenerata)
             {
-                Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {e.Node.Text.ToUpper()}.";
                 AggiornaTabella(comp.Produzione);
             }
             else
@@ -219,20 +219,18 @@ namespace gestione_materiali
         /// Prende i dati in input e li salva nella lista dei periodi.
         /// </summary>
         /// <returns></returns>
-        List<int> RecuperaDatiTabellaAlbero()
+        void CaricaDatiTabellaInAlbero()
         {
-            List<int> max = new List<int>();
+            distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
             distintaBase.Albero.Produzione[0].Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[1].Value);
             distintaBase.Albero.Produzione[0].Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[1].Value);
             distintaBase.Albero.Produzione[0].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[1].Value);
 
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                max.Add(Math.Max(Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value), Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value)));
                 distintaBase.Albero.Produzione[i - 1].Previsioni = Convert.ToInt32(dataGridView1.Rows[0].Cells[i].Value);
                 distintaBase.Albero.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value);
             }
-            return max;
         }
 
         /// <summary>
@@ -289,11 +287,10 @@ namespace gestione_materiali
             if (distintaBase.Albero != null)
             {
                 Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{distintaBase.Albero.Nome.ToUpper()}'";
-                Lbl_Tree.Text = $"Attualmente è presente la tabella del componente {distintaBase.Albero.Nome.ToUpper()}.";
             }
 
             else
-            { 
+            {
                 return null;
             }
 
@@ -338,6 +335,38 @@ namespace gestione_materiali
                 dataGridView1.CurrentCell.Value = null;
                 dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
             }
+        }
+
+        private void label1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int NumeroPeriodi = Convert.ToInt32(numericUpAndDown_Periodi.Value);
+            if (NumeroPeriodi + 2 > dataGridView1.ColumnCount)
+            {
+                for (int i = dataGridView1.ColumnCount; i < NumeroPeriodi + 2; i++)
+                {
+                    DataGridViewColumn newColumn = new DataGridViewColumn();
+                    newColumn.Width = 50;
+                    newColumn.HeaderText = (i - 1).ToString();
+                    newColumn.CellTemplate = new DataGridViewTextBoxCell();
+                    dataGridView1.Columns.Add(newColumn);
+                }
+                NumPeriodi = NumeroPeriodi;
+                distintaBase.NumPeriodi = NumeroPeriodi;
+                return;
+            }
+            else
+            {
+                while (NumeroPeriodi + 2 < dataGridView1.ColumnCount)
+                {
+                    dataGridView1.Columns.RemoveAt(dataGridView1.ColumnCount - 1);
+                }
+            }
+            NumPeriodi = NumeroPeriodi;
         }
     }
 }
