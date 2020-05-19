@@ -72,7 +72,7 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(81, 44);
+            this.dataGridView1.Location = new System.Drawing.Point(27, 40);
             this.dataGridView1.MaximumSize = new System.Drawing.Size(1100, 140);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -162,10 +162,10 @@
             // Lbl_ComponenteCaricato
             // 
             this.Lbl_ComponenteCaricato.AutoSize = true;
-            this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(616, 283);
+            this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(327, 255);
             this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
-            this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(183, 20);
+            this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(177, 21);
             this.Lbl_ComponenteCaricato.TabIndex = 4;
             this.Lbl_ComponenteCaricato.Text = "Carica una distinta base.";
             // 
@@ -186,28 +186,29 @@
             this.salvaToolStripMenuItem,
             this.caricaToolStripMenuItem,
             this.pulisciTabellaToolStripMenuItem});
+            this.produzioneToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.produzioneToolStripMenuItem.Name = "produzioneToolStripMenuItem";
-            this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(79, 20);
+            this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.produzioneToolStripMenuItem.Text = "Produzione";
             // 
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
             // pulisciTabellaToolStripMenuItem
             // 
             this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(146, 22);
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
             this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
@@ -215,21 +216,22 @@
             // 
             this.distintaBaseToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.caricaToolStripMenuItem1});
+            this.distintaBaseToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.distintaBaseToolStripMenuItem.Name = "distintaBaseToolStripMenuItem";
-            this.distintaBaseToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
+            this.distintaBaseToolStripMenuItem.Size = new System.Drawing.Size(95, 20);
             this.distintaBaseToolStripMenuItem.Text = "Distinta base";
             // 
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(107, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
             // treeView_DistintaBase
             // 
             this.treeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView_DistintaBase.Location = new System.Drawing.Point(620, 306);
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(331, 278);
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
@@ -240,7 +242,7 @@
             this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
             this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(447, 528);
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(27, 255);
             this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
             this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
             this.Btn_ProgrammazioneProduzione.TabIndex = 3;
@@ -251,14 +253,15 @@
             // 
             // numericUpAndDown_Periodi
             // 
-            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(81, 209);
+            this.numericUpAndDown_Periodi.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(27, 216);
             this.numericUpAndDown_Periodi.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
             this.numericUpAndDown_Periodi.Name = "numericUpAndDown_Periodi";
-            this.numericUpAndDown_Periodi.Size = new System.Drawing.Size(120, 20);
+            this.numericUpAndDown_Periodi.Size = new System.Drawing.Size(126, 24);
             this.numericUpAndDown_Periodi.TabIndex = 8;
             this.numericUpAndDown_Periodi.Value = new decimal(new int[] {
             6,
@@ -270,12 +273,12 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(77, 187);
+            this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label1.Location = new System.Drawing.Point(23, 194);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(218, 20);
+            this.label1.Size = new System.Drawing.Size(217, 21);
             this.label1.TabIndex = 9;
-            this.label1.Text = "Seleziona il  numero di periodi";
+            this.label1.Text = "Seleziona il numero di periodi";
             // 
             // Form1
             // 
