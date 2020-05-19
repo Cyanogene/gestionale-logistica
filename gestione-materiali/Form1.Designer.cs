@@ -252,6 +252,11 @@
             // numericUpAndDown_Periodi
             // 
             this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(81, 209);
+            this.numericUpAndDown_Periodi.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numericUpAndDown_Periodi.Name = "numericUpAndDown_Periodi";
             this.numericUpAndDown_Periodi.Size = new System.Drawing.Size(120, 20);
             this.numericUpAndDown_Periodi.TabIndex = 8;
