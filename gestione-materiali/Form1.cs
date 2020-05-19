@@ -314,6 +314,7 @@ namespace gestione_materiali
         /// <returns></returns>        
         TreeNode FormCaricaDistintaBase(int NumPeriodi)
         {
+            distintaBase.NumPeriodi = this.NumPeriodi;
             distintaBase.Albero = distintaBase.Carica(NumPeriodi);
             if (distintaBase.Albero != null)
             {
