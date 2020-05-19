@@ -37,7 +37,61 @@ namespace gestione_materiali
             CaricaHeaderTabella();
             CambiaStileTabella();
             Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
+
+            formOriginalSize = Size;
+
+            menuStrip1OriginalRect = new Rectangle(menuStrip1.Location.X, menuStrip1.Location.Y, menuStrip1.Width, menuStrip1.Height);
+            dataGridView1OriginalRect = new Rectangle(dataGridView1.Location.X, dataGridView1.Location.Y, dataGridView1.Width, dataGridView1.Height);
+            label1OriginalRect = new Rectangle(label1.Location.X, label1.Location.Y, label1.Width, label1.Height);
+            Lbl_ComponenteCaricatoOriginalRect = new Rectangle(Lbl_ComponenteCaricato.Location.X, Lbl_ComponenteCaricato.Location.Y, Lbl_ComponenteCaricato.Width, Lbl_ComponenteCaricato.Height);
+            numericUpAndDown_PeriodiOriginalRect = new Rectangle(numericUpAndDown_Periodi.Location.X, numericUpAndDown_Periodi.Location.Y, numericUpAndDown_Periodi.Width, numericUpAndDown_Periodi.Height);
+            treeView_DistintaBaseOriginalRect = new Rectangle(treeView_DistintaBase.Location.X, treeView_DistintaBase.Location.Y, treeView_DistintaBase.Width, treeView_DistintaBase.Height);
+            Btn_ProgrammazioneProduzioneOriginalRect = new Rectangle(Btn_ProgrammazioneProduzione.Location.X, Btn_ProgrammazioneProduzione.Location.Y, Btn_ProgrammazioneProduzione.Width, Btn_ProgrammazioneProduzione.Height);
         }
+
+        //resizeFormElement---------------------------------------------------------------------------------------------------------------------------------------------
+
+        private void resizeChildrenControls()
+        {
+            resizeControl(menuStrip1OriginalRect, menuStrip1);
+            resizeControl(dataGridView1OriginalRect, dataGridView1);
+            resizeControl(label1OriginalRect, label1);
+            resizeControl(Lbl_ComponenteCaricatoOriginalRect, Lbl_ComponenteCaricato);
+            resizeControl(numericUpAndDown_PeriodiOriginalRect, numericUpAndDown_Periodi);
+            resizeControl(treeView_DistintaBaseOriginalRect, treeView_DistintaBase);
+            resizeControl(Btn_ProgrammazioneProduzioneOriginalRect, Btn_ProgrammazioneProduzione);
+        }
+
+        private void resizeControl(Rectangle originalControlRect, Control control)
+        {
+            float xRatio = (float)(Width) / (float)(formOriginalSize.Width);
+            float yRatio = (float)(Height) / (float)(formOriginalSize.Height);
+
+            int newX = (int)(originalControlRect.Location.X * xRatio);
+            int newY = (int)(originalControlRect.Location.Y * yRatio);
+            int newWidth = (int)(originalControlRect.Size.Width * xRatio);
+            int newHeight = (int)(originalControlRect.Size.Height * yRatio);
+
+            control.Location = new Point(newX, newY);
+            control.Size = new Size(newWidth, newHeight);
+        }
+
+        private Rectangle menuStrip1OriginalRect;
+        private Rectangle dataGridView1OriginalRect;
+        private Rectangle label1OriginalRect;
+        private Rectangle Lbl_ComponenteCaricatoOriginalRect;
+        private Rectangle numericUpAndDown_PeriodiOriginalRect;
+        private Rectangle treeView_DistintaBaseOriginalRect;
+        private Rectangle Btn_ProgrammazioneProduzioneOriginalRect;
+
+        private Size formOriginalSize;
+
+        private void Form1_Resize(object sender, EventArgs e)
+        {
+            resizeChildrenControls();
+        }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------------------------------
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {

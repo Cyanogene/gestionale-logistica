@@ -163,7 +163,7 @@
             // 
             this.Lbl_ComponenteCaricato.AutoSize = true;
             this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(327, 255);
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(327, 283);
             this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
             this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(177, 21);
             this.Lbl_ComponenteCaricato.TabIndex = 4;
@@ -194,21 +194,21 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
             // pulisciTabellaToolStripMenuItem
             // 
             this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
             this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
@@ -224,14 +224,14 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
             // treeView_DistintaBase
             // 
             this.treeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView_DistintaBase.Location = new System.Drawing.Point(331, 278);
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(331, 306);
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
@@ -242,7 +242,7 @@
             this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
             this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(27, 255);
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(27, 283);
             this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
             this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
             this.Btn_ProgrammazioneProduzione.TabIndex = 3;
@@ -254,7 +254,7 @@
             // numericUpAndDown_Periodi
             // 
             this.numericUpAndDown_Periodi.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(27, 216);
+            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(27, 244);
             this.numericUpAndDown_Periodi.Minimum = new decimal(new int[] {
             1,
             0,
@@ -274,7 +274,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(23, 194);
+            this.label1.Location = new System.Drawing.Point(23, 222);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(217, 21);
             this.label1.TabIndex = 9;
@@ -294,9 +294,11 @@
             this.Controls.Add(this.menuStrip1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.menuStrip1;
+            this.MinimumSize = new System.Drawing.Size(960, 540);
             this.Name = "Form1";
             this.Text = "Gestione materiali";
             this.Load += new System.EventHandler(this.Form1_Load);
+            this.Resize += new System.EventHandler(this.Form1_Resize);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
