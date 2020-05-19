@@ -15,8 +15,8 @@ namespace gestione_materiali
     public partial class Form1 : Form
     {
         private DistintaBase distintaBase;
-        private bool TabellaGenerata = false;
-        int NumPeriodi = 6;
+        private bool TabellaGenerata;
+        int NumPeriodi;
 
         string[] titoli = new string[]
         {
@@ -27,6 +27,8 @@ namespace gestione_materiali
         public Form1()
         {
             InitializeComponent();
+            NumPeriodi = 6;
+            TabellaGenerata = false;
             distintaBase = new DistintaBase();
         }
 
@@ -147,6 +149,35 @@ namespace gestione_materiali
             ValidaCella();
         }
 
+        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
+        {
+            int NumeroPeriodi = Convert.ToInt32(numericUpAndDown_Periodi.Value);
+            if (NumeroPeriodi + 2 > dataGridView1.ColumnCount)
+            {
+                for (int i = dataGridView1.ColumnCount; i < NumeroPeriodi + 2; i++)
+                {
+                    DataGridViewColumn newColumn = new DataGridViewColumn();
+                    newColumn.Width = 50;
+                    newColumn.HeaderText = (i - 1).ToString();
+                    newColumn.CellTemplate = new DataGridViewTextBoxCell();
+                    dataGridView1.Columns.Add(newColumn);
+                    dataGridView1.Columns[dataGridView1.Columns.Count - 1].ReadOnly = true;
+                    dataGridView1.Rows[0].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
+                    dataGridView1.Rows[1].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
+                }
+                NumPeriodi = NumeroPeriodi;
+                distintaBase.NumPeriodi = NumeroPeriodi;
+                return;
+            }
+            else
+            {
+                while (NumeroPeriodi + 2 < dataGridView1.ColumnCount)
+                {
+                    dataGridView1.Columns.RemoveAt(dataGridView1.ColumnCount - 1);
+                }
+            }
+            NumPeriodi = NumeroPeriodi;
+        }
 
         //
         // FINE ELEMENTI FORM
@@ -337,36 +368,6 @@ namespace gestione_materiali
             }
         }
 
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void numericUpDown1_ValueChanged(object sender, EventArgs e)
-        {
-            int NumeroPeriodi = Convert.ToInt32(numericUpAndDown_Periodi.Value);
-            if (NumeroPeriodi + 2 > dataGridView1.ColumnCount)
-            {
-                for (int i = dataGridView1.ColumnCount; i < NumeroPeriodi + 2; i++)
-                {
-                    DataGridViewColumn newColumn = new DataGridViewColumn();
-                    newColumn.Width = 50;
-                    newColumn.HeaderText = (i - 1).ToString();
-                    newColumn.CellTemplate = new DataGridViewTextBoxCell();
-                    dataGridView1.Columns.Add(newColumn);
-                }
-                NumPeriodi = NumeroPeriodi;
-                distintaBase.NumPeriodi = NumeroPeriodi;
-                return;
-            }
-            else
-            {
-                while (NumeroPeriodi + 2 < dataGridView1.ColumnCount)
-                {
-                    dataGridView1.Columns.RemoveAt(dataGridView1.ColumnCount - 1);
-                }
-            }
-            NumPeriodi = NumeroPeriodi;
-        }
+        
     }
 }
