@@ -97,7 +97,7 @@ namespace gestione_materiali
         {
             if (distintaBase.Nodi.Count == 0)
             {
-                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -112,7 +112,8 @@ namespace gestione_materiali
 
             else
             {
-                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                
+                Box.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -127,7 +128,7 @@ namespace gestione_materiali
 
             else
             {
-                MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -159,7 +160,7 @@ namespace gestione_materiali
             }
             else
             {
-                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -187,7 +188,7 @@ namespace gestione_materiali
             }
             else
             {
-                MessageBox.Show($"Programma la tabella di {distintaBase.Albero.Nome.ToUpper()}.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show($"Programma la tabella di {distintaBase.Albero.Nome.ToUpper()}.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -196,7 +197,7 @@ namespace gestione_materiali
         {
             if (distintaBase.Nodi.Count == 0)
             {
-                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 return;
             }
@@ -404,7 +405,7 @@ namespace gestione_materiali
 
                 if (!ris)
                 {
-                    MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    Box.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.CurrentCell.Value = null;
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
                 }
@@ -417,7 +418,7 @@ namespace gestione_materiali
 
             else
             {
-                MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                Box.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
             }

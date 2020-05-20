@@ -43,13 +43,12 @@
             this.produzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
-            this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.numericUpAndDown_Periodi = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
+            this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
@@ -72,7 +71,7 @@
             this.Column2,
             this.Column3,
             this.Column4});
-            this.dataGridView1.Location = new System.Drawing.Point(27, 40);
+            this.dataGridView1.Location = new System.Drawing.Point(16, 126);
             this.dataGridView1.MaximumSize = new System.Drawing.Size(1100, 140);
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.RowHeadersVisible = false;
@@ -163,7 +162,7 @@
             // 
             this.Lbl_ComponenteCaricato.AutoSize = true;
             this.Lbl_ComponenteCaricato.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(327, 283);
+            this.Lbl_ComponenteCaricato.Location = new System.Drawing.Point(327, 307);
             this.Lbl_ComponenteCaricato.Name = "Lbl_ComponenteCaricato";
             this.Lbl_ComponenteCaricato.Size = new System.Drawing.Size(177, 21);
             this.Lbl_ComponenteCaricato.TabIndex = 4;
@@ -184,8 +183,7 @@
             // 
             this.produzioneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.salvaToolStripMenuItem,
-            this.caricaToolStripMenuItem,
-            this.pulisciTabellaToolStripMenuItem});
+            this.caricaToolStripMenuItem});
             this.produzioneToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.produzioneToolStripMenuItem.Name = "produzioneToolStripMenuItem";
             this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
@@ -194,23 +192,16 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
-            // 
-            // pulisciTabellaToolStripMenuItem
-            // 
-            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
-            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
-            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
             // distintaBaseToolStripMenuItem
             // 
@@ -231,35 +222,22 @@
             // treeView_DistintaBase
             // 
             this.treeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.treeView_DistintaBase.Location = new System.Drawing.Point(331, 306);
+            this.treeView_DistintaBase.Location = new System.Drawing.Point(331, 330);
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
             this.treeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
-            // Btn_ProgrammazioneProduzione
-            // 
-            this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
-            this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(27, 283);
-            this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
-            this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
-            this.Btn_ProgrammazioneProduzione.TabIndex = 3;
-            this.Btn_ProgrammazioneProduzione.Text = "Programma\r\nproduzione";
-            this.Btn_ProgrammazioneProduzione.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
-            this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
-            // 
             // numericUpAndDown_Periodi
             // 
             this.numericUpAndDown_Periodi.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(27, 244);
+            this.numericUpAndDown_Periodi.Location = new System.Drawing.Point(16, 74);
             this.numericUpAndDown_Periodi.Minimum = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this.numericUpAndDown_Periodi.MinimumSize = new System.Drawing.Size(123, 0);
             this.numericUpAndDown_Periodi.Name = "numericUpAndDown_Periodi";
             this.numericUpAndDown_Periodi.Size = new System.Drawing.Size(126, 24);
             this.numericUpAndDown_Periodi.TabIndex = 8;
@@ -274,11 +252,26 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Tai Le", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(23, 222);
+            this.label1.Location = new System.Drawing.Point(12, 42);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(217, 21);
             this.label1.TabIndex = 9;
             this.label1.Text = "Seleziona il numero di periodi";
+            // 
+            // Btn_ProgrammazioneProduzione
+            // 
+            this.Btn_ProgrammazioneProduzione.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Btn_ProgrammazioneProduzione.Image = global::gestione_materiali.Properties.Resources.Gears;
+            this.Btn_ProgrammazioneProduzione.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.Btn_ProgrammazioneProduzione.Location = new System.Drawing.Point(16, 287);
+            this.Btn_ProgrammazioneProduzione.MinimumSize = new System.Drawing.Size(167, 81);
+            this.Btn_ProgrammazioneProduzione.Name = "Btn_ProgrammazioneProduzione";
+            this.Btn_ProgrammazioneProduzione.Size = new System.Drawing.Size(167, 81);
+            this.Btn_ProgrammazioneProduzione.TabIndex = 3;
+            this.Btn_ProgrammazioneProduzione.Text = "Programma\r\nproduzione";
+            this.Btn_ProgrammazioneProduzione.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
+            this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
             // Form1
             // 
@@ -327,7 +320,6 @@
         private System.Windows.Forms.ToolStripMenuItem distintaBaseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem caricaToolStripMenuItem1;
         private System.Windows.Forms.TreeView treeView_DistintaBase;
-        private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
         private System.Windows.Forms.NumericUpDown numericUpAndDown_Periodi;
         private System.Windows.Forms.Label label1;
     }
