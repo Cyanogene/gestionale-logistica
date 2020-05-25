@@ -58,8 +58,15 @@ namespace gestione_materiali
         public TreeNode NodeToTreeNode(Componente Node)
         {
             string Nome = Node.Nome;
-            TreeNode treeNode = new TreeNode(Nome);
-            treeNode.Tag = Node.Codice;
+            if (!(Albero == Node) && Node.CoefficenteUtilizzo > 1)
+            {
+                Nome = Node.CoefficenteUtilizzo + "× " + Nome;
+            }
+
+            TreeNode treeNode = new TreeNode(Nome)
+            {
+                Tag = Node.Codice
+            };
             if (Node.SottoNodi != null && Node.SottoNodi.Count > 0)
             {
                 foreach (Componente node in Node.SottoNodi)

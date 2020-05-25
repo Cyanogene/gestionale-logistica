@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -49,9 +50,12 @@
             this.numericUpAndDown_Periodi = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
+            this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
+            this.cms_DistintaBase.SuspendLayout();
             this.SuspendLayout();
             // 
             // dataGridView1
@@ -192,14 +196,14 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
@@ -226,6 +230,7 @@
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
+            this.treeView_DistintaBase.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseClick);
             this.treeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
             // numericUpAndDown_Periodi
@@ -273,6 +278,20 @@
             this.Btn_ProgrammazioneProduzione.UseVisualStyleBackColor = true;
             this.Btn_ProgrammazioneProduzione.Click += new System.EventHandler(this.Btn_ProgrammazioneProduzione_Click);
             // 
+            // cms_DistintaBase
+            // 
+            this.cms_DistintaBase.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.informazioniToolStripMenuItem});
+            this.cms_DistintaBase.Name = "cms_DistintaBase";
+            this.cms_DistintaBase.Size = new System.Drawing.Size(142, 26);
+            // 
+            // informazioniToolStripMenuItem
+            // 
+            this.informazioniToolStripMenuItem.Name = "informazioniToolStripMenuItem";
+            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.informazioniToolStripMenuItem.Text = "Informazioni";
+            this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -296,6 +315,7 @@
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).EndInit();
+            this.cms_DistintaBase.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -322,6 +342,8 @@
         private System.Windows.Forms.TreeView treeView_DistintaBase;
         private System.Windows.Forms.NumericUpDown numericUpAndDown_Periodi;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.ContextMenuStrip cms_DistintaBase;
+        private System.Windows.Forms.ToolStripMenuItem informazioniToolStripMenuItem;
     }
 }
 

@@ -424,6 +424,32 @@ namespace gestione_materiali
             }
         }
 
-        
+        private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView_DistintaBase.SelectedNode == null) return;
+            string Codice = treeView_DistintaBase.SelectedNode.Tag.ToString();
+            Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        public string InfoComponenteDistintabase()
+        {
+            TreeNode treePadre = null;
+            if (treeView_DistintaBase.SelectedNode.Parent != null) 
+                treePadre = treeView_DistintaBase.SelectedNode.Parent;
+            Componente componente = distintaBase.TreeNodeToNode(treeView_DistintaBase.SelectedNode, treePadre);
+            if (componente == null) return "selezionare un componente";
+            return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
+        }
+
+        private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right) return;
+
+            TreeNode node_here = treeView_DistintaBase.GetNodeAt(e.X, e.Y);
+            treeView_DistintaBase.SelectedNode = node_here;
+            if (node_here == null) return;
+
+            cms_DistintaBase.Show(treeView_DistintaBase, new Point(e.X, e.Y));
+        }
     }
 }

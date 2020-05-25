@@ -66,7 +66,7 @@
     <Compile Include="CustomMessageBox.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CustomMessageBox.Designer.cs">
+    <Compile Include="CustomMessageBox.designer.cs">
       <DependentUpon>CustomMessageBox.cs</DependentUpon>
     </Compile>
     <Compile Include="DistintaBase.cs" />
