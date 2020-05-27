@@ -115,6 +115,14 @@ namespace gestione_materiali
                 CaricaDatiTabellaInAlbero();
                 Produzione product = new Produzione(distintaBase, NumPeriodi);
                 product.avviaProduzione();
+                dataGridView1.Rows.Clear();
+                CaricaHeaderTabella(TitoliProduzione);
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    dataGridView1.Rows[4].Cells[i].ReadOnly = true;
+                    dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
+                }
+                SvuotaTabella();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
             }

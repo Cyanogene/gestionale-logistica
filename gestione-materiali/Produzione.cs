@@ -67,7 +67,7 @@ namespace gestione_materiali
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
             int giacenzaFinale = giacenzainiziale;
 
-            while (comp.Produzione[periodoAdesso].FabbisognoLordo < comp.ScortaSicurezza)
+            while (giacenzaFinale < comp.ScortaSicurezza)
             {
                 giacenzaFinale += comp.Lotto;
             }
@@ -78,6 +78,7 @@ namespace gestione_materiali
             if (periodoAdesso - TempoProduzioneTotale + 1 >= 0)
             {
                 comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
+
                 comp.Produzione[periodoAdesso - TempoProduzioneTotale + 1].OrdiniProduzione = comp.Produzione[periodoAdesso].Versamenti;
             }
             else
