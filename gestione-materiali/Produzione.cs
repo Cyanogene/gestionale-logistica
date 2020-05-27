@@ -27,12 +27,12 @@ namespace gestione_materiali
 
         public void avviaProduzione()
         {
-            List<int> FabbisognoComp = new List<int>();
+            List<int> FabbisognoLordo = new List<int>();
             foreach(Periodo periodo in distintaBase.Albero.Produzione)
             {
-                FabbisognoComp.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
+                FabbisognoLordo.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
             }
-            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0, FabbisognoComp);
+            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0, FabbisognoLordo);
         }
 
         public void calcolaProduzioneCompESottonodi(Componente comp, int LeadTimeNodiSoprastanti, List<int> FabbisognoComp)
@@ -56,33 +56,34 @@ namespace gestione_materiali
         {
             for (int i = 1; i < NumPeriodi+1; i++)
             {
-                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i, FabbisognoComp);
+                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i];
+                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i);
             }
         }
 
-        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso, List<int> FabbisognoComp)//di 1 periodo
+        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
         {
-            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - FabbisognoComp[periodoAdesso];
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - comp.Produzione[periodoAdesso].FabbisognoLordo;
 
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
-            int giacenzaFinale = giacenzainiziale;
+            comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzainiziale;
 
-            while (giacenzaFinale < comp.ScortaSicurezza)
+            while (comp.Produzione[periodoAdesso].FabbisognoLordo < comp.ScortaSicurezza)
             {
-                giacenzaFinale += comp.Lotto;
+                comp.Produzione[periodoAdesso].FabbisognoLordo += comp.Lotto;
             }
 
-            comp.Produzione[periodoAdesso].Versamenti = giacenzaFinale - giacenzainiziale;
+            comp.Produzione[periodoAdesso].Versamenti = comp.Produzione[periodoAdesso].FabbisognoLordo - giacenzainiziale;
             if (comp.Produzione[periodoAdesso].Versamenti == 0) return;//non devo produrre
 
             if (periodoAdesso - TempoProduzioneTotale + 1 >= 0)
             {
-                comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
+                comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso].FabbisognoLordo;
                 comp.Produzione[periodoAdesso - TempoProduzioneTotale + 1].OrdiniProduzione = comp.Produzione[periodoAdesso].Versamenti;
             }
             else
             {
-                comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
+                comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso].FabbisognoLordo;
                 //non ho abbastanza tempo per produrre
             }
         }

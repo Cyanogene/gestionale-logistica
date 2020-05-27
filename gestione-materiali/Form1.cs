@@ -18,11 +18,18 @@ namespace gestione_materiali
         private bool TabellaGenerata;
         int NumPeriodi;
 
-        string[] titoli = new string[]
+        private string[] TitoliProduzioneVuota = new string[]
         {
             "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
             "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
         };
+
+        private string[] TitoliProduzione = new string[]
+        {
+            "Fabbisogno lordo","Disponibilità a magazzino (giacenza)",
+            "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
+        };
+
 
         public Form1()
         {
@@ -34,7 +41,7 @@ namespace gestione_materiali
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CaricaHeaderTabella();
+            CaricaHeaderTabella(TitoliProduzioneVuota);
             CambiaStileTabella();
             Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
 
@@ -142,11 +149,19 @@ namespace gestione_materiali
             if (treeNode == null) return;
             TabellaGenerata = true;
 
+            dataGridView1.Rows.Clear();
+            CaricaHeaderTabella(TitoliProduzione);
+            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            {
+                dataGridView1.Rows[4].Cells[i].ReadOnly = true;
+                dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
+            }
             SvuotaTabella();
             ControllaCelleVuote();
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
             AggiornaTabella(distintaBase.Albero.Produzione);
+            Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
@@ -155,11 +170,13 @@ namespace gestione_materiali
             TreeNode treeNode = FormCaricaDistintaBase(dataGridView1.ColumnCount);
             if (treeNode == null) return;
             TabellaGenerata = false;
-
-            SvuotaTabella();
+            dataGridView1.Rows.Clear();
+            CaricaHeaderTabella(TitoliProduzioneVuota);
+            CambiaStileTabella();
             ControllaCelleVuote();
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
+            Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -223,6 +240,8 @@ namespace gestione_materiali
                 }
                 NumPeriodi = NumeroPeriodi;
                 distintaBase.NumPeriodi = NumeroPeriodi;
+                if (!string.IsNullOrWhiteSpace(Lbl_ComponenteCaricato.Text))
+                    ControllaCelleVuote();
                 return;
             }
             else
@@ -266,7 +285,7 @@ namespace gestione_materiali
         /// <summary>
         /// Carica una tabella con header fissi.
         /// </summary>
-        private void CaricaHeaderTabella()
+        private void CaricaHeaderTabella(string[] titoli)
         {
             dataGridView1.Rows.Add(5);
             dataGridView1.AutoSize = true;
@@ -339,7 +358,10 @@ namespace gestione_materiali
                         }
                         else
                         {
-                            cell.Style.BackColor = Color.White;
+                            if (row.Index % 2 == 0)
+                                cell.Style.BackColor = Color.White;
+                            else
+                                cell.Style.BackColor = Color.FromArgb(238, 239, 249);
                         }
                     }
                 }
@@ -355,11 +377,10 @@ namespace gestione_materiali
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
-                dataGridView1.Rows[0].Cells[i].Value = inputPeriodo[i - 1].Previsioni;
-                dataGridView1.Rows[1].Cells[i].Value = inputPeriodo[i - 1].OrdiniVendita;
-                dataGridView1.Rows[2].Cells[i].Value = inputPeriodo[i - 1].Giacenza;
-                dataGridView1.Rows[3].Cells[i].Value = inputPeriodo[i - 1].Versamenti;
-                dataGridView1.Rows[4].Cells[i].Value = inputPeriodo[i - 1].OrdiniProduzione;
+                dataGridView1.Rows[0].Cells[i].Value = inputPeriodo[i - 1].FabbisognoLordo;
+                dataGridView1.Rows[1].Cells[i].Value = inputPeriodo[i - 1].Giacenza;
+                dataGridView1.Rows[2].Cells[i].Value = inputPeriodo[i - 1].Versamenti;
+                dataGridView1.Rows[3].Cells[i].Value = inputPeriodo[i - 1].OrdiniProduzione;
             }
         }
 
@@ -405,7 +426,10 @@ namespace gestione_materiali
 
                 else
                 {
-                    dataGridView1.CurrentCell.Style.BackColor = Color.White;
+                    if (dataGridView1.CurrentCell.RowIndex % 2 == 0)
+                        dataGridView1.CurrentCell.Style.BackColor = Color.White;
+                    else
+                        dataGridView1.CurrentCell.Style.BackColor = Color.FromArgb(238, 239, 249);
                 }
             }
 
@@ -428,6 +452,12 @@ namespace gestione_materiali
             Componente componente = distintaBase.TreeNodeToNode(treeView_DistintaBase.SelectedNode, treePadre);
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
+        }
+
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex == 4 && TabellaGenerata)
+            e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
         }
     }
 }

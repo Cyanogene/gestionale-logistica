@@ -14,5 +14,6 @@ namespace gestione_materiali
         public int Giacenza { get; set; }
         public int Versamenti { get; set; }
         public int OrdiniProduzione { get; set; }
+        public int FabbisognoLordo { get; set; }
     }
 }
