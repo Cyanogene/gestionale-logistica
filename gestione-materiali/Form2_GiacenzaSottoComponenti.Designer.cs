@@ -29,66 +29,73 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form2_GiacenzaSottoComponenti));
-            this.label1 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.lbl_titolo = new System.Windows.Forms.Label();
+            this.Btn_aggiungi = new System.Windows.Forms.Button();
+            this.NumUpD_quantità = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpD_quantità)).BeginInit();
             this.SuspendLayout();
             // 
-            // label1
+            // lbl_titolo
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 45);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(237, 14);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Disponibilità a magazzino (giacenza)";
+            this.lbl_titolo.AutoSize = true;
+            this.lbl_titolo.Font = new System.Drawing.Font("Verdana", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbl_titolo.Location = new System.Drawing.Point(12, 9);
+            this.lbl_titolo.Name = "lbl_titolo";
+            this.lbl_titolo.Size = new System.Drawing.Size(237, 28);
+            this.lbl_titolo.TabIndex = 1;
+            this.lbl_titolo.Text = "Disponibilità a magazzino (giacenza)\r\ndel componente: ";
             // 
-            // button1
+            // Btn_aggiungi
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F);
-            this.button1.Location = new System.Drawing.Point(423, 72);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(100, 32);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "AGGIUNGI";
-            this.button1.UseVisualStyleBackColor = true;
+            this.Btn_aggiungi.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.Btn_aggiungi.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F);
+            this.Btn_aggiungi.Location = new System.Drawing.Point(414, 72);
+            this.Btn_aggiungi.Name = "Btn_aggiungi";
+            this.Btn_aggiungi.Size = new System.Drawing.Size(100, 32);
+            this.Btn_aggiungi.TabIndex = 2;
+            this.Btn_aggiungi.Text = "AGGIUNGI";
+            this.Btn_aggiungi.UseVisualStyleBackColor = true;
+            this.Btn_aggiungi.Click += new System.EventHandler(this.Btn_aggiungi_Click);
             // 
-            // numericUpDown1
+            // NumUpD_quantità
             // 
-            this.numericUpDown1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.numericUpDown1.Location = new System.Drawing.Point(264, 42);
-            this.numericUpDown1.Maximum = new decimal(new int[] {
+            this.NumUpD_quantità.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.NumUpD_quantità.Location = new System.Drawing.Point(249, 72);
+            this.NumUpD_quantità.Maximum = new decimal(new int[] {
             99999999,
             0,
             0,
             0});
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(78, 22);
-            this.numericUpDown1.TabIndex = 3;
+            this.NumUpD_quantità.Name = "NumUpD_quantità";
+            this.NumUpD_quantità.Size = new System.Drawing.Size(78, 22);
+            this.NumUpD_quantità.TabIndex = 3;
+            this.NumUpD_quantità.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             // 
             // Form2_GiacenzaSottoComponenti
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(535, 116);
-            this.Controls.Add(this.numericUpDown1);
-            this.Controls.Add(this.button1);
-            this.Controls.Add(this.label1);
+            this.ClientSize = new System.Drawing.Size(526, 116);
+            this.Controls.Add(this.NumUpD_quantità);
+            this.Controls.Add(this.Btn_aggiungi);
+            this.Controls.Add(this.lbl_titolo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Form2_GiacenzaSottoComponenti";
             this.Text = "Gestione materiali";
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_GiacenzaSottoComponenti_FormClosed);
+            ((System.ComponentModel.ISupportInitialize)(this.NumUpD_quantità)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
         }
 
         #endregion
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.Label lbl_titolo;
+        private System.Windows.Forms.Button Btn_aggiungi;
+        private System.Windows.Forms.NumericUpDown NumUpD_quantità;
     }
 }

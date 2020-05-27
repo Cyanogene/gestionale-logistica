@@ -17,6 +17,7 @@ namespace gestione_materiali
         private DistintaBase distintaBase;
         private bool TabellaGenerata;
         int NumPeriodi;
+        ToolTip toolTip = new ToolTip();
 
         private string[] TitoliProduzioneVuota = new string[]
         {
@@ -222,11 +223,23 @@ namespace gestione_materiali
                 }
                 else
                 {
-                    Form2_GiacenzaSottoComponenti form = new Form2_GiacenzaSottoComponenti();
-                    form.ShowDialog();
+                    if (treeView_DistintaBase.SelectedNode.Parent == null)
+                    {
+                        dataGridView1.CurrentCell = dataGridView1[1, 2];
+                    }
+                    else
+                    {
+                        Componente componenteSelezionato = distintaBase.TreeNodeToNode(treeView_DistintaBase.SelectedNode, treeView_DistintaBase.SelectedNode.Parent);
+                        Form2_GiacenzaSottoComponenti form = new Form2_GiacenzaSottoComponenti(componenteSelezionato);//do in input il componente selezionato nella treeview
+                        form.ShowDialog();
+                        componenteSelezionato.Produzione[0].Giacenza = form.quantità;
+                        while (form.attendo)
+                        {
 
+                        }
+                    }
                 }
-                
+
             }
         }
 
@@ -399,7 +412,7 @@ namespace gestione_materiali
         /// Dopo aver eseguito la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
         /// </summary>
         /// <param name="inputPeriodo">Lista di periodi contenente la programmazione della produzione del componente.</param>
-        private  void AggiornaTabella(List<Periodo> inputPeriodo)
+        private void AggiornaTabella(List<Periodo> inputPeriodo)
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
@@ -473,7 +486,7 @@ namespace gestione_materiali
         private string InfoComponenteDistintabase()
         {
             TreeNode treePadre = null;
-            if (treeView_DistintaBase.SelectedNode.Parent != null) 
+            if (treeView_DistintaBase.SelectedNode.Parent != null)
                 treePadre = treeView_DistintaBase.SelectedNode.Parent;
             Componente componente = distintaBase.TreeNodeToNode(treeView_DistintaBase.SelectedNode, treePadre);
             if (componente == null) return "selezionare un componente";
@@ -483,7 +496,24 @@ namespace gestione_materiali
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == 4 && TabellaGenerata)
-            e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+                e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+        }
+
+        private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            toolTip.RemoveAll();
+            TreeNode treeNode = e.Node;
+            Componente comp = new Componente();
+            if (treeNode.Parent==null)
+            {
+                comp = distintaBase.Albero;
+            }
+            else
+            {
+                comp = distintaBase.TreeNodeToNode(treeNode,treeNode.Parent);
+            }
+            toolTip = new ToolTip();
+            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
         }
     }
 }

@@ -47,13 +47,13 @@
             this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.treeView_DistintaBase = new System.Windows.Forms.TreeView();
             this.numericUpAndDown_Periodi = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
@@ -201,14 +201,14 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
@@ -224,9 +224,16 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
+            // 
+            // pulisciTabellaToolStripMenuItem
+            // 
+            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
+            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
             // treeView_DistintaBase
             // 
@@ -235,6 +242,7 @@
             this.treeView_DistintaBase.Name = "treeView_DistintaBase";
             this.treeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.treeView_DistintaBase.TabIndex = 6;
+            this.treeView_DistintaBase.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_DistintaBase_NodeMouseHover_1);
             this.treeView_DistintaBase.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseClick);
             this.treeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
@@ -296,13 +304,6 @@
             this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
-            // 
-            // pulisciTabellaToolStripMenuItem
-            // 
-            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
-            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
-            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 
             // Form1
             // 
