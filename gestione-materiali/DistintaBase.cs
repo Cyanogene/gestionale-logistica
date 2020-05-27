@@ -132,7 +132,7 @@ namespace gestione_materiali
                     }
                     catch
                     {
-                        Box.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                     stream.Close();
                 }

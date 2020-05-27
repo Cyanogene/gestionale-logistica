@@ -91,13 +91,15 @@ namespace gestione_materiali
             resizeChildrenControls();
         }
 
-        //-----------------------------------------------------------------------------------------------------------------------------------------------------------
+
+        // METODI FORM
+
 
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
             if (distintaBase.Nodi.Count == 0)
             {
-                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -112,8 +114,7 @@ namespace gestione_materiali
 
             else
             {
-                
-                Box.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -128,7 +129,7 @@ namespace gestione_materiali
 
             else
             {
-                Box.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
 
@@ -137,67 +138,67 @@ namespace gestione_materiali
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Carica
-            SvuotaTabella();
-            treeView_DistintaBase.Nodes.Clear();
             TreeNode treeNode = FormCaricaDistintaBase(0);
-            if (treeNode != null)
-            {
-                treeView_DistintaBase.Nodes.Add(treeNode);
-                AggiornaTabella(distintaBase.Albero.Produzione);
-                TabellaGenerata = true;
-            }
+            if (treeNode == null) return;
+            TabellaGenerata = true;
 
-        }
-
-        private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // Produzione --> Pulisci tabella
-            if (TabellaGenerata)
-            {
-                distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
-                SvuotaTabella();
-                TabellaGenerata = false;
-            }
-            else
-            {
-                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+            SvuotaTabella();
+            ControllaCelleVuote();
+            treeView_DistintaBase.Nodes.Clear();
+            treeView_DistintaBase.Nodes.Add(treeNode);
+            AggiornaTabella(distintaBase.Albero.Produzione);
         }
 
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Distinta base --> Carica
-            SvuotaTabella();
-            treeView_DistintaBase.Nodes.Clear();
             TreeNode treeNode = FormCaricaDistintaBase(dataGridView1.ColumnCount);
-            if (treeNode != null)
-            {
-                treeView_DistintaBase.Nodes.Add(treeNode);
-            }
+            if (treeNode == null) return;
+            TabellaGenerata = false;
+
+            SvuotaTabella();
+            ControllaCelleVuote();
+            treeView_DistintaBase.Nodes.Clear();
+            treeView_DistintaBase.Nodes.Add(treeNode);
+        }
+
+        private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
+        {
+            if (e.Button != MouseButtons.Right) return;
+
+            TreeNode node_here = treeView_DistintaBase.GetNodeAt(e.X, e.Y);
+            treeView_DistintaBase.SelectedNode = node_here;
+            if (node_here == null) return;
+
+            cms_DistintaBase.Show(treeView_DistintaBase, new Point(e.X, e.Y));
         }
 
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (!TabellaGenerata) return;
+
             TreeNode treePadre = null;
             if (treeView_DistintaBase.SelectedNode.Parent != null) treePadre = treeView_DistintaBase.SelectedNode.Parent;
             Componente comp = distintaBase.TreeNodeToNode(e.Node, treePadre);
-            if (distintaBase.Albero.Codice == comp.Codice || TabellaGenerata)
+            if (comp != null)
             {
                 AggiornaTabella(comp.Produzione);
+                Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{comp.Nome.ToUpper()}'";
             }
-            else
-            {
-                Box.Show($"Programma la tabella di {distintaBase.Albero.Nome.ToUpper()}.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
+        }
+
+        private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (treeView_DistintaBase.SelectedNode == null) return;
+            string Codice = treeView_DistintaBase.SelectedNode.Tag.ToString();
+            Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
         private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
         {
             if (distintaBase.Nodi.Count == 0)
             {
-                Box.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 return;
             }
@@ -214,7 +215,7 @@ namespace gestione_materiali
                     DataGridViewColumn newColumn = new DataGridViewColumn();
                     newColumn.Width = 50;
                     newColumn.HeaderText = (i - 1).ToString();
-                    newColumn.CellTemplate = new DataGridViewTextBoxCell();
+                    newColumn.CellTemplate = periodo_0.CellTemplate;
                     dataGridView1.Columns.Add(newColumn);
                     dataGridView1.Columns[dataGridView1.Columns.Count - 1].ReadOnly = true;
                     dataGridView1.Rows[0].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
@@ -234,15 +235,16 @@ namespace gestione_materiali
             NumPeriodi = NumeroPeriodi;
         }
 
+
         //
-        // FINE ELEMENTI FORM
+        // METODI D'APPOGGIO
         //
 
 
         /// <summary>
-        /// Cancella tutti i valori sulla tabella e li evidenzia per facilitare l'input all'utente.
+        /// Cancella tutti i valori sulla tabella.
         /// </summary>
-        void SvuotaTabella()
+        private void SvuotaTabella()
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -264,7 +266,7 @@ namespace gestione_materiali
         /// <summary>
         /// Carica una tabella con header fissi.
         /// </summary>
-        void CaricaHeaderTabella()
+        private void CaricaHeaderTabella()
         {
             dataGridView1.Rows.Add(5);
             dataGridView1.AutoSize = true;
@@ -285,7 +287,7 @@ namespace gestione_materiali
         /// <summary>
         /// Cambia lo stile della tabella.
         /// </summary>
-        void CambiaStileTabella()
+        private void CambiaStileTabella()
         {
             dataGridView1.Columns[0].DefaultCellStyle.Font = new Font("Verdana", 9F, FontStyle.Regular);
             dataGridView1.ColumnHeadersDefaultCellStyle.Font = new Font("Verdana", 9F, FontStyle.Regular);
@@ -302,10 +304,9 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Prende i dati in input e li salva nella lista dei periodi.
+        /// Salva i dati (in input) inseriti nella tabella.
         /// </summary>
-        /// <returns></returns>
-        void CaricaDatiTabellaInAlbero()
+        private void CaricaDatiTabellaInAlbero()
         {
             distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
             distintaBase.Albero.Produzione[0].Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[1].Value);
@@ -322,8 +323,7 @@ namespace gestione_materiali
         /// <summary>
         /// Evidenzia tutte le celle vuote.
         /// </summary>
-        /// <returns></returns>
-        bool ControllaCelleVuote()
+        private bool ControllaCelleVuote()
         {
             bool Ok = true;
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -332,7 +332,7 @@ namespace gestione_materiali
                 {
                     if (!cell.ReadOnly)
                     {
-                        if (cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString()))
+                        if ((cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString())) && !TabellaGenerata)
                         {
                             cell.Style.BackColor = Color.Tomato;
                             Ok = false;
@@ -348,10 +348,10 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        ///  Dopo che è stata eseguita la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
+        /// Dopo aver eseguito la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
         /// </summary>
-        /// <param name="inputPeriodo"></param>
-        void AggiornaTabella(List<Periodo> inputPeriodo)
+        /// <param name="inputPeriodo">Lista di periodi contenente la programmazione della produzione del componente.</param>
+        private  void AggiornaTabella(List<Periodo> inputPeriodo)
         {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
@@ -365,18 +365,13 @@ namespace gestione_materiali
 
         /// <summary>
         /// Chiede all'utente una distinta base e succesivamente la carica nel programma.
-        /// </summary>
-        /// <returns></returns>        
-        TreeNode FormCaricaDistintaBase(int NumPeriodi)
+        /// </summary>       
+        private TreeNode FormCaricaDistintaBase(int NumPeriodi)
         {
             distintaBase.NumPeriodi = this.NumPeriodi;
             distintaBase.Albero = distintaBase.Carica(NumPeriodi);
-            if (distintaBase.Albero != null)
-            {
-                Lbl_ComponenteCaricato.Text = $"Attualmente è caricata la distinta base '{distintaBase.Albero.Nome.ToUpper()}'";
-            }
 
-            else
+            if (distintaBase.Albero == null)
             {
                 return null;
             }
@@ -389,15 +384,13 @@ namespace gestione_materiali
                 dataGridView1.Rows[3].Cells[i].Value = null;
                 dataGridView1.Rows[4].Cells[i].Value = null;
             }
-
-            ControllaCelleVuote();
             return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
 
         /// <summary>
         /// Controlla se la cella selezionata è valida.
         /// </summary>
-        void ValidaCella()
+        private void ValidaCella()
         {
             if (dataGridView1.CurrentCell.Value != null)
             {
@@ -405,7 +398,7 @@ namespace gestione_materiali
 
                 if (!ris)
                 {
-                    Box.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.CurrentCell.Value = null;
                     dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
                 }
@@ -418,20 +411,16 @@ namespace gestione_materiali
 
             else
             {
-                Box.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dataGridView1.CurrentCell.Value = null;
                 dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
             }
         }
 
-        private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (treeView_DistintaBase.SelectedNode == null) return;
-            string Codice = treeView_DistintaBase.SelectedNode.Tag.ToString();
-            Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        public string InfoComponenteDistintabase()
+        /// <summary>
+        /// Ritorna una stringa contenente le informazioni sul componenete selezionato.
+        /// </summary>
+        private string InfoComponenteDistintabase()
         {
             TreeNode treePadre = null;
             if (treeView_DistintaBase.SelectedNode.Parent != null) 
@@ -439,17 +428,6 @@ namespace gestione_materiali
             Componente componente = distintaBase.TreeNodeToNode(treeView_DistintaBase.SelectedNode, treePadre);
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
-        }
-
-        private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (e.Button != MouseButtons.Right) return;
-
-            TreeNode node_here = treeView_DistintaBase.GetNodeAt(e.X, e.Y);
-            treeView_DistintaBase.SelectedNode = node_here;
-            if (node_here == null) return;
-
-            cms_DistintaBase.Show(treeView_DistintaBase, new Point(e.X, e.Y));
         }
     }
 }
