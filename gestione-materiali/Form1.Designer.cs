@@ -53,6 +53,7 @@
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
@@ -179,7 +180,8 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.produzioneToolStripMenuItem,
-            this.distintaBaseToolStripMenuItem});
+            this.distintaBaseToolStripMenuItem,
+            this.pulisciTabellaToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
             this.menuStrip1.Size = new System.Drawing.Size(1264, 24);
@@ -222,7 +224,7 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
@@ -295,6 +297,13 @@
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
             // 
+            // pulisciTabellaToolStripMenuItem
+            // 
+            this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
+            this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -347,6 +356,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.ContextMenuStrip cms_DistintaBase;
         private System.Windows.Forms.ToolStripMenuItem informazioniToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
     }
 }
 

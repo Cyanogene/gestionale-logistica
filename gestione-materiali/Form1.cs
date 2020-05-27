@@ -187,6 +187,16 @@ namespace gestione_materiali
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
+        private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            SvuotaTabella();
+            TabellaGenerata = false;
+            dataGridView1.Rows.Clear();
+            CaricaHeaderTabella(TitoliProduzioneVuota);
+            ControllaCelleVuote();
+            CambiaStileTabella();
+        }
+
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
