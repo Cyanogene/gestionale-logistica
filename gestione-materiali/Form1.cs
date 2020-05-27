@@ -210,15 +210,23 @@ namespace gestione_materiali
 
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
-            if (!TabellaGenerata) return;
-
             TreeNode treePadre = null;
             if (treeView_DistintaBase.SelectedNode.Parent != null) treePadre = treeView_DistintaBase.SelectedNode.Parent;
             Componente comp = distintaBase.TreeNodeToNode(e.Node, treePadre);
             if (comp != null)
             {
-                AggiornaTabella(comp.Produzione);
-                Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{comp.Nome.ToUpper()}'";
+                if (TabellaGenerata)
+                {
+                    AggiornaTabella(comp.Produzione);
+                    Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{comp.Nome.ToUpper()}'";
+                }
+                else
+                {
+                    Form2_GiacenzaSottoComponenti form = new Form2_GiacenzaSottoComponenti();
+                    form.ShowDialog();
+
+                }
+                
             }
         }
 

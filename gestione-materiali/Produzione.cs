@@ -11,11 +11,6 @@ namespace gestione_materiali
 {
     class Produzione
     {
-        // Tasto destro su nodo treeView:
-        // Mostra produzione componente (singola)
-        // Mostra produzione componente (unisce tutte le tabelle di un componente in una unica produzione)
-        // Informazioni (mostra info Componente)
-
         public DistintaBase distintaBase;
         public int NumPeriodi = 0;
 
