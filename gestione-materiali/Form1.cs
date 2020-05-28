@@ -196,6 +196,7 @@ namespace gestione_materiali
             CaricaHeaderTabella(TitoliProduzioneVuota);
             ControllaCelleVuote();
             CambiaStileTabella();
+            distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
         }
 
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
@@ -360,13 +361,13 @@ namespace gestione_materiali
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.CurrentCell.Selected = false;
         }
-
+        
         /// <summary>
         /// Salva i dati (in input) inseriti nella tabella.
         /// </summary>
         private void CaricaDatiTabellaInAlbero()
         {
-            distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
+            distintaBase.ResettaProduzioneDistintaBaseDaForm(distintaBase.Albero);
             distintaBase.Albero.Produzione[0].Giacenza = Convert.ToInt32(dataGridView1.Rows[2].Cells[1].Value);
             distintaBase.Albero.Produzione[0].Versamenti = Convert.ToInt32(dataGridView1.Rows[3].Cells[1].Value);
             distintaBase.Albero.Produzione[0].OrdiniProduzione = Convert.ToInt32(dataGridView1.Rows[4].Cells[1].Value);
@@ -502,6 +503,7 @@ namespace gestione_materiali
         private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
         {
             toolTip.RemoveAll();
+            if (TabellaGenerata) return;
             TreeNode treeNode = e.Node;
             Componente comp = new Componente();
             if (treeNode.Parent==null)

@@ -90,6 +90,21 @@ namespace gestione_materiali
             }
         }
 
+        public void ResettaProduzioneDistintaBaseDaForm(Componente comp)
+        {
+            Periodo primoPeriodo = comp.Produzione[0];
+            comp.Produzione = new List<Periodo>();
+            comp.Produzione.Add(primoPeriodo);
+            for (int i = 1; i < NumPeriodi+1; i++)
+            {
+                comp.Produzione.Add(new Periodo());
+            }
+            foreach (Componente sottoComp in comp.SottoNodi)
+            {
+                ResettaProduzioneDistintaBaseDaForm(sottoComp);
+            }
+        }
+
         public void Salva()
         {
             SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
