@@ -13,6 +13,7 @@ namespace gestione_materiali
     {
         public DistintaBase distintaBase;
         public int NumPeriodi = 0;
+        public int PeriodiNegativi;
 
         public Produzione(DistintaBase albero, int numPeriodi)
         {
@@ -79,7 +80,12 @@ namespace gestione_materiali
             else
             {
                 comp.Produzione[periodoAdesso].Giacenza = giacenzaFinale;
-                //non ho abbastanza tempo per produrre
+
+                int periodiNecessari = Math.Abs(periodoAdesso - TempoProduzioneTotale + 1);
+                if (periodiNecessari > PeriodiNegativi)
+                {
+                    PeriodiNegativi = periodiNecessari;
+                }
             }
             comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzaFinale;
         }

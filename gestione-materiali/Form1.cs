@@ -126,6 +126,10 @@ namespace gestione_materiali
                 SvuotaTabella();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
+                if(product.PeriodiNegativi>0)
+                {
+                    MessageBox.Show("Bisogna anticipare la produzione di " + product.PeriodiNegativi + " periodi", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
             }
 
             else
@@ -264,6 +268,7 @@ namespace gestione_materiali
 
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
+            if (TabellaGenerata) return;
             int NumeroPeriodi = Convert.ToInt32(numericUpAndDown_Periodi.Value);
             if (NumeroPeriodi + 2 > dataGridView1.ColumnCount)
             {
