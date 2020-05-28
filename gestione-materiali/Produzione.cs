@@ -49,21 +49,21 @@ namespace gestione_materiali
 
         public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale, List<int> FabbisognoComp)//tutti i periodi
         {
-            for (int i = 1; i < NumPeriodi+1; i++)
+            for (int i = 1; i < NumPeriodi+1; i++) //devo fare anche il periodo 0 ?????!!!!
             {
-                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i];
-                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i,FabbisognoComp);
+                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i] + comp.ScortaSicurezza;
+                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i);
             }
         }
 
-        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso, List<int> FabbisognoComp)//di 1 periodo
+        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
         {
-            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - FabbisognoComp[periodoAdesso];
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - comp.Produzione[periodoAdesso].FabbisognoLordo;
 
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
             int giacenzaFinale = giacenzainiziale;
 
-            while (giacenzaFinale < comp.ScortaSicurezza)
+            while (giacenzaFinale < 0)
             {
                 giacenzaFinale += comp.Lotto;
             }
@@ -87,7 +87,7 @@ namespace gestione_materiali
                     PeriodiNegativi = periodiNecessari;
                 }
             }
-            comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzaFinale;
+            //comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzaFinale;
         }
     }
 }
