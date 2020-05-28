@@ -16,20 +16,20 @@ namespace gestione_materiali
     {
         private DistintaBase distintaBase;
         private bool TabellaGenerata;
-        int NumPeriodi;
-        ToolTip toolTip = new ToolTip();
-
         private string[] TitoliProduzioneVuota = new string[]
         {
             "Previsioni di vendita","Ordini di vendita","Disponibilità a magazzino (giacenza)",
             "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
         };
-
         private string[] TitoliProduzione = new string[]
         {
             "Fabbisogno lordo","Disponibilità a magazzino (giacenza)",
             "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
         };
+        private int NumPeriodi;
+        ToolTip toolTip = new ToolTip();
+
+        
 
 
         public Form1()
@@ -103,6 +103,9 @@ namespace gestione_materiali
         // METODI FORM
 
 
+        /// <summary>
+        /// Avvia il calcolo della produzione
+        /// </summary>
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
             if (distintaBase.Nodi.Count == 0)
@@ -139,6 +142,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// salva la produzione che si sta visualizzando
+        /// </summary>
         private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Salva
@@ -150,11 +156,13 @@ namespace gestione_materiali
             else
             {
                 MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
             }
 
         }
 
+        /// <summary>
+        /// carica una produzione salvata in xml
+        /// </summary>
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Carica
@@ -177,6 +185,9 @@ namespace gestione_materiali
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
+        /// <summary>
+        /// carica una distinta base
+        /// </summary>
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Distinta base --> Carica
@@ -192,6 +203,9 @@ namespace gestione_materiali
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
+        /// <summary>
+        /// elimina tutti i dati dalla tabella
+        /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             SvuotaTabella();
@@ -203,6 +217,9 @@ namespace gestione_materiali
             distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
         }
 
+        /// <summary>
+        /// se si clicca con tasto dx su un nodo chiama il contextMenuStrip
+        /// </summary>
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
@@ -214,6 +231,10 @@ namespace gestione_materiali
             cms_DistintaBase.Show(treeView_DistintaBase, new Point(e.X, e.Y));
         }
 
+        /// <summary>
+        /// in fase di programmazione con doppio click sul nodo si può impostare la giacenza del nodo al periodo 0
+        /// in fase di visualizzazione con doppio click sul nodo si visualizza la programmazione del nodo stesso
+        /// </summary>
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             TreeNode treePadre = null;
@@ -248,6 +269,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// mostra le informazione del nodo selezionato
+        /// </summary>
         private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (treeView_DistintaBase.SelectedNode == null) return;
@@ -266,6 +290,9 @@ namespace gestione_materiali
             ValidaCella();
         }
 
+        /// <summary>
+        /// permette di selezionare il numero di periodi
+        /// </summary>
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             if (TabellaGenerata) return;
@@ -298,6 +325,39 @@ namespace gestione_materiali
             }
             NumPeriodi = NumeroPeriodi;
         }
+
+        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            if (e.RowIndex == 4 && TabellaGenerata)
+                e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
+        }
+
+        /// <summary>
+        /// in fase di programmazione se si posiziona il mouse sopra un nodo si visualizza la giacenza al periodo 0 del nodo stesso
+        /// </summary>
+        private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            toolTip.RemoveAll();
+            if (TabellaGenerata) return;
+            TreeNode treeNode = e.Node;
+            Componente comp = new Componente();
+            if (treeNode.Parent == null)
+            {
+                comp = distintaBase.Albero;
+            }
+            else
+            {
+                comp = distintaBase.TreeNodeToNode(treeNode, treeNode.Parent);
+            }
+            toolTip = new ToolTip();
+            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
+        }
+
+
+        //
+        // FINE METODI FORM
+        //
+
 
 
         //
@@ -499,28 +559,9 @@ namespace gestione_materiali
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
         }
 
-        private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            if (e.RowIndex == 4 && TabellaGenerata)
-                e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
-        }
 
-        private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
-        {
-            toolTip.RemoveAll();
-            if (TabellaGenerata) return;
-            TreeNode treeNode = e.Node;
-            Componente comp = new Componente();
-            if (treeNode.Parent==null)
-            {
-                comp = distintaBase.Albero;
-            }
-            else
-            {
-                comp = distintaBase.TreeNodeToNode(treeNode,treeNode.Parent);
-            }
-            toolTip = new ToolTip();
-            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
-        }
+        //
+        // FINE METODI D'APPOGGIO
+        //
     }
 }
