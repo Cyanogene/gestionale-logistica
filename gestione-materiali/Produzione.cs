@@ -14,6 +14,7 @@ namespace gestione_materiali
         public DistintaBase distintaBase;
         public int NumPeriodi = 0;
         public int PeriodiNegativi;
+        
 
         public Produzione(DistintaBase albero, int numPeriodi)
         {

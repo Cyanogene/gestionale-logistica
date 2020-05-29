@@ -125,6 +125,36 @@ namespace gestione_materiali
             }
         }
 
+        public Componente CaricaProduzione()
+        {
+            Componente componente = null;
+            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
+            Ofd_Catalogo.InitialDirectory = @"C:\";
+            Ofd_Catalogo.Filter = "XML|*.xml";
+
+            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(Ofd_Catalogo.FileName))
+                {
+                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    try
+                    {
+                        componente = (Componente)serializer.Deserialize(stream);
+                        Nodi.Clear();
+                        AggiornaNodi(componente);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    stream.Close();
+                }
+            }
+            Albero = componente;
+            return componente;
+        }
+
         public Componente Carica()
         {
             Componente componente = null;

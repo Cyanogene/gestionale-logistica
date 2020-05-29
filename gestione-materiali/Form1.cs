@@ -160,7 +160,7 @@ namespace gestione_materiali
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Carica
-            TreeNode treeNode = FormCaricaDistintaBase();
+            TreeNode treeNode = FormCaricaProduzione();
             if (treeNode == null) return;
             TabellaGenerata = true;
 
@@ -508,11 +508,11 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Chiede all'utente una distinta base e succesivamente la carica nel programma.
+        /// Chiede all'utente di selezionare una distinta base e succesivamente la carica nel programma.
         /// </summary>       
         private TreeNode FormCaricaDistintaBase()
         {
-            distintaBase.NumPeriodi = this.NumPeriodi;
+            distintaBase.NumPeriodi = NumPeriodi;
             distintaBase.Albero = distintaBase.Carica();
 
             if (distintaBase.Albero == null)
@@ -521,6 +521,52 @@ namespace gestione_materiali
             }
 
             
+            return distintaBase.NodeToTreeNode(distintaBase.Albero);
+        }
+
+        /// <summary>
+        /// Chiede all'utente di selezionare una produzione e succesivamente la carica nel programma.
+        /// </summary>
+        private TreeNode FormCaricaProduzione()
+        {
+            distintaBase.Albero = distintaBase.CaricaProduzione();
+            if (distintaBase.Albero.Produzione.Count() == 0)
+            {
+                MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return null;
+            }
+            NumPeriodi = distintaBase.Albero.Produzione.Count()-1;
+            distintaBase.NumPeriodi = NumPeriodi;
+
+            if (NumPeriodi + 2 > dataGridView1.ColumnCount)
+            {
+                for (int i = dataGridView1.ColumnCount; i < NumPeriodi + 2; i++)
+                {
+                    DataGridViewColumn newColumn = new DataGridViewColumn();
+                    newColumn.Width = 50;
+                    newColumn.HeaderText = (i - 1).ToString();
+                    newColumn.CellTemplate = periodo_0.CellTemplate;
+                    dataGridView1.Columns.Add(newColumn);
+                    dataGridView1.Columns[dataGridView1.Columns.Count - 1].ReadOnly = true;
+                    dataGridView1.Rows[0].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
+                    dataGridView1.Rows[1].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
+                }
+            }
+            else
+            {
+                while (NumPeriodi + 2 < dataGridView1.ColumnCount)
+                {
+                    dataGridView1.Columns.RemoveAt(dataGridView1.ColumnCount - 1);
+                }
+            }
+            numericUpAndDown_Periodi.Value = NumPeriodi;
+
+            if (distintaBase.Albero == null)
+            {
+                return null;
+            }
+
+
             return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
 
