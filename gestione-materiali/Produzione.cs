@@ -24,12 +24,12 @@ namespace gestione_materiali
 
         public void avviaProduzione()
         {
-            List<int> FabbisognoLordo = new List<int>();
+            List<int> FabbisognoComp = new List<int>();
             foreach(Periodo periodo in distintaBase.Albero.Produzione)
             {
-                FabbisognoLordo.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
+                FabbisognoComp.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
             }
-            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0, FabbisognoLordo);
+            calcolaProduzioneCompESottonodi(distintaBase.Albero, 0, FabbisognoComp);
         }
 
         public void calcolaProduzioneCompESottonodi(Componente comp, int LeadTimeNodiSoprastanti, List<int> FabbisognoComp)
@@ -52,19 +52,20 @@ namespace gestione_materiali
         {
             for (int i = 1; i < NumPeriodi+1; i++) //devo fare anche il periodo 0 ?????!!!!
             {
-                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i] + comp.ScortaSicurezza;
+                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i];
                 calcolaPeriodoComponente(comp, TempoProduzioneTotale, i);
             }
         }
 
         public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
         {
-            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - comp.Produzione[periodoAdesso].FabbisognoLordo;
+            comp.Produzione[periodoAdesso].FabbisognoLordo += comp.ScortaSicurezza - comp.Produzione[periodoAdesso - 1].Giacenza;
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza;
 
             int giacenzainiziale = comp.Produzione[periodoAdesso].Giacenza;
             int giacenzaFinale = giacenzainiziale;
 
-            while (giacenzaFinale < 0)
+            while (giacenzaFinale < comp.Produzione[periodoAdesso].FabbisognoLordo)
             {
                 giacenzaFinale += comp.Lotto;
             }

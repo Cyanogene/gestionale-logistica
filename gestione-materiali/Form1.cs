@@ -29,7 +29,7 @@ namespace gestione_materiali
         private int NumPeriodi;
         ToolTip toolTip = new ToolTip();
 
-        
+
 
 
         public Form1()
@@ -124,7 +124,7 @@ namespace gestione_materiali
                 //ControlloInputCella();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
-                if(product.PeriodiNegativi>0)
+                if (product.PeriodiNegativi > 0)
                 {
                     MessageBox.Show("Bisogna anticipare la produzione di " + product.PeriodiNegativi + " periodi", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
                 }
@@ -201,12 +201,36 @@ namespace gestione_materiali
         /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            ControlloInputCella();
-            TabellaGenerata = false;
-            dataGridView1.Rows.Clear();
-            CambiaStileETitoliTabella(TitoliProduzioneVuota);
-            CambiaStileTabella();
-            distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
+            bool tabellaVuota = true;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (!cell.ReadOnly)
+                    {
+                        if(!(cell.Value == null))
+                        {
+                            if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
+                            {
+                                tabellaVuota = false;
+                            }
+                        }
+                    }
+                }
+            }
+            if (!(tabellaVuota))
+            {
+                if (DialogResult.Yes == MessageBox.Show("Vuoi resettare la tabella?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
+                {
+                    ControlloInputCella();
+                    TabellaGenerata = false;
+                    dataGridView1.Rows.Clear();
+                    CambiaStileETitoliTabella(TitoliProduzioneVuota);
+                    CambiaStileTabella();
+                    distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
+                }
+            }
+
         }
 
         /// <summary>
@@ -342,13 +366,13 @@ namespace gestione_materiali
             toolTip = new ToolTip();
             toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
         }
-        
+
 
 
         //
         // METODI D'APPOGGIO
         //
-        
+
         private void CambiaStileCelleOutput()
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -408,9 +432,9 @@ namespace gestione_materiali
                     }
                 }
             }
-            if(dataGridView1.Rows[3].Cells[1].Value == null)
+            if (dataGridView1.Rows[3].Cells[1].Value == null)
             {
-                if(DialogResult.Yes == MessageBox.Show("Non hai assegnato una giacenza iniziale, vuoi renderla uguale alla scorta di sicurezza?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                if (DialogResult.Yes == MessageBox.Show("Non hai assegnato una giacenza iniziale, vuoi renderla uguale alla scorta di sicurezza?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
                     dataGridView1.Rows[2].Cells[1].Value = distintaBase.Albero.ScortaSicurezza;
                     return true;
@@ -420,7 +444,7 @@ namespace gestione_materiali
                     return false;
                 }
             }
-            if(CelleCompilate<5)
+            if (CelleCompilate < 5)
             {
                 if (DialogResult.Yes == MessageBox.Show("Hai inserito poche informazioni, vuoi continuare?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
@@ -496,7 +520,7 @@ namespace gestione_materiali
             dataGridView1.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dataGridView1.CurrentCell.Selected = false;
         }
-        
+
         /// <summary>
         /// Salva i dati (in input) inseriti nella tabella.
         /// </summary>
@@ -513,7 +537,7 @@ namespace gestione_materiali
                 distintaBase.Albero.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value);
             }
         }
-        
+
         /// <summary>
         /// Dopo aver eseguito la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
         /// </summary>
@@ -542,7 +566,7 @@ namespace gestione_materiali
                 return null;
             }
 
-            
+
             return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
 
@@ -557,7 +581,7 @@ namespace gestione_materiali
                 MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return null;
             }
-            NumPeriodi = distintaBase.Albero.Produzione.Count()-1;
+            NumPeriodi = distintaBase.Albero.Produzione.Count() - 1;
             distintaBase.NumPeriodi = NumPeriodi;
 
             if (NumPeriodi + 2 > dataGridView1.ColumnCount)
@@ -637,6 +661,6 @@ namespace gestione_materiali
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
         }
-        
+
     }
 }
