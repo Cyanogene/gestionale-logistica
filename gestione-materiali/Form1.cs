@@ -206,14 +206,11 @@ namespace gestione_materiali
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    if (!cell.ReadOnly)
+                    if (cell.Value == null || cell.Value.ToString().All(char.IsDigit))
                     {
-                        if(!(cell.Value == null))
+                        if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
                         {
-                            if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
-                            {
-                                tabellaVuota = false;
-                            }
+                            tabellaVuota = false;
                         }
                     }
                 }
