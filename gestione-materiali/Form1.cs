@@ -206,11 +206,14 @@ namespace gestione_materiali
             {
                 foreach (DataGridViewCell cell in row.Cells)
                 {
-                    if (cell.Value == null || cell.Value.ToString().All(char.IsDigit))
+                    if (!(cell.Value == null))
                     {
-                        if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
+                        if (cell.Value.ToString().All(char.IsDigit))
                         {
-                            tabellaVuota = false;
+                            if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
+                            {
+                                tabellaVuota = false;
+                            }
                         }
                     }
                 }
@@ -227,7 +230,6 @@ namespace gestione_materiali
                     distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
                 }
             }
-
         }
 
         /// <summary>
