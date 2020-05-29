@@ -42,7 +42,7 @@ namespace gestione_materiali
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            CaricaHeaderTabella(TitoliProduzioneVuota);
+            CambiaStileETitoliTabella(TitoliProduzioneVuota);
             CambiaStileTabella();
             Btn_ProgrammazioneProduzione.UseCompatibleTextRendering = true;
 
@@ -114,19 +114,14 @@ namespace gestione_materiali
                 return;
             }
 
-            if (ControllaCelleVuote())
+            if (ControlloCompilazioneCelle())
             {
                 CaricaDatiTabellaInAlbero();
                 Produzione product = new Produzione(distintaBase, NumPeriodi);
                 product.avviaProduzione();
                 dataGridView1.Rows.Clear();
-                CaricaHeaderTabella(TitoliProduzione);
-                for (int i = 0; i < dataGridView1.Columns.Count; i++)
-                {
-                    dataGridView1.Rows[4].Cells[i].ReadOnly = true;
-                    dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
-                }
-                SvuotaTabella();
+                CambiaStileETitoliTabella(TitoliProduzione);
+                //ControlloInputCella();
                 AggiornaTabella(distintaBase.Albero.Produzione);
                 TabellaGenerata = true;
                 if(product.PeriodiNegativi>0)
@@ -137,7 +132,6 @@ namespace gestione_materiali
 
             else
             {
-                MessageBox.Show("Riempi tutti i campi evidenziati.", "Gestione Materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
         }
@@ -166,19 +160,18 @@ namespace gestione_materiali
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Carica
-            TreeNode treeNode = FormCaricaDistintaBase(0);
+            TreeNode treeNode = FormCaricaDistintaBase();
             if (treeNode == null) return;
             TabellaGenerata = true;
 
             dataGridView1.Rows.Clear();
-            CaricaHeaderTabella(TitoliProduzione);
+            CambiaStileETitoliTabella(TitoliProduzione);
             for (int i = 0; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Rows[4].Cells[i].ReadOnly = true;
                 dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
             }
-            SvuotaTabella();
-            ControllaCelleVuote();
+            ControlloInputCella();
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
             AggiornaTabella(distintaBase.Albero.Produzione);
@@ -191,13 +184,13 @@ namespace gestione_materiali
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             // Distinta base --> Carica
-            TreeNode treeNode = FormCaricaDistintaBase(dataGridView1.ColumnCount);
+            distintaBase.NumPeriodi = NumPeriodi;
+            TreeNode treeNode = FormCaricaDistintaBase();
             if (treeNode == null) return;
             TabellaGenerata = false;
             dataGridView1.Rows.Clear();
-            CaricaHeaderTabella(TitoliProduzioneVuota);
+            CambiaStileETitoliTabella(TitoliProduzioneVuota);
             CambiaStileTabella();
-            ControllaCelleVuote();
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
@@ -208,11 +201,10 @@ namespace gestione_materiali
         /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            SvuotaTabella();
+            ControlloInputCella();
             TabellaGenerata = false;
             dataGridView1.Rows.Clear();
-            CaricaHeaderTabella(TitoliProduzioneVuota);
-            ControllaCelleVuote();
+            CambiaStileETitoliTabella(TitoliProduzioneVuota);
             CambiaStileTabella();
             distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
         }
@@ -287,7 +279,7 @@ namespace gestione_materiali
                 dataGridView1.CurrentCell.Value = null;
                 return;
             }
-            ValidaCella();
+            ValidaCellaCorrente();
         }
 
         /// <summary>
@@ -310,11 +302,6 @@ namespace gestione_materiali
                     dataGridView1.Rows[0].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
                     dataGridView1.Rows[1].Cells[dataGridView1.Columns.Count - 1].ReadOnly = false;
                 }
-                NumPeriodi = NumeroPeriodi;
-                distintaBase.NumPeriodi = NumeroPeriodi;
-                if (!string.IsNullOrWhiteSpace(Lbl_ComponenteCaricato.Text))
-                    ControllaCelleVuote();
-                return;
             }
             else
             {
@@ -324,6 +311,7 @@ namespace gestione_materiali
                 }
             }
             NumPeriodi = NumeroPeriodi;
+            distintaBase.NumPeriodi = NumeroPeriodi;
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -352,23 +340,17 @@ namespace gestione_materiali
             toolTip = new ToolTip();
             toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
         }
-
-
-        //
-        // FINE METODI FORM
-        //
-
+        
 
 
         //
         // METODI D'APPOGGIO
         //
-
-
+        
         /// <summary>
-        /// Cancella tutti i valori sulla tabella.
+        /// Controlla se ogni cella ha caratteri diversi da numeri
         /// </summary>
-        private void SvuotaTabella()
+        private void ControlloInputCella()
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -388,9 +370,51 @@ namespace gestione_materiali
         }
 
         /// <summary>
+        /// controlla se sono state compilate abbastanza celle
+        /// </summary>
+        private bool ControlloCompilazioneCelle()
+        {
+            int CelleDaCompilare = ((NumPeriodi + 1) * 2) + 3;
+            int CelleCompilate = 0;
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (!cell.ReadOnly)
+                    {
+                        if(!(cell.Value==null))
+                        {
+                            if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
+                            {
+                                CelleCompilate++;
+                            }
+                        }
+                    }
+                }
+            }
+            if(CelleDaCompilare > CelleCompilate * 2)
+            {
+                MessageBox.Show("Hai compilato pochi campi, inserisci altre informazioni", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
+            }
+            if(CelleDaCompilare<CelleCompilate*2 && CelleDaCompilare> CelleCompilate)
+            {
+                if (DialogResult.Yes == MessageBox.Show("Non hai compilato tutti i campi, vuoi calcolare lo stesso la produzione?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        /// <summary>
         /// Carica una tabella con header fissi.
         /// </summary>
-        private void CaricaHeaderTabella(string[] titoli)
+        private void CambiaStileETitoliTabella(string[] titoli)
         {
             dataGridView1.Rows.Add(5);
             dataGridView1.AutoSize = true;
@@ -399,12 +423,36 @@ namespace gestione_materiali
             {
                 dataGridView1.Rows[i].Cells[0].Value = titoli[i];
                 dataGridView1.Rows[i].Cells[0].ReadOnly = true;
+            }
 
-                if (i >= 2)
+            
+
+            if (TitoliProduzione == titoli)
+            {
+                numericUpAndDown_Periodi.Enabled = false;
+                label1.Enabled = false;
+                for (int i = 0; i < titoli.Length; i++)
                 {
                     dataGridView1.Rows[i].ReadOnly = true;
-                    dataGridView1.Rows[i].Cells[1].ReadOnly = false;
                 }
+                for (int i = 0; i < dataGridView1.Columns.Count; i++)
+                {
+                    dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
+                }
+            }
+            else
+            {
+                numericUpAndDown_Periodi.Enabled = true;
+                label1.Enabled = true;
+                for (int i = 0; i < titoli.Length; i++)
+                {
+                    if (i >= 2)
+                    {
+                        dataGridView1.Rows[i].ReadOnly = true;
+                        dataGridView1.Rows[i].Cells[1].ReadOnly = false;
+                    }
+                }
+
             }
         }
 
@@ -443,37 +491,7 @@ namespace gestione_materiali
                 distintaBase.Albero.Produzione[i - 1].OrdiniVendita = Convert.ToInt32(dataGridView1.Rows[1].Cells[i].Value);
             }
         }
-
-        /// <summary>
-        /// Evidenzia tutte le celle vuote.
-        /// </summary>
-        private bool ControllaCelleVuote()
-        {
-            bool Ok = true;
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (!cell.ReadOnly)
-                    {
-                        if ((cell.Value == null || string.IsNullOrWhiteSpace(cell.Value.ToString())) && !TabellaGenerata)
-                        {
-                            cell.Style.BackColor = Color.Tomato;
-                            Ok = false;
-                        }
-                        else
-                        {
-                            if (row.Index % 2 == 0)
-                                cell.Style.BackColor = Color.White;
-                            else
-                                cell.Style.BackColor = Color.FromArgb(238, 239, 249);
-                        }
-                    }
-                }
-            }
-            return Ok;
-        }
-
+        
         /// <summary>
         /// Dopo aver eseguito la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
         /// </summary>
@@ -492,16 +510,25 @@ namespace gestione_materiali
         /// <summary>
         /// Chiede all'utente una distinta base e succesivamente la carica nel programma.
         /// </summary>       
-        private TreeNode FormCaricaDistintaBase(int NumPeriodi)
+        private TreeNode FormCaricaDistintaBase()
         {
             distintaBase.NumPeriodi = this.NumPeriodi;
-            distintaBase.Albero = distintaBase.Carica(NumPeriodi);
+            distintaBase.Albero = distintaBase.Carica();
 
             if (distintaBase.Albero == null)
             {
                 return null;
             }
 
+            
+            return distintaBase.NodeToTreeNode(distintaBase.Albero);
+        }
+
+        /// <summary>
+        /// Pulisce tutte le celle della dataGridView
+        /// </summary>
+        private void PulisciTabella()
+        {
             for (int i = 1; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Rows[0].Cells[i].Value = null;
@@ -510,13 +537,12 @@ namespace gestione_materiali
                 dataGridView1.Rows[3].Cells[i].Value = null;
                 dataGridView1.Rows[4].Cells[i].Value = null;
             }
-            return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
 
         /// <summary>
         /// Controlla se la cella selezionata è valida.
         /// </summary>
-        private void ValidaCella()
+        private void ValidaCellaCorrente()
         {
             if (dataGridView1.CurrentCell.Value != null)
             {
@@ -526,23 +552,8 @@ namespace gestione_materiali
                 {
                     MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.CurrentCell.Value = null;
-                    dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
                 }
 
-                else
-                {
-                    if (dataGridView1.CurrentCell.RowIndex % 2 == 0)
-                        dataGridView1.CurrentCell.Style.BackColor = Color.White;
-                    else
-                        dataGridView1.CurrentCell.Style.BackColor = Color.FromArgb(238, 239, 249);
-                }
-            }
-
-            else
-            {
-                MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dataGridView1.CurrentCell.Value = null;
-                dataGridView1.CurrentCell.Style.BackColor = Color.Tomato;
             }
         }
 
@@ -558,10 +569,6 @@ namespace gestione_materiali
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
         }
-
-
-        //
-        // FINE METODI D'APPOGGIO
-        //
+        
     }
 }

@@ -224,14 +224,15 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
             // pulisciTabellaToolStripMenuItem
             // 
+            this.pulisciTabellaToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.pulisciTabellaToolStripMenuItem.Name = "pulisciTabellaToolStripMenuItem";
-            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(91, 20);
+            this.pulisciTabellaToolStripMenuItem.Size = new System.Drawing.Size(98, 20);
             this.pulisciTabellaToolStripMenuItem.Text = "Pulisci tabella";
             this.pulisciTabellaToolStripMenuItem.Click += new System.EventHandler(this.pulisciTabellaToolStripMenuItem_Click);
             // 

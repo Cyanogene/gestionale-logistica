@@ -125,7 +125,7 @@ namespace gestione_materiali
             }
         }
 
-        public Componente Carica(int NumPeriodi)
+        public Componente Carica()
         {
             Componente componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
