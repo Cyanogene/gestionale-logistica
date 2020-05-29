@@ -229,6 +229,7 @@ namespace gestione_materiali
         /// </summary>
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
+            if (treeView_DistintaBase.SelectedNode == null) return;
             TreeNode treePadre = null;
             if (treeView_DistintaBase.SelectedNode.Parent != null) treePadre = treeView_DistintaBase.SelectedNode.Parent;
             Componente comp = distintaBase.TreeNodeToNode(e.Node, treePadre);
@@ -390,7 +391,6 @@ namespace gestione_materiali
         /// </summary>
         private bool ControlloCompilazioneCelle()
         {
-            int CelleDaCompilare = ((NumPeriodi + 1) * 2) + 3;
             int CelleCompilate = 0;
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
@@ -408,15 +408,23 @@ namespace gestione_materiali
                     }
                 }
             }
-            if(CelleDaCompilare > CelleCompilate * 2)
+            if(dataGridView1.Rows[3].Cells[1].Value == null)
             {
-                MessageBox.Show("Hai compilato pochi campi, inserisci altre informazioni", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return false;
-            }
-            if(CelleDaCompilare<CelleCompilate*2 && CelleDaCompilare> CelleCompilate)
-            {
-                if (DialogResult.Yes == MessageBox.Show("Non hai compilato tutti i campi, vuoi calcolare lo stesso la produzione?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Information))
+                if(DialogResult.Yes == MessageBox.Show("Non hai assegnato una giacenza iniziale, vuoi renderla uguale alla scorta di sicurezza?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
+                    dataGridView1.Rows[2].Cells[1].Value = distintaBase.Albero.ScortaSicurezza;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            if(CelleCompilate<5)
+            {
+                if (DialogResult.Yes == MessageBox.Show("Hai inserito poche informazioni, vuoi continuare?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                {
+                    dataGridView1.Rows[3].Cells[1].Value = distintaBase.Albero.ScortaSicurezza;
                     return true;
                 }
                 else
