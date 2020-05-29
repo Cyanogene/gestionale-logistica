@@ -429,7 +429,7 @@ namespace gestione_materiali
                     }
                 }
             }
-            if (dataGridView1.Rows[3].Cells[1].Value == null)
+            if (dataGridView1.Rows[2].Cells[1].Value == null)
             {
                 if (DialogResult.Yes == MessageBox.Show("Non hai assegnato una giacenza iniziale, vuoi renderla uguale alla scorta di sicurezza?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
                 {
@@ -441,9 +441,9 @@ namespace gestione_materiali
                     return false;
                 }
             }
-            if (CelleCompilate < 5)
+            if (CelleCompilate < 2)
             {
-                if (DialogResult.Yes == MessageBox.Show("Hai inserito poche informazioni, vuoi continuare?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation))
+                if (DialogResult.Yes == MessageBox.Show("Hai inserito poche informazioni, compilare la tabella.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation))
                 {
                     dataGridView1.Rows[3].Cells[1].Value = distintaBase.Albero.ScortaSicurezza;
                     return true;
