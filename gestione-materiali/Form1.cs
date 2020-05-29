@@ -312,6 +312,7 @@ namespace gestione_materiali
             }
             NumPeriodi = NumeroPeriodi;
             distintaBase.NumPeriodi = NumeroPeriodi;
+            CambiaStileCelleOutput();
         }
 
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
@@ -347,6 +348,21 @@ namespace gestione_materiali
         // METODI D'APPOGGIO
         //
         
+        private void CambiaStileCelleOutput()
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    if (cell.ReadOnly && cell.Value == null)
+                    {
+                        cell.Style.BackColor = Color.LightGray;
+                    }
+                }
+            }
+        }
+
+
         /// <summary>
         /// Controlla se ogni cella ha caratteri diversi da numeri
         /// </summary>
@@ -382,7 +398,7 @@ namespace gestione_materiali
                 {
                     if (!cell.ReadOnly)
                     {
-                        if(!(cell.Value==null))
+                        if (!(cell.Value == null))
                         {
                             if (!(string.IsNullOrWhiteSpace(cell.Value.ToString())))
                             {
@@ -425,8 +441,6 @@ namespace gestione_materiali
                 dataGridView1.Rows[i].Cells[0].ReadOnly = true;
             }
 
-            
-
             if (TitoliProduzione == titoli)
             {
                 numericUpAndDown_Periodi.Enabled = false;
@@ -452,7 +466,7 @@ namespace gestione_materiali
                         dataGridView1.Rows[i].Cells[1].ReadOnly = false;
                     }
                 }
-
+                CambiaStileCelleOutput();
             }
         }
 
