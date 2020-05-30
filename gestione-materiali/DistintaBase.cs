@@ -124,9 +124,9 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Salva l'albero.
+        /// Salva l'albero(all'interno dei componenti sono salvate le variabili dell'ultima produzione calcolata).
         /// </summary>
-        public void Salva()
+        public void SalvaProduzione()
         {
             SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
             Sfd_Catalogo.InitialDirectory = @"C:\";

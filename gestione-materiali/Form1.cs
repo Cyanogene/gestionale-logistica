@@ -1,14 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Xml.Serialization;
 
 namespace gestione_materiali
 {
@@ -110,7 +104,7 @@ namespace gestione_materiali
 
 
         /// <summary>
-        /// Avvia il calcolo della produzione
+        /// Avvia il calcolo della produzione della distinta base.
         /// </summary>
         private void Btn_ProgrammazioneProduzione_Click(object sender, EventArgs e)
         {
@@ -123,13 +117,17 @@ namespace gestione_materiali
             if (ControlloCompilazioneCelle())
             {
                 CaricaDatiTabellaInAlbero();
+
                 Produzione product = new Produzione(distintaBase, NumPeriodi);
                 product.avviaProduzione();
+
                 dataGridView1.Rows.Clear();
+                PulisciTabella();
                 CambiaStileETitoliTabella(TitoliProduzione);
-                //ControlloInputCella();
                 AggiornaTabella(distintaBase.Albero.Produzione);
+
                 TabellaGenerata = true;
+
                 if (product.PeriodiNegativi > 0)
                 {
                     MessageBox.Show("Bisogna anticipare la produzione di " + product.PeriodiNegativi + " periodi", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
@@ -143,14 +141,14 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// salva la produzione che si sta visualizzando
+        /// Salva la produzione che si sta visualizzando.
         /// </summary>
         private void salvaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             // Produzione --> Salva
             if (TabellaGenerata)
             {
-                distintaBase.Salva();
+                distintaBase.SalvaProduzione();
             }
 
             else
@@ -172,14 +170,14 @@ namespace gestione_materiali
 
             dataGridView1.Rows.Clear();
             CambiaStileETitoliTabella(TitoliProduzione);
-            for (int i = 0; i < dataGridView1.Columns.Count; i++)
+            /*for (int i = 0; i < dataGridView1.Columns.Count; i++)
             {
                 dataGridView1.Rows[4].Cells[i].ReadOnly = true;
                 dataGridView1.Rows[4].Cells[i].Style.BackColor = Color.FromArgb(109, 125, 230);
-            }
-            ControlloInputCella();
+            }*/
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
+            treeView_DistintaBase.ExpandAll();
             AggiornaTabella(distintaBase.Albero.Produzione);
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
@@ -199,6 +197,7 @@ namespace gestione_materiali
             CambiaStileTabella();
             treeView_DistintaBase.Nodes.Clear();
             treeView_DistintaBase.Nodes.Add(treeNode);
+            treeView_DistintaBase.ExpandAll();
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
 
@@ -207,7 +206,7 @@ namespace gestione_materiali
         /// </summary>
         private void infoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Vuoi leggere il tutorial online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            if (MessageBox.Show("Vuoi leggere il ma manuale online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
             {
                 System.Diagnostics.Process.Start("https://github.com/Cyanogene/gestionale-logistica/blob/master/README.md");
             }
@@ -239,7 +238,7 @@ namespace gestione_materiali
             {
                 if (DialogResult.Yes == MessageBox.Show("Vuoi resettare la tabella?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Question))
                 {
-                    ControlloInputCella();
+                    //ResettaCelle();
                     TabellaGenerata = false;
                     dataGridView1.Rows.Clear();
                     CambiaStileETitoliTabella(TitoliProduzioneVuota);
@@ -390,6 +389,10 @@ namespace gestione_materiali
         // METODI D'APPOGGIO
         //
 
+
+        /// <summary>
+        /// Imposta in colore grigio chiaro le celle della dtgView che non possono essere compilate.
+        /// </summary>
         private void CambiaStileCelleOutput()
         {
             foreach (DataGridViewRow row in dataGridView1.Rows)
@@ -403,32 +406,9 @@ namespace gestione_materiali
                 }
             }
         }
-
-
+        
         /// <summary>
-        /// Controlla se ogni cella ha caratteri diversi da numeri
-        /// </summary>
-        private void ControlloInputCella()
-        {
-            foreach (DataGridViewRow row in dataGridView1.Rows)
-            {
-                foreach (DataGridViewCell cell in row.Cells)
-                {
-                    if (!cell.ReadOnly)
-                    {
-                        cell.Value = null;
-                    }
-                    else
-                    {
-                        if (cell.Value == null || cell.Value.ToString().All(char.IsDigit))
-                            cell.Value = null;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// controlla se sono state compilate abbastanza celle
+        /// Controlla che siano state compilate le celle necessarie alla produzione.
         /// </summary>
         private bool ControlloCompilazioneCelle()
         {
@@ -477,7 +457,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Carica una tabella con header fissi.
+        /// In base all'array che riceve in input cambia lo stile della tabella da inserimento dati a visualizzazione produzione.
         /// </summary>
         private void CambiaStileETitoliTabella(string[] titoli)
         {
@@ -539,7 +519,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Salva i dati (in input) inseriti nella tabella.
+        /// Carica gli input della tabella nelle rispettive variabili del componente del quale si sta calcolando la produzione.
         /// </summary>
         private void CaricaDatiTabellaInAlbero()
         {
@@ -556,7 +536,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Dopo aver eseguito la programmazione della produzione, aggiorno i dati della tabella con i calcoli svolti.
+        /// Carica nella tabella i dati della lista di periodi ricevuti in input (visuallizo la produzione di un componente).
         /// </summary>
         /// <param name="inputPeriodo">Lista di periodi contenente la programmazione della produzione del componente.</param>
         private void AggiornaTabella(List<Periodo> inputPeriodo)
@@ -576,13 +556,9 @@ namespace gestione_materiali
         private TreeNode FormCaricaDistintaBase()
         {
             distintaBase.NumPeriodi = NumPeriodi;
-            distintaBase.Albero = distintaBase.Carica();
-
-            if (distintaBase.Albero == null)
-            {
-                return null;
-            }
-
+            Componente comp = distintaBase.CaricaProduzione();
+            if (comp == null) return null;
+            distintaBase.Albero = comp;
 
             return distintaBase.NodeToTreeNode(distintaBase.Albero);
         }
@@ -592,7 +568,9 @@ namespace gestione_materiali
         /// </summary>
         private TreeNode FormCaricaProduzione()
         {
-            distintaBase.Albero = distintaBase.CaricaProduzione();
+            Componente comp = distintaBase.CaricaProduzione();
+            if (comp == null) return null;
+            distintaBase.Albero = comp;
             if (distintaBase.Albero.Produzione.Count() == 0)
             {
                 MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -638,18 +616,17 @@ namespace gestione_materiali
         /// </summary>
         private void PulisciTabella()
         {
-            for (int i = 1; i < dataGridView1.Columns.Count; i++)
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                dataGridView1.Rows[0].Cells[i].Value = null;
-                dataGridView1.Rows[1].Cells[i].Value = null;
-                dataGridView1.Rows[2].Cells[i].Value = null;
-                dataGridView1.Rows[3].Cells[i].Value = null;
-                dataGridView1.Rows[4].Cells[i].Value = null;
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    cell.Value = null;
+                }
             }
         }
 
         /// <summary>
-        /// Controlla se la cella selezionata è valida.
+        /// Controlla se la cella selezionata è valida (ha solo numeri).
         /// </summary>
         private void ValidaCellaCorrente()
         {
@@ -659,7 +636,7 @@ namespace gestione_materiali
 
                 if (!ris)
                 {
-                    MessageBox.Show("Inserisci un numero.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Inserisci un numero intero e positivo.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     dataGridView1.CurrentCell.Value = null;
                 }
 
@@ -667,7 +644,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Ritorna una stringa contenente le informazioni sul componenete selezionato.
+        /// Ritorna una stringa contenente le informazioni del componenete selezionato nella treeView.
         /// </summary>
         private string InfoComponenteDistintabase()
         {
