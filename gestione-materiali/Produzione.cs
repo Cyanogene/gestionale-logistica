@@ -95,7 +95,7 @@ namespace gestione_materiali
             
             if (comp.Produzione[periodoAdesso-1].Versamenti == 0) return;//non devo produrre
 
-            if (periodoAdesso - TempoProduzioneTotale + 1 >= 0)
+            if (periodoAdesso - TempoProduzioneTotale >= 0)
             {
                 comp.Produzione[periodoAdesso].Giacenza = (comp.Produzione[periodoAdesso-1].Versamenti + comp.Produzione[periodoAdesso - 1].Giacenza) - comp.Produzione[periodoAdesso].FabbisognoLordo;
 
