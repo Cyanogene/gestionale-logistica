@@ -23,7 +23,7 @@ namespace gestione_materiali
         };
         private string[] TitoliProduzione = new string[]
         {
-            "Fabbisogno lordo","Disponibilità a magazzino (giacenza)",
+            "Fabbisogno lordo (max tra ordini e previsioni)","Disponibilità a magazzino (giacenza)",
             "Versamenti a magazzino entro fine periodo","Ordini di produzione da lanciare a inizio periodo"
         };
         private int NumPeriodi;

@@ -29,78 +29,71 @@ namespace gestione_materiali
             {
                 FabbisognoComp.Add(Math.Max(periodo.OrdiniVendita, periodo.Previsioni));
             }
-            CalcolaProduzioneRadice(distintaBase.Albero, 0, FabbisognoComp);
+            CalcolaProduzioneRadice(distintaBase.Albero, FabbisognoComp);
             foreach(Componente sottoNodo in distintaBase.Albero.SottoNodi)
             {
-                CalcolaProduzioneSottonodi(distintaBase.Albero, sottoNodo, distintaBase.Albero.LeadTime + distintaBase.Albero.LeadTimeSicurezza);
+                CalcolaProduzioneSottonodi(distintaBase.Albero, sottoNodo);
             }
         }
 
-        public void CalcolaProduzioneRadice(Componente comp, int LeadTimeNodiSoprastanti, List<int> FabbisognoComp)
+        public void CalcolaProduzioneRadice(Componente comp, List<int> FabbisognoComp)
         {
-            int TempoProduzioneTotale = LeadTimeNodiSoprastanti + comp.LeadTime + comp.LeadTimeSicurezza;
-            List<int> fabbisognoComp = new List<int>();
             for (int i=0; i<FabbisognoComp.Count; i++)
             {
-                fabbisognoComp.Add(FabbisognoComp[i] * comp.CoefficenteUtilizzo);
+                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i] * comp.CoefficenteUtilizzo;
             }
-            avviaProduzioneComponente(comp, TempoProduzioneTotale, fabbisognoComp);
+            avviaProduzioneComponente(comp);
         }
 
-        public void CalcolaProduzioneSottonodi(Componente padre, Componente comp, int LeadTimeNodiSoprastanti)
+        public void CalcolaProduzioneSottonodi(Componente padre, Componente comp)
         {
-            int TempoProduzioneTotale = LeadTimeNodiSoprastanti + comp.LeadTime + comp.LeadTimeSicurezza;
+            int TempoProduzioneComp = comp.LeadTime + comp.LeadTimeSicurezza;
             int[] FabbisognoComp = new int[comp.Produzione.Count];
-            for (int i = 0; i < comp.Produzione.Count - LeadTimeNodiSoprastanti-1; i++)
+            for (int i = 0; i < comp.Produzione.Count - TempoProduzioneComp+1; i++)
             {
-                FabbisognoComp[i] = padre.Produzione[i + LeadTimeNodiSoprastanti-1].Versamenti;
+                FabbisognoComp[i] = padre.Produzione[i + TempoProduzioneComp-1].Versamenti;
+                comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i] * comp.CoefficenteUtilizzo;
             }
-            List<int> fabbisognoSottocomp = new List<int>();
-            for (int i = 0; i < FabbisognoComp.Count(); i++)
-            {
-                fabbisognoSottocomp.Add(FabbisognoComp[i]);
-            }
-            avviaProduzioneComponente(comp, TempoProduzioneTotale, fabbisognoSottocomp);
+            avviaProduzioneComponente(comp);
             foreach (Componente sottoComp in comp.SottoNodi)
             {
-                CalcolaProduzioneSottonodi(comp,sottoComp,TempoProduzioneTotale);
+                CalcolaProduzioneSottonodi(comp,sottoComp);
             }
         }
 
-        public void avviaProduzioneComponente(Componente comp, int TempoProduzioneTotale, List<int> FabbisognoComp)//tutti i periodi
+        public void avviaProduzioneComponente(Componente comp)//tutti i periodi
         {
+            int tempoProduzione = comp.LeadTime + comp.LeadTimeSicurezza;
             for (int i = 1; i < NumPeriodi+1; i++) //devo fare anche il periodo 0 ?????!!!!
             {
-                calcolaPeriodoComponente(comp, TempoProduzioneTotale, i, FabbisognoComp[i]);
+                calcolaPeriodoComponente(comp, tempoProduzione, i);
             }
         }
 
-        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso, int FabbisognoCompPeriodoAttuale)//di 1 periodo
+        public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
         {
-            comp.Produzione[periodoAdesso].FabbisognoLordo = FabbisognoCompPeriodoAttuale + comp.ScortaSicurezza;
-            int fabbisognoNetto = comp.Produzione[periodoAdesso].FabbisognoLordo - comp.Produzione[periodoAdesso - 1].Giacenza;
-            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - FabbisognoCompPeriodoAttuale;
-
-            comp.Produzione[periodoAdesso].Versamenti = 0;
+            int fabbisognoNetto = (comp.Produzione[periodoAdesso].FabbisognoLordo+comp.ScortaSicurezza) - comp.Produzione[periodoAdesso - 1].Giacenza;
+            comp.Produzione[periodoAdesso].Giacenza = comp.Produzione[periodoAdesso - 1].Giacenza - comp.Produzione[periodoAdesso].FabbisognoLordo;
+            
 
             if (fabbisognoNetto < 0) fabbisognoNetto = 0;
 
-            while (comp.Produzione[periodoAdesso].Versamenti < fabbisognoNetto)
+            while (comp.Produzione[periodoAdesso-1].Versamenti < fabbisognoNetto)
             {
-                comp.Produzione[periodoAdesso].Versamenti += comp.Lotto;
+                comp.Produzione[periodoAdesso-1].Versamenti += comp.Lotto;
             }
             
-            if (comp.Produzione[periodoAdesso].Versamenti == 0) return;//non devo produrre
+            if (comp.Produzione[periodoAdesso-1].Versamenti == 0) return;//non devo produrre
 
             if (periodoAdesso - TempoProduzioneTotale + 1 >= 0)
             {
-                comp.Produzione[periodoAdesso].Giacenza = (comp.Produzione[periodoAdesso].Versamenti + comp.Produzione[periodoAdesso - 1].Giacenza) - FabbisognoCompPeriodoAttuale;
+                comp.Produzione[periodoAdesso].Giacenza = (comp.Produzione[periodoAdesso-1].Versamenti + comp.Produzione[periodoAdesso - 1].Giacenza) - comp.Produzione[periodoAdesso].FabbisognoLordo;
 
-                comp.Produzione[periodoAdesso - TempoProduzioneTotale + 1].OrdiniProduzione = comp.Produzione[periodoAdesso].Versamenti;
+                comp.Produzione[periodoAdesso - TempoProduzioneTotale].OrdiniProduzione = comp.Produzione[periodoAdesso-1].Versamenti;
             }
             else
             {
-                comp.Produzione[periodoAdesso].Giacenza = (comp.Produzione[periodoAdesso].Versamenti + comp.Produzione[periodoAdesso - 1].Giacenza) - FabbisognoCompPeriodoAttuale;
+                comp.Produzione[periodoAdesso].Giacenza = (comp.Produzione[periodoAdesso-1].Versamenti + comp.Produzione[periodoAdesso - 1].Giacenza) - comp.Produzione[periodoAdesso].FabbisognoLordo; 
 
                 int periodiNecessari = Math.Abs(periodoAdesso - TempoProduzioneTotale + 1);
                 if (periodiNecessari > PeriodiNegativi)
