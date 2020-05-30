@@ -59,6 +59,9 @@ namespace gestione_materiali
 
         //resizeFormElement---------------------------------------------------------------------------------------------------------------------------------------------
 
+        /// <summary>
+        /// Se avviene un resize, questo metodo si occupa di chiamare tutti i metodi necessari
+        /// </summary>
         private void resizeChildrenControls()
         {
             resizeControl(menuStrip1OriginalRect, menuStrip1);
@@ -70,6 +73,9 @@ namespace gestione_materiali
             resizeControl(Btn_ProgrammazioneProduzioneOriginalRect, Btn_ProgrammazioneProduzione);
         }
 
+        /// <summary>
+        /// Metodo principale che sposta il componente in una posizione adeguata alla nuova finestra.
+        /// </summary>
         private void resizeControl(Rectangle originalControlRect, Control control)
         {
             float xRatio = (float)(Width) / (float)(formOriginalSize.Width);
@@ -197,6 +203,17 @@ namespace gestione_materiali
         }
 
         /// <summary>
+        /// Cliccata la voce info nel contextMenu viene chiamato il link dove è presente il tutorial se viene cliccato il si.
+        /// </summary>
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Vuoi leggere il tutorial online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("https://github.com/Cyanogene/gestionale-logistica/blob/master/README.md");
+            }
+        }
+
+        /// <summary>
         /// elimina tutti i dati dalla tabella
         /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -286,6 +303,27 @@ namespace gestione_materiali
         }
 
         /// <summary>
+        /// in fase di programmazione se si posiziona il mouse sopra un nodo si visualizza la giacenza al periodo 0 del nodo stesso
+        /// </summary>
+        private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
+        {
+            toolTip.RemoveAll();
+            if (TabellaGenerata) return;
+            TreeNode treeNode = e.Node;
+            Componente comp = new Componente();
+            if (treeNode.Parent == null)
+            {
+                comp = distintaBase.Albero;
+            }
+            else
+            {
+                comp = distintaBase.TreeNodeToNode(treeNode, treeNode.Parent);
+            }
+            toolTip = new ToolTip();
+            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
+        }
+
+        /// <summary>
         /// mostra le informazione del nodo selezionato
         /// </summary>
         private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
@@ -293,17 +331,6 @@ namespace gestione_materiali
             if (treeView_DistintaBase.SelectedNode == null) return;
             string Codice = treeView_DistintaBase.SelectedNode.Tag.ToString();
             Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            if (distintaBase.Nodi.Count == 0)
-            {
-                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                dataGridView1.CurrentCell.Value = null;
-                return;
-            }
-            ValidaCellaCorrente();
         }
 
         /// <summary>
@@ -339,32 +366,23 @@ namespace gestione_materiali
             CambiaStileCelleOutput();
         }
 
+        private void dataGridView1_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            if (distintaBase.Nodi.Count == 0)
+            {
+                MessageBox.Show("Carica una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dataGridView1.CurrentCell.Value = null;
+                return;
+            }
+            ValidaCellaCorrente();
+        }
+
         private void dataGridView1_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
         {
             if (e.RowIndex == 4 && TabellaGenerata)
                 e.AdvancedBorderStyle.Right = DataGridViewAdvancedCellBorderStyle.None;
         }
 
-        /// <summary>
-        /// in fase di programmazione se si posiziona il mouse sopra un nodo si visualizza la giacenza al periodo 0 del nodo stesso
-        /// </summary>
-        private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
-        {
-            toolTip.RemoveAll();
-            if (TabellaGenerata) return;
-            TreeNode treeNode = e.Node;
-            Componente comp = new Componente();
-            if (treeNode.Parent == null)
-            {
-                comp = distintaBase.Albero;
-            }
-            else
-            {
-                comp = distintaBase.TreeNodeToNode(treeNode, treeNode.Parent);
-            }
-            toolTip = new ToolTip();
-            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
-        }
 
 
 

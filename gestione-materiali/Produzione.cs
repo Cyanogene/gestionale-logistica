@@ -22,6 +22,9 @@ namespace gestione_materiali
             NumPeriodi = numPeriodi;
         }
 
+        /// <summary>
+        /// Metodo chiamato dal form all'avvio della produzione, ottiene dalla tabella il fabbisogno lordo del componente "base".
+        /// </summary>
         public void avviaProduzione()
         {
             List<int> FabbisognoComp = new List<int>();
@@ -36,6 +39,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// Calcola la produzione del componente in input (deve essere la radice della distintaBase).
+        /// </summary>
         public void CalcolaProduzioneRadice(Componente comp, List<int> FabbisognoComp)
         {
             for (int i=0; i<FabbisognoComp.Count; i++)
@@ -45,6 +51,9 @@ namespace gestione_materiali
             avviaProduzioneComponente(comp);
         }
 
+        /// <summary>
+        /// Calcola la produzione del componente in input (deve essere un sottocomp della distintaBase).
+        /// </summary>
         public void CalcolaProduzioneSottonodi(Componente padre, Componente comp)
         {
             int TempoProduzioneComp = comp.LeadTime + comp.LeadTimeSicurezza;
@@ -71,6 +80,10 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// Per ogni periodo chiama il metodo calcolaPeriodoComponente (calcoli svolti sul componente in input).
+        /// </summary>
+        /// <param name="comp"></param>
         public void avviaProduzioneComponente(Componente comp)//tutti i periodi
         {
             int tempoProduzione = comp.LeadTime + comp.LeadTimeSicurezza;
@@ -80,6 +93,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// Svolge i vari calcoli sul componente dato in input al periodo dato in input (periodoAdesso)
+        /// </summary>
         public void calcolaPeriodoComponente(Componente comp, int TempoProduzioneTotale, int periodoAdesso)//di 1 periodo
         {
             int fabbisognoNetto = (comp.Produzione[periodoAdesso].FabbisognoLordo+comp.ScortaSicurezza) - comp.Produzione[periodoAdesso - 1].Giacenza;
@@ -114,6 +130,9 @@ namespace gestione_materiali
             //comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzaFinale;
         }
 
+        /// <summary>
+        /// Calcola e svolge i vari calcoli per "accorpare" i fabbisogni di più periodi di un componente se questo ha PeriodoDiCopertura>1 .
+        /// </summary>
         public void ImplementazionePeriodoCompertura(Componente comp,int periodoInizio)
         {
             for(int i=1; i<comp.PeriodoDiCopertura; i++)

@@ -15,7 +15,12 @@ namespace gestione_materiali
         public Componente Albero = new Componente();    // contiene tutto
         public int NumPeriodi;
 
-        public Componente TreeNodeToNode(TreeNode TreeNode, TreeNode PadreTreeNode)    // input: selected TreeNode _ output: selected Componente
+        /// <summary>
+        /// Trasforma un TreeNode (WinForms.TreeView) in un Nodo (custom).
+        /// </summary>
+        /// <param name="TreeNode">Il TreeNode da trasformare.</param>
+        /// <returns></returns>
+        public Componente TreeNodeToNode(TreeNode TreeNode, TreeNode PadreTreeNode)
         {
             Componente Componente = new Componente();
             Componente Padre = new Componente();
@@ -42,19 +47,11 @@ namespace gestione_materiali
             return Componente;
         }
         
-
-        public void AggiornaNodi(Componente comp)
-        {
-            if (comp.SottoNodi != null)
-            {
-                foreach (Componente sottoComp in comp.SottoNodi)
-                {
-                    AggiornaNodi(sottoComp);
-                }
-            }
-            Nodi.Add(comp);
-        }
-
+        /// <summary>
+        /// Trasforma un Nodo (custom) in un TreeNode (WinForms.TreeView).
+        /// </summary>
+        /// <param name="Node">Il nodo da trasformare.</param>
+        /// <returns></returns>
         public TreeNode NodeToTreeNode(Componente Node)
         {
             string Nome = Node.Nome;
@@ -77,6 +74,24 @@ namespace gestione_materiali
             return treeNode;
         }
 
+        /// <summary>
+        /// Aggiorna la variabile lista nodi con tutti i nodi presenti attualmente nella variabile albero.
+        /// </summary>
+        public void AggiornaNodi(Componente comp)
+        {
+            if (comp.SottoNodi != null)
+            {
+                foreach (Componente sottoComp in comp.SottoNodi)
+                {
+                    AggiornaNodi(sottoComp);
+                }
+            }
+            Nodi.Add(comp);
+        }
+
+        /// <summary>
+        /// Resetta la produzione del componente in input (variabile di tipo distintaBase).
+        /// </summary>
         public void ResettaProduzioneDistintaBase(Componente comp)
         {
             comp.Produzione = new List<Periodo>();
@@ -90,6 +105,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// Resetta la produzione del componente in input (variabile di tipo produzione).
+        /// </summary>
         public void ResettaProduzioneDistintaBaseDaForm(Componente comp)
         {
             Periodo primoPeriodo = comp.Produzione[0];
@@ -105,6 +123,9 @@ namespace gestione_materiali
             }
         }
 
+        /// <summary>
+        /// Salva l'albero.
+        /// </summary>
         public void Salva()
         {
             SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
@@ -125,36 +146,9 @@ namespace gestione_materiali
             }
         }
 
-        public Componente CaricaProduzione()
-        {
-            Componente componente = null;
-            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
-            Ofd_Catalogo.InitialDirectory = @"C:\";
-            Ofd_Catalogo.Filter = "XML|*.xml";
-
-            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
-            {
-                if (File.Exists(Ofd_Catalogo.FileName))
-                {
-                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
-                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
-                    try
-                    {
-                        componente = (Componente)serializer.Deserialize(stream);
-                        Nodi.Clear();
-                        AggiornaNodi(componente);
-                    }
-                    catch
-                    {
-                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    }
-                    stream.Close();
-                }
-            }
-            Albero = componente;
-            return componente;
-        }
-
+        /// <summary>
+        /// Carica un albero.
+        /// </summary>
         public Componente Carica()
         {
             Componente componente = null;
@@ -185,6 +179,41 @@ namespace gestione_materiali
             Albero = componente;
             return componente;
         }
+
+        /// <summary>
+        /// Carica una produzione.
+        /// </summary>
+        public Componente CaricaProduzione()
+        {
+            Componente componente = null;
+            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
+            Ofd_Catalogo.InitialDirectory = @"C:\";
+            Ofd_Catalogo.Filter = "XML|*.xml";
+
+            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+            {
+                if (File.Exists(Ofd_Catalogo.FileName))
+                {
+                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    try
+                    {
+                        componente = (Componente)serializer.Deserialize(stream);
+                        Nodi.Clear();
+                        AggiornaNodi(componente);
+                    }
+                    catch
+                    {
+                        MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    }
+                    stream.Close();
+                }
+            }
+            Albero = componente;
+            return componente;
+        }
+
+        
         
     }
 }
