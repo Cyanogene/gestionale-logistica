@@ -55,6 +55,16 @@ namespace gestione_materiali
                 comp.Produzione[i].FabbisognoLordo = FabbisognoComp[i] * comp.CoefficenteUtilizzo;
             }
             avviaProduzioneComponente(comp);
+            if(comp.PeriodoDiCopertura>1)
+            {
+                for(int i=0; i<comp.Produzione.Count-comp.PeriodoDiCopertura+1; i++)
+                {
+                    if(comp.Produzione[i].Versamenti!=0)
+                    {
+                        ImplementazionePeriodoCompertura(comp, i);
+                    }
+                }
+            }
             foreach (Componente sottoComp in comp.SottoNodi)
             {
                 CalcolaProduzioneSottonodi(comp,sottoComp);
@@ -102,6 +112,21 @@ namespace gestione_materiali
                 }
             }
             //comp.Produzione[periodoAdesso].FabbisognoLordo = giacenzaFinale;
+        }
+
+        public void ImplementazionePeriodoCompertura(Componente comp,int periodoInizio)
+        {
+            for(int i=1; i<comp.PeriodoDiCopertura; i++)
+            {
+                comp.Produzione[periodoInizio].Giacenza += comp.Produzione[periodoInizio + i].Giacenza;
+                comp.Produzione[periodoInizio].Versamenti += comp.Produzione[periodoInizio + i].Versamenti;
+                comp.Produzione[periodoInizio + i].Versamenti = 0;
+                if(periodoInizio-(comp.LeadTime + comp.LeadTimeSicurezza) + 1 > 0)
+                {
+                    comp.Produzione[periodoInizio - (comp.LeadTime + comp.LeadTimeSicurezza) + 1].OrdiniProduzione += comp.Produzione[periodoInizio - (comp.LeadTime + comp.LeadTimeSicurezza) + 1 + i].OrdiniProduzione;
+                    comp.Produzione[periodoInizio - (comp.LeadTime + comp.LeadTimeSicurezza) + 1 + i].OrdiniProduzione = 0;
+                }
+            }
         }
     }
 }
