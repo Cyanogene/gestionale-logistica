@@ -55,6 +55,7 @@
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.lb_infoGiacenza = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpAndDown_Periodi)).BeginInit();
@@ -242,8 +243,8 @@
             // 
             this.infoToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.infoToolStripMenuItem.Name = "infoToolStripMenuItem";
-            this.infoToolStripMenuItem.Size = new System.Drawing.Size(42, 20);
-            this.infoToolStripMenuItem.Text = "Info";
+            this.infoToolStripMenuItem.Size = new System.Drawing.Size(70, 20);
+            this.infoToolStripMenuItem.Text = "Manuale";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
             // treeView_DistintaBase
@@ -316,11 +317,24 @@
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
             // 
+            // lb_infoGiacenza
+            // 
+            this.lb_infoGiacenza.AutoSize = true;
+            this.lb_infoGiacenza.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
+            this.lb_infoGiacenza.Location = new System.Drawing.Point(80, 537);
+            this.lb_infoGiacenza.Name = "lb_infoGiacenza";
+            this.lb_infoGiacenza.Size = new System.Drawing.Size(245, 96);
+            this.lb_infoGiacenza.TabIndex = 10;
+            this.lb_infoGiacenza.Text = "Per impostare la giacenza iniziale\r\ndi un componente fai doppio click \r\nsul compo" +
+    "nente. \r\nPer visualizzare la giacenza iniziale\r\ndi un componente posiziona il pu" +
+    "ntatore\r\nsopra il componente";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1264, 681);
+            this.Controls.Add(this.lb_infoGiacenza);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.numericUpAndDown_Periodi);
             this.Controls.Add(this.treeView_DistintaBase);
@@ -370,6 +384,7 @@
         private System.Windows.Forms.ToolStripMenuItem informazioniToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.Label lb_infoGiacenza;
     }
 }
 

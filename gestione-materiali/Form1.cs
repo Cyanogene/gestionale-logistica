@@ -200,13 +200,13 @@ namespace gestione_materiali
             treeView_DistintaBase.ExpandAll();
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
-
+        
         /// <summary>
         /// Cliccata la voce info nel contextMenu viene chiamato il link dove è presente il tutorial se viene cliccato il si.
         /// </summary>
         private void infoToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Vuoi leggere il ma manuale online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            if (MessageBox.Show("Vuoi aprire il manuale online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
             {
                 System.Diagnostics.Process.Start("https://github.com/Cyanogene/gestionale-logistica/blob/master/README.md");
             }
@@ -643,9 +643,7 @@ namespace gestione_materiali
             }
         }
 
-        /// <summary>
-        /// Ritorna una stringa contenente le informazioni del componenete selezionato nella treeView.
-        /// </summary>
+        
         private string InfoComponenteDistintabase()
         {
             TreeNode treePadre = null;
@@ -655,6 +653,6 @@ namespace gestione_materiali
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
         }
-
+        
     }
 }
