@@ -41,5 +41,10 @@ namespace gestione_materiali
             }
             attendo = false;
         }
+
+        private void Form2_GiacenzaSottoComponenti_Load(object sender, EventArgs e)
+        {
+
+        }
     }
 }

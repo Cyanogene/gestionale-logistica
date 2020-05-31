@@ -84,9 +84,12 @@
             this.Controls.Add(this.Btn_aggiungi);
             this.Controls.Add(this.lbl_titolo);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximumSize = new System.Drawing.Size(542, 155);
+            this.MinimumSize = new System.Drawing.Size(542, 155);
             this.Name = "Form2_GiacenzaSottoComponenti";
             this.Text = "Gestione materiali";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.Form2_GiacenzaSottoComponenti_FormClosed);
+            this.Load += new System.EventHandler(this.Form2_GiacenzaSottoComponenti_Load);
             ((System.ComponentModel.ISupportInitialize)(this.NumUpD_quantità)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
