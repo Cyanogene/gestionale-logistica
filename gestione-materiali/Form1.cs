@@ -359,6 +359,16 @@ namespace gestione_materiali
         }
 
         /// <summary>
+        /// Mostra le informazione del nodo selezionato.
+        /// </summary>
+        private void informazioniToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (TreeView_DistintaBase.SelectedNode == null) return;
+            string Codice = TreeView_DistintaBase.SelectedNode.Tag.ToString();
+            Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
         /// Apre il form2 e permette di dare in input la giacenza iniziale del componente selezionato.
         /// </summary>
         private void impostaGiacenzaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -745,6 +755,7 @@ namespace gestione_materiali
             if (Componente == null) return "selezionare un componente";
             return "NOME --> " + Componente.Nome + "\nCODICE --> " + Componente.Codice + "\nDESCRIZIONE --> " + Componente.Descrizione + "\nLEAD TIME --> " + Componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + Componente.LeadTimeSicurezza + "\nLOTTO --> " + Componente.Lotto + "\nSCORTA DI SICUREZZA --> " + Componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + Componente.PeriodoDiCopertura;
         }
+
         
     }
 }

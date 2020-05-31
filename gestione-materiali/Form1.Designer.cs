@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.DataGridView_Produzione = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,10 +55,11 @@
             this.label1 = new System.Windows.Forms.Label();
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.visualizzaProduzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.Cms_distintaBaseGiacenza = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.impostaGiacenzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.visualizzaProduzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.informazioniToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Produzione)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpAndDown_Periodi)).BeginInit();
@@ -72,8 +73,8 @@
             this.DataGridView_Produzione.AllowUserToDeleteRows = false;
             this.DataGridView_Produzione.AllowUserToResizeColumns = false;
             this.DataGridView_Produzione.AllowUserToResizeRows = false;
-            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(239)))), ((int)(((byte)(249)))));
-            this.DataGridView_Produzione.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(239)))), ((int)(((byte)(249)))));
+            this.DataGridView_Produzione.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
             this.DataGridView_Produzione.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DataGridView_Produzione.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridView_Produzione.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -240,7 +241,7 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
@@ -322,7 +323,14 @@
             this.visualizzaProduzioneToolStripMenuItem,
             this.informazioniToolStripMenuItem});
             this.cms_DistintaBase.Name = "cms_DistintaBase";
-            this.cms_DistintaBase.Size = new System.Drawing.Size(204, 70);
+            this.cms_DistintaBase.Size = new System.Drawing.Size(204, 48);
+            // 
+            // visualizzaProduzioneToolStripMenuItem
+            // 
+            this.visualizzaProduzioneToolStripMenuItem.Name = "visualizzaProduzioneToolStripMenuItem";
+            this.visualizzaProduzioneToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.visualizzaProduzioneToolStripMenuItem.Text = "Visualizza produzione";
+            this.visualizzaProduzioneToolStripMenuItem.Click += new System.EventHandler(this.visualizzaProduzioneToolStripMenuItem_Click);
             // 
             // informazioniToolStripMenuItem
             // 
@@ -334,24 +342,26 @@
             // Cms_distintaBaseGiacenza
             // 
             this.Cms_distintaBaseGiacenza.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.impostaGiacenzaToolStripMenuItem});
+            this.impostaGiacenzaToolStripMenuItem,
+            this.informazioniToolStripMenuItem1});
             this.Cms_distintaBaseGiacenza.Name = "Cms_distintaBaseGiacenza";
-            this.Cms_distintaBaseGiacenza.Size = new System.Drawing.Size(178, 26);
+            this.Cms_distintaBaseGiacenza.Size = new System.Drawing.Size(181, 70);
             // 
             // impostaGiacenzaToolStripMenuItem
             // 
             this.impostaGiacenzaToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.impostaGiacenzaToolStripMenuItem.Name = "impostaGiacenzaToolStripMenuItem";
-            this.impostaGiacenzaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.impostaGiacenzaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.impostaGiacenzaToolStripMenuItem.Text = "Imposta giacenza";
             this.impostaGiacenzaToolStripMenuItem.Click += new System.EventHandler(this.impostaGiacenzaToolStripMenuItem_Click);
             // 
-            // visualizzaProduzioneToolStripMenuItem
+            // informazioniToolStripMenuItem1
             // 
-            this.visualizzaProduzioneToolStripMenuItem.Name = "visualizzaProduzioneToolStripMenuItem";
-            this.visualizzaProduzioneToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
-            this.visualizzaProduzioneToolStripMenuItem.Text = "Visualizza produzione";
-            this.visualizzaProduzioneToolStripMenuItem.Click += new System.EventHandler(this.visualizzaProduzioneToolStripMenuItem_Click);
+            this.informazioniToolStripMenuItem1.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
+            this.informazioniToolStripMenuItem1.Name = "informazioniToolStripMenuItem1";
+            this.informazioniToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
+            this.informazioniToolStripMenuItem1.Text = "Informazioni";
+            this.informazioniToolStripMenuItem1.Click += new System.EventHandler(this.informazioniToolStripMenuItem1_Click);
             // 
             // Form1
             // 
@@ -412,6 +422,7 @@
         private System.Windows.Forms.ContextMenuStrip Cms_distintaBaseGiacenza;
         private System.Windows.Forms.ToolStripMenuItem impostaGiacenzaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem visualizzaProduzioneToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem informazioniToolStripMenuItem1;
     }
 }
 
