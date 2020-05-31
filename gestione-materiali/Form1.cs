@@ -204,7 +204,15 @@ namespace gestione_materiali
         /// <summary>
         /// Cliccata la voce info nel contextMenu viene chiamato il link dove è presente il tutorial se viene cliccato il si.
         /// </summary>
-        private void infoToolStripMenuItem_Click(object sender, EventArgs e)    /// <summary>
+        private void infoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Vuoi aprire il manuale online?", "Gestione materiali", MessageBoxButtons.YesNo, MessageBoxIcon.Asterisk) == DialogResult.Yes)
+            {
+                System.Diagnostics.Process.Start("https://github.com/Cyanogene/gestionale-logistica/blob/master/README.md");
+            }
+        }
+            
+        /// <summary>
         /// elimina tutti i dati dalla tabella
         /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
