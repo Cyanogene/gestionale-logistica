@@ -60,7 +60,7 @@ namespace gestione_materiali
                 Nome = Node.CoefficenteUtilizzo + "× " + Nome;
             }
 
-            TreeNode treeNode = new TreeNode(Nome)
+            TreeNode TreeNode = new TreeNode(Nome)
             {
                 Tag = Node.Codice
             };
@@ -68,38 +68,38 @@ namespace gestione_materiali
             {
                 foreach (Componente node in Node.SottoNodi)
                 {
-                    treeNode.Nodes.Add(NodeToTreeNode(node));
+                    TreeNode.Nodes.Add(NodeToTreeNode(node));
                 }
             }
-            return treeNode;
+            return TreeNode;
         }
 
         /// <summary>
         /// Aggiorna la variabile lista nodi con tutti i nodi presenti attualmente nella variabile albero.
         /// </summary>
-        public void AggiornaNodi(Componente comp)
+        public void AggiornaNodi(Componente Comp)
         {
-            if (comp.SottoNodi != null)
+            if (Comp.SottoNodi != null)
             {
-                foreach (Componente sottoComp in comp.SottoNodi)
+                foreach (Componente sottoComp in Comp.SottoNodi)
                 {
                     AggiornaNodi(sottoComp);
                 }
             }
-            Nodi.Add(comp);
+            Nodi.Add(Comp);
         }
 
         /// <summary>
         /// Resetta la produzione del componente in input (variabile di tipo distintaBase).
         /// </summary>
-        public void ResettaProduzioneDistintaBase(Componente comp)
+        public void ResettaProduzioneDistintaBase(Componente Comp)
         {
-            comp.Produzione = new List<Periodo>();
+            Comp.Produzione = new List<Periodo>();
             for (int i=0; i< NumPeriodi+1; i++)
             {
-                comp.Produzione.Add(new Periodo());
+                Comp.Produzione.Add(new Periodo());
             }
-            foreach (Componente sottoComp in comp.SottoNodi)
+            foreach (Componente sottoComp in Comp.SottoNodi)
             {
                 ResettaProduzioneDistintaBase(sottoComp);
             }
@@ -108,18 +108,18 @@ namespace gestione_materiali
         /// <summary>
         /// Resetta la produzione del componente in input (variabile di tipo produzione).
         /// </summary>
-        public void ResettaProduzioneDistintaBaseDaForm(Componente comp)
+        public void ResettaProduzioneDistintaBaseDaForm(Componente Comp)
         {
-            Periodo primoPeriodo = comp.Produzione[0];
-            comp.Produzione = new List<Periodo>();
-            comp.Produzione.Add(primoPeriodo);
+            Periodo primoPeriodo = Comp.Produzione[0];
+            Comp.Produzione = new List<Periodo>();
+            Comp.Produzione.Add(primoPeriodo);
             for (int i = 1; i < NumPeriodi+1; i++)
             {
-                comp.Produzione.Add(new Periodo());
+                Comp.Produzione.Add(new Periodo());
             }
-            foreach (Componente sottoComp in comp.SottoNodi)
+            foreach (Componente SottoComp in Comp.SottoNodi)
             {
-                ResettaProduzioneDistintaBaseDaForm(sottoComp);
+                ResettaProduzioneDistintaBaseDaForm(SottoComp);
             }
         }
 
@@ -137,12 +137,12 @@ namespace gestione_materiali
 
             if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
             {
-                Stream filesStream = Sfd_Catalogo.OpenFile();
-                StreamWriter sw = new StreamWriter(filesStream);
-                XmlSerializer serializer = new XmlSerializer(typeof(Componente));
-                serializer.Serialize(sw, Albero);
-                sw.Close();
-                filesStream.Close();
+                Stream FilesStream = Sfd_Catalogo.OpenFile();
+                StreamWriter Sw = new StreamWriter(FilesStream);
+                XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
+                Serializer.Serialize(Sw, Albero);
+                Sw.Close();
+                FilesStream.Close();
             }
         }
 
@@ -151,7 +151,7 @@ namespace gestione_materiali
         /// </summary>
         public Componente Carica()
         {
-            Componente componente = null;
+            Componente Componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
             Ofd_Catalogo.InitialDirectory = @"C:\";
             Ofd_Catalogo.Filter = "XML|*.xml";
@@ -160,24 +160,24 @@ namespace gestione_materiali
             {
                 if (File.Exists(Ofd_Catalogo.FileName))
                 {
-                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
-                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    StreamReader Stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
                     try
                     {
-                        componente = (Componente)serializer.Deserialize(stream);
-                        ResettaProduzioneDistintaBase(componente);
+                        Componente = (Componente)Serializer.Deserialize(Stream);
+                        ResettaProduzioneDistintaBase(Componente);
                         Nodi.Clear();
-                        AggiornaNodi(componente);
+                        AggiornaNodi(Componente);
                     }
                     catch
                     {
                         MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    stream.Close();
+                    Stream.Close();
                 }
             }
-            Albero = componente;
-            return componente;
+            Albero = Componente;
+            return Componente;
         }
 
         /// <summary>
@@ -185,7 +185,7 @@ namespace gestione_materiali
         /// </summary>
         public Componente CaricaProduzione()
         {
-            Componente componente = null;
+            Componente Componente = null;
             OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
             Ofd_Catalogo.InitialDirectory = @"C:\";
             Ofd_Catalogo.Filter = "XML|*.xml";
@@ -194,23 +194,23 @@ namespace gestione_materiali
             {
                 if (File.Exists(Ofd_Catalogo.FileName))
                 {
-                    StreamReader stream = new StreamReader(Ofd_Catalogo.FileName);
-                    XmlSerializer serializer = new XmlSerializer(typeof(Componente));
+                    StreamReader Stream = new StreamReader(Ofd_Catalogo.FileName);
+                    XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
                     try
                     {
-                        componente = (Componente)serializer.Deserialize(stream);
+                        Componente = (Componente)Serializer.Deserialize(Stream);
                         Nodi.Clear();
-                        AggiornaNodi(componente);
+                        AggiornaNodi(Componente);
                     }
                     catch
                     {
                         MessageBox.Show("File non valido.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
-                    stream.Close();
+                    Stream.Close();
                 }
             }
-            Albero = componente;
-            return componente;
+            Albero = Componente;
+            return Componente;
         }
 
         
