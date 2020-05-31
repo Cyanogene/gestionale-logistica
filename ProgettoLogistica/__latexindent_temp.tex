@@ -1,0 +1,76 @@
+\documentclass[a4paper,12pt]{book}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\coloredbold}[2]{\textcolor{#1}{\textbf{#2}}}
+\renewcommand{\chaptername}{Capitolo}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+\begin{document}
+\title{Progetto Gestione Materiali}
+\author
+{
+	Giacomo Marcon
+	\\ Matteo Meneghetti  
+	\\ Jiahua Zhou
+	\\ Riccardo Bignami
+}
+
+\date{31 Maggio, 2020}
+\maketitle
+
+
+\newpage
+\tableofcontents{}  
+\chapter{Distinta base}   
+\section{Tabella distinta base}
+Per operare nella tabella \colorbox{yellow}{DISTINTA BASE} bisognerà premere sul tasto \textbf{AGGIUNGI NUOVA DISTINTA BASE}. Da qui si aprirà una videata per la creazione del nuovo componente.
+Prima di creare la nuova distinta base, bisognerà assegnare le informazioni basi del componente:
+
+\begin{itemize}
+	\item Nome\textbf{*} 
+	\item Codice\textbf{*} 
+	\item Descrizione\textbf{*} 
+	\item Lead Time
+	\item Lead Time di sicurezza
+	\item Scorta di sicurezza
+	\item Lotto
+	\item Periodo di copertura 
+	\item Coefficiente d’utilizzo (assegnabile solo ai componenti del prodotto finito)        
+\end{itemize}
+
+\begin{flushright}
+	\textbf{*}   : campi obbligatori
+\end{flushright}
+
+Se si deve interagire con un componente nella tabella \colorbox{yellow}{DISTINTA BASE}, basterà premere con il tasto destro del mouse e si aprirà un menu a tendina con varie scelte:
+
+\begin{itemize}
+	\item \textbf{Aggiungi sottonodo}
+	\item \textbf{Modifica}: si apre una finestra dove si può modificare il componente.
+	\item \textbf{Informazioni}: viene visualizzato un messaggio contenente le informazioni del componente.
+	\item \textbf{Rimuovi}: prima di rimuovere il componente, viene chiesta una conferma. \coloredbold{red}{ATTENZIONE: QUESTA AZIONE NON PUO’ ESSERE ANNULLATA.}
+	\item \textbf{Aggiungi al Catalogo}: il componente selezionato viene aggiunto al catalogo. 
+	          
+\end{itemize}
+
+\bigskip
+Se si preme il pulsante \textbf{Aggiungi sottonodo}, si aprirà un altro menu a tendina con altre opzioni:
+
+\begin{itemize}
+	\item \textbf{Carica da catalogo}: si apre una finestra dove è possibile selezionare un componente presente nel catalogo.
+	\item \textbf{Carica semilavorato}: si carica da un file esterno una “DISTINTA BASE” diversa da quella presente.
+	\item \textbf{Crea nuovo nodo}: si apre la finestra per la creazione di un nuovo componente.
+	       
+	          
+\end{itemize}
+
+Se non è caricato nessun componente nella tabella \colorbox{yellow}{DISTINTA BASE}, si può premere il ulsante \textbf{CARICA COMPONENTE DA CATALOGO} per creare la distinta base di un componente del catalogo.\\
+\\Qui si aprirà una videata per la creazione del nuovo componente.
+Prima di creare la nuova distinta base, bisognerà assegnare le informazioni basi del componente:
+
+%\subsection{Pulsanti}
+\section{Tabella catalogo}
+\section{Descrizione tecnica}
+\end{document}

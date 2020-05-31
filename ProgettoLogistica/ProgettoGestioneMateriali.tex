@@ -1,0 +1,442 @@
+\documentclass[12pt,twoside]{report}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{fancyhdr}
+\usepackage{xcolor}
+\usepackage[hidelinks]{hyperref}
+\newcommand{\coloredbold}[2]{\textcolor{#1}{\textbf{#2}}}
+\renewcommand{\chaptername}{Capitolo}
+\renewcommand{\contentsname}{Indice}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+% -------------------------------
+%   DOCUMENTO, PAGINA INIZIALE
+% -------------------------------
+\begin{document}
+\title{Progetto Gestione Materiali}
+\author
+{
+	Giacomo Marcon
+	\\ Matteo Meneghetti  
+	\\ Jiahua Zhou
+	\\ Riccardo Bignami
+}
+\date{31 Maggio, 2020}
+\maketitle
+
+\newpage
+\tableofcontents{}  
+
+% --------------------------------------
+%   DOCUMENTO, CAPITOLO DISTINTA BASE
+% --------------------------------------
+\chapter{Distinta base}   
+
+\href{https://drive.google.com/open?id=1d0CVoRVsHYG7N_JXdQtYWLb9cYghqrsq}{\coloredbold{blue}{Premi qui}} per aprire il tutorial sul programma \colorbox{yellow}{DISTINTA BASE}\\
+
+Sul menu del programma, se si preme il pulsante \textbf{Manuale} si verrà reindirizzato su questo manuale (verrà prima visualizzato un messaggio di conferma).
+
+% ---------------------------------------------
+%   DOCUMENTO, SEZIONE TABELLA DISTINTA BASE
+% ---------------------------------------------
+
+\section{Tabella distinta base}
+
+Per operare nella tabella \colorbox{yellow}{DISTINTA BASE} si hanno due opzioni: 
+
+\begin{enumerate}
+	
+	\item Caricare da catalogo un componente, che verrà usato come prodotto finito. Per fare questo, bisogna premere sul pulsante \textbf{CARICA COMPONENTE DA CATALOGO}.
+	      	
+	      \begin{enumerate}
+	      	
+	      	\item Si aprirà una videata dove si potrà scegliere un elemento del catalogo da usare come prodotto finito.
+	      	      \coloredbold{red}{N.B: VENGONO CARICATI IL COMPONENTE ED EVENTUALI SUOI SOTTONODI}.
+	      	      
+	      \end{enumerate}
+	      
+	\item Creare un nuovo componente, che verrà usato come prodotto finito. Per fare questo, bisognera premere sul pulsante \textbf{AGGIUNGI NUOVA DISTINTA BASE}.
+	      	
+\end{enumerate}
+
+Se si preme il pulsante \textbf{AGGIUNGI NUOVA DISTINTA BASE}, si aprirà una videata per la creazione del nuovo componente.
+Prima di creare la nuova distinta base, bisognerà assegnare le informazioni basi del componente:
+
+\begin{itemize}
+	
+	\item \hypertarget{CompDistintaBase}{Nome}\textbf{*} 
+	\item Codice\textbf{*} 
+	\item Descrizione\textbf{*} 
+	\item Lead Time
+	\item Lead Time di sicurezza
+	\item Scorta di sicurezza
+	\item Lotto
+	\item Periodo di copertura 
+	\item Coefficiente d’utilizzo (assegnabile solo ai componenti del prodotto finito)  
+	      	      
+\end{itemize}
+
+\begin{flushright}
+	
+	\textbf{*}   : campi obbligatori
+	
+\end{flushright}
+
+Se si deve interagire con un componente nella tabella \colorbox{yellow}{DISTINTA BASE}, basterà premere il pulsante destro del mouse sul nodo che si vuole scegliere, e si aprirà un menu a tendina con varie scelte:
+
+\begin{itemize}
+	\item \textbf{Aggiungi sottonodo}: si apre una finestra dove si aggiunge un nuovo sottocomponente.
+	\item \textbf{Modifica}: si apre una finestra dove si può modificare il componente.
+	\item \textbf{Informazioni}: viene visualizzato un messaggio contenente le informazioni del componente.
+	\item \textbf{Rimuovi}: rimuove il componente selezionato. Prima di rimuovere il componente, viene chiesta una conferma. \coloredbold{red}{ATTENZIONE: QUESTA AZIONE NON PUO’ ESSERE ANNULLATA.}
+	\item \textbf{Aggiungi al Catalogo}: il componente selezionato viene aggiunto al catalogo. 
+	      	          
+\end{itemize}
+
+\bigskip
+Se si preme il pulsante \textbf{Aggiungi sottonodo}, si aprirà un altro menu a tendina con altre opzioni:
+
+\begin{itemize}
+	
+	\item \textbf{Carica da catalogo}: si apre una finestra dove è possibile selezionare un componente presente nel catalogo.
+	\item \textbf{Carica semilavorato}: si carica, da un file esterno, una distinta base (deve essere diversa da quella che stiamo creando) che viene utilizzata come sottocomponente.
+	\item \textbf{Crea nuovo nodo}: si apre la finestra per la creazione di un nuovo componente.
+	      	            
+\end{itemize}
+
+
+% ------------------------------------------
+%   DOCUMENTO, SEZIONE MENU DISTINTA BASE
+% ------------------------------------------
+
+\subsection{Menu}
+
+La tabella \colorbox{yellow}{DISTINTA BASE} ha un pulsante sul menu che, se premuto, aprirà un menu a tendina con varie scelte:
+
+\begin{itemize}
+	
+	\item \textbf{CARICA}: si apre una finestra dove è possibile selezionare una distinta base che verrà caricata sulla tabella \colorbox{yellow}{DISTINTA BASE}.
+	\item \textbf{SALVA}: si apre una finestra dove è possibile salvare la distinta base presente sulla tabella \colorbox{yellow}{DISTINTA BASE}.
+	\item \textbf{RESETTA}: la tabella \colorbox{yellow}{DISTINTA BASE} viene resettata. 
+	      \coloredbold{red}{ATTENZIONE: QUESTA AZIONE NON PUO’ ESSERE ANNULLATA.}
+	      
+\end{itemize}
+
+% ----------------------------------------
+%   DOCUMENTO, SEZIONE TABELLA CATALOGO
+% ----------------------------------------
+\newpage
+\section{Tabella catalogo}
+
+Per operare nella tabella \colorbox{yellow}{CATALOGO} si potrà aggiungere in 2 modi:
+
+\begin{itemize}
+	
+	\item \textbf{Aggiungi materia prima}: si aprirà una videata per la creazione del nuovo componente. Prima di creare la nuova distinta base, bisognerà assegnare le informazioni basi del componente. \\(vedi \hyperlink{CompDistintaBase}{\textcolor{blue}{\underline{creazione componente distinta base}}})
+	\item \textbf{Aggiungi materia prima}: si aggiunge, da un file esterno, una distinta base.
+	      
+\end{itemize}
+
+Se si deve interagire con un componente nella tabella \colorbox{yellow}{CATALOGO}, basterà premere il pulsante destro del mouse sul componente che si vuole scegliere, e si aprirà un menu a tendina con varie scelte:
+
+\begin{itemize}
+	
+	\item \textbf{Modifica}: si apre una finestra dove si può modificare il componente.
+	\item \textbf{Informazioni}: viene visualizzato un messaggio contenente le informazioni del componente.
+	\item \textbf{Rimuovi}: rimuove il componente selezionato. Prima di rimuovere il componente, viene chiesta una conferma. \coloredbold{red}{ATTENZIONE: QUESTA AZIONE NON PUO’ ESSERE ANNULLATA.}	
+	      	          
+\end{itemize}
+
+% -------------------------------------
+%   DOCUMENTO, SEZIONE MENU CATALOGO
+% -------------------------------------
+
+\subsection{Menu}
+
+La tabella \colorbox{yellow}{CATALOGO} ha un pulsante sul menu che, se premuto, aprirà un menu a tendina con varie scelte:
+
+\begin{itemize}
+	
+	\item \textbf{CARICA}: si apre una finestra dove è possibile selezionare un catalogo che verrà caricato sul \colorbox{yellow}{CATALOGO}.
+	\item \textbf{SALVA}: si apre una finestra dove è possibile salvare il catalogo presente sul \colorbox{yellow}{CATALOGO}.
+	\item \textbf{RESETTA}: il \colorbox{yellow}{CATALOGO} viene resettato. 
+	      \coloredbold{red}{ATTENZIONE: QUESTA AZIONE NON PUO’ ESSERE ANNULLATA.}
+	      	
+\end{itemize}
+
+% -------------------------------------------
+%   DOCUMENTO, SEZIONE DESCRIZIONE TECNICA
+% -------------------------------------------
+
+\section{Descrizione tecnica}
+\subsection{Form 1 (interfaccia di lavoro)}
+
+Il Form1 è la videata principale del programma, poichè è qui che le tabelle \colorbox{yellow}{DISTINTA BASE} e \colorbox{yellow}{CATALOGO} sono presenti.\\
+Elenchiamo qui le proprietà dell'interfaccia:
+
+\bigskip
+\textbf{Resizing}
+
+Appena avviene una modifica delle dimensioni del Form1 viene chiamato il metodo \textbf{ResizeChildrenControls} che modifica le dimensioni di ogni controllo del Form1 in base alla dimensione attuale dell’interfaccia.
+
+\bigskip 
+\textbf{Catalogo}
+
+All’interno di questa sezione sono presenti tutti i metodi che interagiscono con la listView (catalogo), la voce Catalogo nel ToolStripMenu e con i metodi relativi il catalogo nella classe \textbf{Programmazione}. 
+
+\bigskip 
+\textbf{Distinta Base}
+
+All’interno di questa sezione sono presenti tutti i metodi che interagiscono con la TreeView (distintaBase), la voce Distinta base nel ToolStripMenu e con i metodi relativi la distinta base nella classe \textbf{Programmazione}.
+
+\subsection{Form 2 (creazione e modifica componente)}
+
+Il Form2 è l'interfaccia responsabile della modifica e aggiunta del componente. \\
+Elenchiamo qui le proprietà dell’interfaccia:
+
+\bigskip 
+\textbf{Controllo codice componente}
+
+Questa sezione comprende tutti i metodi responsabili del controllo del codice del componente. Questi metodi controllano se il codice dato in input è disponibile (non è usato da un altro componente nel programma) oppure se il codice è utilizzato solo in componenti con tutti i parametri uguali.
+
+\subsection{Form 3 (selezione componenti catalogo)}
+
+Questa interfaccia mostra la lista di componenti in catalogo, quando viene selezionato un componente e viene dato “l’ok” pone la variabile nodo uguale al componente selezionato e rende la variabile attendo falsa.
+
+\subsection{Programmazione}
+
+Questa classe funge da collegamento tra Form1 e le classi DistintaBase e Catalogo, quindi è una classe molto importante. Riporta anche vari metodi d'appoggio, che noi chiamiamo "metodi generali". Qui vengono svolti i vari controlli sui componenti.
+ 
+\bigskip 
+\textbf{Catalogo}
+
+All’interno di questa sezione sono presenti tutti i metodi che interagiscono con i metodi nel Form1 relativi il catalogo e con la classe \textbf{Catalogo}.
+
+\bigskip 
+\textbf{Distinta Base}
+
+All’interno di questa sezione sono presenti tutti i metodi che interagiscono con i metodi nel Form1 relativi il catalogo e con la classe \textbf{Catalogo}.
+
+\bigskip 
+\textbf{Metodi generali}
+
+All’interno di questa sezione sono presenti i metodi utilizzati sia dai metodi relativi il \textbf{Catalogo} sia la \textbf{Distinta base}. Sono metodi “indipendenti”, svolgono una funzione definita.
+
+\bigskip 
+\textbf{Metodi di appoggio}
+
+All’interno di questa sezione sono presenti i metodi utilizzati sia dai metodi relativi il \textbf{Catalogo} sia la \textbf{Distinta base}. Sono metodi “dipendenti”, vengo utilizzati in altri metodi come “aiuto”. Sono stati creati per rendere il codice più leggibile e meno ripetitivo.
+
+\subsection{Distinta base}
+
+Questa classe contiene i metodi specifici e le variabili della \textbf{Distinta base}. È presente una variabile albero (\textbf{Componente}) che rappresenta la distinta base che attualmente si sta visualizzando nella treeView. 
+
+\subsection{Catalogo}
+
+Questa classe contiene i metodi specifici e le variabili del \textbf{Catalogo}. È presente una variabile nodi (lista di \textbf{Componente})  che rappresenta il catalogo attualmente presente nella listView.
+
+\subsection{Componente}
+
+Questa classe è il modello di \textbf{Componente}. Qui sono presenti le proprietà di un componente:
+
+\begin{itemize}
+	\bigskip
+	\bigskip
+	\item Nome \space\space\space\space\space\space STRING
+	\item Codice \space\space\space\space\space\space STRING
+	\item Descrizione \space\space\space\space\space\space STRING
+	\item Lead Time \space\space\space\space\space\space INT, maggiore di 0 
+	\item Lead Time di sicurezza \space\space\space\space\space\space INT
+	\item Scorta di sicurezza \space\space\space\space\space\space INT
+	\item Lotto \space\space\space\space\space\space INT, maggiore di 0 
+	\item Periodo di copertura  \space\space\space\space\space\space INT
+	\item Coefficiente d’utilizzo \space\space\space\space\space\space INT, maggiore di 0 
+	\item SottoNodi \space\space\space\space\space\space     LIST \textbf{COMPONENTE}, contiene i sottocomponenti del componente
+	      	      
+\end{itemize}
+Il metodo DeepClone ha lo scopo di creare una copia esatta del componente ricevuto in input, ma in una nuova posizione di memoria, questo per ovviare al problema di componenti “apparentemente” diversi ma che erano nella stessa posizione di memoria.
+
+% -------------------------------------------
+%   DOCUMENTO, CAPITOLO GESTIONE MATERIALI
+% -------------------------------------------
+
+\chapter{Gestione Materiali}
+
+\href{https://drive.google.com/open?id=12bM426mDh8YzTNTUMrs-MXbnYQTqyRln}{\coloredbold{blue}{Premi qui}} per aprire il tutorial sul programma \colorbox{yellow}{GESTIONE MATERIALI}\\
+
+Piccola guida sul menu:
+\begin{itemize}
+
+	\item \textbf{Produzione}:
+	
+	\begin{itemize}
+		\item \textbf{Salva}: la produzione viene salvata (se è presente una).
+		\item \textbf{Carica}: carica una produzione da file esterno.
+	\end{itemize}
+
+	\item \textbf{Distinta base}:
+	
+	\begin{itemize}
+		\item \textbf{Carica}: carica una distinta base da file esterno.
+	\end{itemize}
+
+	\item \textbf{Pulisci tabella}: la tabella viene resettata.
+	\item \textbf{Manuale}: si viene reindirizzati su questo manuale (verrà prima visualizzato un messaggio di conferma).
+
+\end{itemize}
+
+% -----------------------------------------
+%   DOCUMENTO, SEZIONE TABELLA PRODUZIONE
+% -----------------------------------------
+
+\section{Tabella produzione}
+
+\subsection{Input: preparazione alla programmazione della produzione}
+
+\hypertarget{inputProduzione}{Il programma} \colorbox{yellow}{GESTIONE MATERIALI} presenta in videata una casella numerica dove si può cambiare il numero dei periodi (il numero minimo di periodi è 2).\\
+Oltre a questa casella, è presente anche una tabella/griglia dove bisognerà inserire i dati per la programmazione della produzione.\\
+Infine, è presente una tabella, inizialmente vuota, dove sarà presente la distinta base di cui vogliamo programmare la produzione.\\
+
+Prima di iniziare ad usare il programma, bisogna caricare un file di tipo \textbf{distinta base}. Per fare questo, andare sul menu, premere sul pulsante \textbf{“Distinta base”} e cliccare su \textbf{Carica”}. Si aprirà una finestra che chiederà di caricare un file esterno, ossia la nostra distinta base. Fatto questo, possiamo iniziare a utilizzare il programma.
+
+Inoltre, vi invito caldamente a visitare la sezione \hyperlink{tabDistintaBase}{\textcolor{blue}{\underline{Tabella distinta base}}} per imparare come utilizzare questa tabella.\\
+
+Come primo punto bisognerà aggiungere i valori nella griglia rispetto a varie voci:
+\begin{itemize}
+	
+	\item Previsioni di vendita
+	\item Ordini di vendita
+	\item Disponibilità in magazzino (giacenza)
+	\item Versamenti a magazzino entro fine periodo
+	\item Ordini di produzione da lanciare a inizio periodo
+	      	
+\end{itemize}
+
+Alcune caselle sono bloccate poichè l'input non è richiesto in quei campi.
+Riporto qui sotto i campi compilabili:\\
+
+\textbf{Periodo 0}: 
+Previsioni di vendita,
+Ordini di vendita,
+Disponibilità in magazzino (giacenza),
+Versamenti a magazzino entro fine periodo,
+Ordini di produzione da lanciare a inizio periodo\\
+
+\textbf{Periodo dal 1 in poi}:
+Previsioni di vendita,
+Ordini di vendita\\
+
+\coloredbold{red}{ATTENZIONE: E' OBBLIGATORIO METTERE ALMENO UNA PREVISIONE OD ORDINE DI VENTITA}\\
+
+Come secondo punto, si inseriscono le eventuali giacenze nei sottocomponenti. (\textbf{Questo punto non è obbligatorio})\\
+
+Come terzo punto, premere il pulsante \textbf{PROGRAMMA PRODUZIONE}.
+
+\subsection{Output: la programmazione della distinta base}
+
+Se si ha seguito passo per passo la sezione soprastante, si nota che la tabella è cambiata.
+Sono presenti nuove voci, ossia:
+\begin{itemize}
+	
+	\item Fabbisogno lordo
+	\item Disponibilità in magazzino
+	\item Versamenti in magazzino entro fine periodo 
+	\item Ordini di produzione da lanciare a inizio periodo
+	      
+\end{itemize}
+
+I primi risultati visualizzati sulla griglia sono quelli del prodotto finito. E' possibile vedere la griglia di un nodo semplicemente premendo 2 volte sul componente scelto.\\
+
+Al termine del terzo punto si potrà scegliere se salvare la produzione premendo, sul menu, sul pulsante \textbf{“Produzione”} e cliccare su \textbf{"Salva"}.
+
+
+% --------------------------------------------
+%   DOCUMENTO, SEZIONE TABELLA DISTINTA BASE
+% --------------------------------------------
+
+\section{Tabella distinta base}
+
+\hypertarget{tabDistintaBase}{La tabella} \colorbox{yellow}{distinta base} ha 3 funzioni principali:
+
+\begin{itemize}
+	
+	\item Mostrare all'utente la distinta base caricata
+	\item Ricevere come input la giacenza di un sottocomponente
+	\item Mostrare una finestra di informazioni del componente\\
+	      	
+\end{itemize}
+
+\textbf{Per mostrare all'utente la distinta base}, guardare la sezione\\ \hyperlink{inputProduzione}{\textcolor{blue}{\underline{Input: preparazione alla programmazione della produzione}}}
+
+\bigskip
+\textbf{Per ricevere come input la giacenza di un sottocomponente} basta premere 2 volte sul componente scelto. Si aprirà una videata, contenente una casella numerica, dove si potrà inserire la giacenza (al periodo 0) di quel componente.
+
+\bigskip
+\textbf{Per mostrare una finestra di informazioni del componente} basta premere il tasto destro sul componente scelto. Si aprirà una piccola finestra con un pulsante di nome \textbf{Informazioni}.
+Se si preme quest'ultimo pulsante, verranno mostrare le informazioni del componente seleaionato.
+
+
+\section{Descrizione tecnica}
+
+\subsection{Form 1 (interfaccia di lavoro)}
+
+Il Form1 è la videata principale del programma, poichè è da qui che tutti gli input vengono inseriti.\\
+Elenchiamo qui le proprietà dell'interfaccia:
+
+\bigskip
+\textbf{Resizing}
+
+Appena avviene una modifica delle dimensioni del Form1 viene chiamato il metodo \textbf{ResizeChildrenControls} che modifica le dimensione di ogni controllo del Form1 in base alla dimensione attuale dell’interfaccia.
+
+\bigskip
+\textbf{Metodi Form}
+
+All’interno di questa sezione sono presenti tutti i metodi che interagiscono con l’interfaccia grafica e i metodi della classe \textbf{Produzione}. 
+
+\bigskip
+\textbf{Metodi di appoggio}
+
+All’interno di questa sezione sono presenti tutti i metodi che svolgono funzioni relative l’ambiente Form1. Sono stati creati per rendere più leggibile e meno ripetitivo il codice.
+
+
+\subsection{Produzione}
+
+In questa classe avvengono i vari calcoli. Vengono dati in input le informazioni dal Form1 e i vari risultati vengono caricati direttamente nelle variabili dei componenti interessati. È stata strutturata in modo da calcolare prima la “tabella risultato” del componente “base” e poi il fabbisogno netto del componente (quando ne va prodotto) viene dato in input ai sottocomponenti, tutto questo in maniera ricorsiva.
+Il coefficiente di utilizzo entra in “gioco” nel momento di calcolare il fabbisogno del componente stesso. 
+L’implementazione del periodo di copertura avviene invece dopo aver calcolato la “tabella” del componente stesso.
+
+
+
+\subsection{Periodo}
+Questa classe rappresenta il modello di periodo della produzione. Le variabili sono quelle visualizzate in tabella.
+
+
+\subsection{Distinta base}
+Questa classe contiene i metodi specifici e le variabili della DistintaBase. È presente una variabile albero (\textbf{Componente}) che rappresenta la distinta base che attualmente si sta visualizzando nella treeView.\\
+Il metodo \textbf{ResettaProduzioneDistintaBase} rimpiazza la lista Produzione con numPeriodi nuovi periodi. Usato con distintaBase della quale si deve caricare produzione.\\
+Il metodo \textbf{ResettaProduzioneDistintaBaseDaForm} svolge la stessa funzione del metodo ResettaProduzioneDistintaBase ma mantiene il periodo 0. Usato con distintaBase della quale si ha calcolato la produzione.
+
+
+\subsection{Componente}
+
+Questa classe è il modello di \textbf{Componente}. Qui sono presenti le proprietà di un componente:
+
+\begin{itemize}
+	\bigskip
+	\bigskip
+	\item Nome \space\space\space\space\space\space STRING
+	\item Codice \space\space\space\space\space\space STRING
+	\item Descrizione \space\space\space\space\space\space STRING
+	\item Lead Time \space\space\space\space\space\space INT, maggiore di 0 
+	\item Lead Time di sicurezza \space\space\space\space\space\space INT
+	\item Scorta di sicurezza \space\space\space\space\space\space INT
+	\item Lotto \space\space\space\space\space\space INT, maggiore di 0 
+	\item Periodo di copertura  \space\space\space\space\space\space INT
+	\item Coefficiente d’utilizzo \space\space\space\space\space\space INT, maggiore di 0 
+	\item SottoNodi \space\space\space\space\space\space     LIST \textbf{COMPONENTE}, contiene i sottocomponenti del componente
+	\item Produzione \space\space\space\space\space\space     LIST \textbf{PERIODO}, contiene tutti i dati che si visualizzano in tabella
+	      	      
+\end{itemize}
+
+\end{document}
