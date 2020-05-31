@@ -212,15 +212,12 @@ namespace gestione_materiali
 
                 
                 string[,] tabella = new string[100,100];
-                XlWorkSheet =  CompilatoreExcel(XlWorkSheet, DistintaBase.Albero, 1);
+                CompilatoreExcel(XlWorkSheet, DistintaBase.Albero, 1);
+                XlWorkSheet.Columns.AutoFit();
                 Cursor = Cursors.Default;
-
-
-                XlWorkBook.Close(true, misValue, misValue);
+                
+                XlWorkBook.Close(true);
                 XLApp.Quit();
-
-                Marshal.ReleaseComObject(XlWorkSheet);
-                Marshal.ReleaseComObject(XlWorkBook);
                 Marshal.ReleaseComObject(XLApp);
             }
 
@@ -362,6 +359,16 @@ namespace gestione_materiali
         }
 
         /// <summary>
+        /// Mostra le informazione del nodo selezionato.
+        /// </summary>
+        private void informazioniToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            if (TreeView_DistintaBase.SelectedNode == null) return;
+            string Codice = TreeView_DistintaBase.SelectedNode.Tag.ToString();
+            Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
         /// Apre il form2 e permette di dare in input la giacenza iniziale del componente selezionato.
         /// </summary>
         private void impostaGiacenzaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -453,31 +460,33 @@ namespace gestione_materiali
         /// <summary>
         /// Compila la variabile XLWorkSheet ottenendo i dati dall'ultima produzione calcolata.
         /// </summary>
-        private Excel.Worksheet CompilatoreExcel(Excel.Worksheet XlWorkSheet, Componente Componente, int Riga)
+        private int CompilatoreExcel(Excel.Worksheet XlWorkSheet, Componente Componente, int Riga)
         {
             XlWorkSheet.Cells[Riga, 1] = Componente.Nome;
+            XlWorkSheet.Cells[Riga, 1].Interior.Color = Excel.XlRgbColor.rgbOrange;
             Riga++;
             XlWorkSheet.Cells[Riga, 1] = "Fabbisogno lordo";
             XlWorkSheet.Cells[Riga + 1, 1] = "Giacenza";
             XlWorkSheet.Cells[Riga + 2, 1] = "Versamenti (fine periodo)";
             XlWorkSheet.Cells[Riga + 3, 1] = "Ordini produzione (inizio periodo)";
+            XlWorkSheet.Cells[Riga + 3, 1].EntireColumn.Font.Bold = true;
             int Colonna = 2;
             foreach (Periodo P in Componente.Produzione)
             {
                 XlWorkSheet.Cells[Riga - 1, Colonna] = "PERIODO " + (Colonna - 2);
+                XlWorkSheet.Cells[Riga - 1, Colonna].EntireRow.Font.Bold = true;
                 XlWorkSheet.Cells[Riga, Colonna] = P.FabbisognoLordo.ToString();
                 XlWorkSheet.Cells[Riga + 1, Colonna] = P.Giacenza.ToString();
                 XlWorkSheet.Cells[Riga + 2, Colonna] = P.Versamenti.ToString();
                 XlWorkSheet.Cells[Riga + 3, Colonna] = P.OrdiniProduzione.ToString();
                 Colonna++;
             }
-            Riga += 6;
             foreach (Componente SottoComponente in Componente.SottoNodi)
             {
-                CompilatoreExcel(XlWorkSheet, SottoComponente, Riga);
                 Riga += 6;
+                Riga = CompilatoreExcel(XlWorkSheet, SottoComponente, Riga);
             }
-            return XlWorkSheet;
+            return Riga;
         }
 
         /// <summary>
@@ -746,6 +755,7 @@ namespace gestione_materiali
             if (Componente == null) return "selezionare un componente";
             return "NOME --> " + Componente.Nome + "\nCODICE --> " + Componente.Codice + "\nDESCRIZIONE --> " + Componente.Descrizione + "\nLEAD TIME --> " + Componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + Componente.LeadTimeSicurezza + "\nLOTTO --> " + Componente.Lotto + "\nSCORTA DI SICUREZZA --> " + Componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + Componente.PeriodoDiCopertura;
         }
+
         
     }
 }
