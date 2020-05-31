@@ -55,13 +55,14 @@
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.esportaExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Produzione)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpAndDown_Periodi)).BeginInit();
             this.cms_DistintaBase.SuspendLayout();
             this.SuspendLayout();
             // 
-            // dataGridView1
+            // DataGridView_Produzione
             // 
             this.DataGridView_Produzione.AllowUserToAddRows = false;
             this.DataGridView_Produzione.AllowUserToDeleteRows = false;
@@ -82,7 +83,7 @@
             this.Column4});
             this.DataGridView_Produzione.Location = new System.Drawing.Point(16, 126);
             this.DataGridView_Produzione.MaximumSize = new System.Drawing.Size(1100, 140);
-            this.DataGridView_Produzione.Name = "dataGridView1";
+            this.DataGridView_Produzione.Name = "DataGridView_Produzione";
             this.DataGridView_Produzione.RowHeadersVisible = false;
             this.DataGridView_Produzione.Size = new System.Drawing.Size(1100, 140);
             this.DataGridView_Produzione.TabIndex = 2;
@@ -193,8 +194,9 @@
             // produzioneToolStripMenuItem
             // 
             this.produzioneToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.caricaToolStripMenuItem,
             this.salvaToolStripMenuItem,
-            this.caricaToolStripMenuItem});
+            this.esportaExcelToolStripMenuItem});
             this.produzioneToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.produzioneToolStripMenuItem.Name = "produzioneToolStripMenuItem";
             this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
@@ -203,14 +205,14 @@
             // salvaToolStripMenuItem
             // 
             this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.salvaToolStripMenuItem.Text = "Salva";
             this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
             // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(112, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
             // 
@@ -226,7 +228,7 @@
             // caricaToolStripMenuItem1
             // 
             this.caricaToolStripMenuItem1.Name = "caricaToolStripMenuItem1";
-            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(112, 22);
+            this.caricaToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
             this.caricaToolStripMenuItem1.Text = "Carica";
             this.caricaToolStripMenuItem1.Click += new System.EventHandler(this.caricaToolStripMenuItem1_Click);
             // 
@@ -246,18 +248,18 @@
             this.infoToolStripMenuItem.Text = "Manuale";
             this.infoToolStripMenuItem.Click += new System.EventHandler(this.infoToolStripMenuItem_Click);
             // 
-            // treeView_DistintaBase
+            // TreeView_DistintaBase
             // 
             this.TreeView_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 11.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.TreeView_DistintaBase.Location = new System.Drawing.Point(331, 330);
-            this.TreeView_DistintaBase.Name = "treeView_DistintaBase";
+            this.TreeView_DistintaBase.Name = "TreeView_DistintaBase";
             this.TreeView_DistintaBase.Size = new System.Drawing.Size(561, 303);
             this.TreeView_DistintaBase.TabIndex = 6;
             this.TreeView_DistintaBase.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_DistintaBase_NodeMouseHover_1);
             this.TreeView_DistintaBase.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseClick);
             this.TreeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
-            // numericUpAndDown_Periodi
+            // NumericUpAndDown_Periodi
             // 
             this.NumericUpAndDown_Periodi.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.NumericUpAndDown_Periodi.Location = new System.Drawing.Point(16, 74);
@@ -267,7 +269,7 @@
             0,
             0});
             this.NumericUpAndDown_Periodi.MinimumSize = new System.Drawing.Size(123, 0);
-            this.NumericUpAndDown_Periodi.Name = "numericUpAndDown_Periodi";
+            this.NumericUpAndDown_Periodi.Name = "NumericUpAndDown_Periodi";
             this.NumericUpAndDown_Periodi.Size = new System.Drawing.Size(126, 24);
             this.NumericUpAndDown_Periodi.TabIndex = 8;
             this.NumericUpAndDown_Periodi.Value = new decimal(new int[] {
@@ -315,6 +317,13 @@
             this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
+            // 
+            // esportaExcelToolStripMenuItem
+            // 
+            this.esportaExcelToolStripMenuItem.Name = "esportaExcelToolStripMenuItem";
+            this.esportaExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.esportaExcelToolStripMenuItem.Text = "Esporta Excel";
+            this.esportaExcelToolStripMenuItem.Click += new System.EventHandler(this.esportaExcelToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -370,6 +379,7 @@
         private System.Windows.Forms.ToolStripMenuItem informazioniToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem esportaExcelToolStripMenuItem;
     }
 }
 

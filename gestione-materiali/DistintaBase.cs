@@ -128,16 +128,16 @@ namespace gestione_materiali
         /// </summary>
         public void SalvaProduzione()
         {
-            SaveFileDialog Sfd_Catalogo = new SaveFileDialog();
-            Sfd_Catalogo.InitialDirectory = @"C:\";
-            Sfd_Catalogo.RestoreDirectory = true;
-            Sfd_Catalogo.FileName = $"{Albero.Nome}_Produzione.xml";
-            Sfd_Catalogo.DefaultExt = "xml";
-            Sfd_Catalogo.Filter = "xml files (*.xml)|*.xml";
+            SaveFileDialog Sfd_produzione = new SaveFileDialog();
+            Sfd_produzione.InitialDirectory = @"C:\";
+            Sfd_produzione.RestoreDirectory = true;
+            Sfd_produzione.FileName = $"{Albero.Nome}_Produzione.xml";
+            Sfd_produzione.DefaultExt = "xml";
+            Sfd_produzione.Filter = "xml files (*.xml)|*.xml";
 
-            if (Sfd_Catalogo.ShowDialog() == DialogResult.OK)
+            if (Sfd_produzione.ShowDialog() == DialogResult.OK)
             {
-                Stream FilesStream = Sfd_Catalogo.OpenFile();
+                Stream FilesStream = Sfd_produzione.OpenFile();
                 StreamWriter Sw = new StreamWriter(FilesStream);
                 XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
                 Serializer.Serialize(Sw, Albero);
@@ -152,15 +152,15 @@ namespace gestione_materiali
         public Componente Carica()
         {
             Componente Componente = null;
-            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
-            Ofd_Catalogo.InitialDirectory = @"C:\";
-            Ofd_Catalogo.Filter = "XML|*.xml";
+            OpenFileDialog Ofd_distintaBase = new OpenFileDialog();
+            Ofd_distintaBase.InitialDirectory = @"C:\";
+            Ofd_distintaBase.Filter = "XML|*.xml";
 
-            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+            if (Ofd_distintaBase.ShowDialog() == DialogResult.OK)
             {
-                if (File.Exists(Ofd_Catalogo.FileName))
+                if (File.Exists(Ofd_distintaBase.FileName))
                 {
-                    StreamReader Stream = new StreamReader(Ofd_Catalogo.FileName);
+                    StreamReader Stream = new StreamReader(Ofd_distintaBase.FileName);
                     XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
                     try
                     {
@@ -186,15 +186,15 @@ namespace gestione_materiali
         public Componente CaricaProduzione()
         {
             Componente Componente = null;
-            OpenFileDialog Ofd_Catalogo = new OpenFileDialog();
-            Ofd_Catalogo.InitialDirectory = @"C:\";
-            Ofd_Catalogo.Filter = "XML|*.xml";
+            OpenFileDialog Ofd_produzione = new OpenFileDialog();
+            Ofd_produzione.InitialDirectory = @"C:\";
+            Ofd_produzione.Filter = "XML|*.xml";
 
-            if (Ofd_Catalogo.ShowDialog() == DialogResult.OK)
+            if (Ofd_produzione.ShowDialog() == DialogResult.OK)
             {
-                if (File.Exists(Ofd_Catalogo.FileName))
+                if (File.Exists(Ofd_produzione.FileName))
                 {
-                    StreamReader Stream = new StreamReader(Ofd_Catalogo.FileName);
+                    StreamReader Stream = new StreamReader(Ofd_produzione.FileName);
                     XmlSerializer Serializer = new XmlSerializer(typeof(Componente));
                     try
                     {

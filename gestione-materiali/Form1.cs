@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
+using Excel = Microsoft.Office.Interop.Excel;
+using System.Runtime.InteropServices;
+using System.IO;
+using System.Text;
 
 namespace gestione_materiali
 {
@@ -154,7 +158,7 @@ namespace gestione_materiali
 
             else
             {
-                MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
 
         }
@@ -182,6 +186,50 @@ namespace gestione_materiali
             AggiornaTabella(DistintaBase.Albero.Produzione);
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{DistintaBase.Albero.Nome.ToUpper()}'";
         }
+
+        /// <summary>
+        /// Esporta la produzione che si sta visualizzando in file excel.
+        /// </summary>
+        private void esportaExcelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TabellaGenerata)
+            {
+                Cursor = Cursors.WaitCursor;
+                Excel.Application XLApp = new Excel.Application();
+
+                if (XLApp == null)
+                {
+                    MessageBox.Show("Excel non è installato corettamente nel terminale");
+                    return;
+                }
+
+                Excel.Workbook XlWorkBook;
+                Excel.Worksheet XlWorkSheet;
+                object misValue = System.Reflection.Missing.Value;
+
+                XlWorkBook = XLApp.Workbooks.Add(misValue);
+                XlWorkSheet = (Excel.Worksheet)XlWorkBook.Worksheets.get_Item(1);
+
+                
+                string[,] tabella = new string[100,100];
+                XlWorkSheet =  CompilatoreExcel(XlWorkSheet, DistintaBase.Albero, 1);
+                Cursor = Cursors.Default;
+
+
+                XlWorkBook.Close(true, misValue, misValue);
+                XLApp.Quit();
+
+                Marshal.ReleaseComObject(XlWorkSheet);
+                Marshal.ReleaseComObject(XlWorkBook);
+                Marshal.ReleaseComObject(XLApp);
+            }
+
+            else
+            {
+                MessageBox.Show("Programma la produzione di una distinta base.", "Gestione materiali", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+        }
+        
 
         /// <summary>
         /// Carica una distinta base.
@@ -401,6 +449,35 @@ namespace gestione_materiali
         // METODI D'APPOGGIO
         //
 
+        /// <summary>
+        /// Compila la variabile XLWorkSheet ottenendo i dati dall'ultima produzione calcolata.
+        /// </summary>
+        private Excel.Worksheet CompilatoreExcel(Excel.Worksheet XlWorkSheet, Componente Componente, int Riga)
+        {
+            XlWorkSheet.Cells[Riga, 1] = Componente.Nome;
+            Riga++;
+            XlWorkSheet.Cells[Riga, 1] = "Fabbisogno lordo";
+            XlWorkSheet.Cells[Riga + 1, 1] = "Giacenza";
+            XlWorkSheet.Cells[Riga + 2, 1] = "Versamenti (fine periodo)";
+            XlWorkSheet.Cells[Riga + 3, 1] = "Ordini produzione (inizio periodo)";
+            int Colonna = 2;
+            foreach (Periodo P in Componente.Produzione)
+            {
+                XlWorkSheet.Cells[Riga - 1, Colonna] = "PERIODO " + (Colonna - 2);
+                XlWorkSheet.Cells[Riga, Colonna] = P.FabbisognoLordo.ToString();
+                XlWorkSheet.Cells[Riga + 1, Colonna] = P.Giacenza.ToString();
+                XlWorkSheet.Cells[Riga + 2, Colonna] = P.Versamenti.ToString();
+                XlWorkSheet.Cells[Riga + 3, Colonna] = P.OrdiniProduzione.ToString();
+                Colonna++;
+            }
+            Riga += 6;
+            foreach (Componente SottoComponente in Componente.SottoNodi)
+            {
+                CompilatoreExcel(XlWorkSheet, SottoComponente, Riga);
+                Riga += 6;
+            }
+            return XlWorkSheet;
+        }
 
         /// <summary>
         /// Imposta in colore grigio chiaro le celle della dtgView che non possono essere compilate.
@@ -668,6 +745,5 @@ namespace gestione_materiali
             if (Componente == null) return "selezionare un componente";
             return "NOME --> " + Componente.Nome + "\nCODICE --> " + Componente.Codice + "\nDESCRIZIONE --> " + Componente.Descrizione + "\nLEAD TIME --> " + Componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + Componente.LeadTimeSicurezza + "\nLOTTO --> " + Componente.Lotto + "\nSCORTA DI SICUREZZA --> " + Componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + Componente.PeriodoDiCopertura;
         }
-
     }
 }
