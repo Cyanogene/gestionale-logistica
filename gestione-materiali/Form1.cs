@@ -300,56 +300,25 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Se si clicca con tasto dx su un nodo chiama il contextMenuStrip.
+        /// Se si clicca con tasto dx su un nodo chiama il contextMenuStrip adatto alla situazione.
         /// </summary>
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
             if (e.Button != MouseButtons.Right) return;
 
+            
             TreeNode Node_here = TreeView_DistintaBase.GetNodeAt(e.X, e.Y);
             TreeView_DistintaBase.SelectedNode = Node_here;
             if (Node_here == null) return;
-
-            cms_DistintaBase.Show(TreeView_DistintaBase, new Point(e.X, e.Y));
-        }
-
-        /// <summary>
-        /// In fase di programmazione con doppio click sul nodo si può impostare la giacenza del nodo al periodo 0.
-        /// In fase di visualizzazione con doppio click sul nodo si visualizza la programmazione del nodo stesso.
-        /// </summary>
-        private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
-        {
-            if (TreeView_DistintaBase.SelectedNode == null) return;
-            TreeNode TreeNode = null;
-            if (TreeView_DistintaBase.SelectedNode.Parent != null) TreeNode = TreeView_DistintaBase.SelectedNode.Parent;
-            Componente comp = DistintaBase.TreeNodeToNode(e.Node, TreeNode);
-            if (comp != null)
+            if (TabellaGenerata)
             {
-                if (TabellaGenerata)
-                {
-                    AggiornaTabella(comp.Produzione);
-                    Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{comp.Nome.ToUpper()}'";
-                }
-                else
-                {
-                    if (TreeView_DistintaBase.SelectedNode.Parent == null)
-                    {
-                        DataGridView_Produzione.CurrentCell = DataGridView_Produzione[1, 2];
-                    }
-                    else
-                    {
-                        Componente ComponenteSelezionato = DistintaBase.TreeNodeToNode(TreeView_DistintaBase.SelectedNode, TreeView_DistintaBase.SelectedNode.Parent);
-                        Form2_GiacenzaSottoComponenti Form2 = new Form2_GiacenzaSottoComponenti(ComponenteSelezionato);//do in input il componente selezionato nella treeview
-                        Form2.ShowDialog();
-                        ComponenteSelezionato.Produzione[0].Giacenza = Form2.quantità;
-                        while (Form2.attendo)
-                        {
-
-                        }
-                    }
-                }
-
+                cms_DistintaBase.Show(TreeView_DistintaBase, new Point(e.X, e.Y));
             }
+            else
+            {
+                Cms_distintaBaseGiacenza.Show(TreeView_DistintaBase, new Point(e.X, e.Y));
+            }
+            
         }
 
         /// <summary>
@@ -379,7 +348,7 @@ namespace gestione_materiali
                 Giacenza = Comp.Produzione[0].Giacenza.ToString();
             }
             ToolTip = new ToolTip();
-            ToolTip.SetToolTip(TreeView_DistintaBase, "La giacenza nel primo periodo è " + Giacenza);
+            ToolTip.SetToolTip(TreeView_DistintaBase, "La giacenza al periodo 0 è " + Giacenza);
         }
 
         /// <summary>
@@ -390,6 +359,38 @@ namespace gestione_materiali
             if (TreeView_DistintaBase.SelectedNode == null) return;
             string Codice = TreeView_DistintaBase.SelectedNode.Tag.ToString();
             Box.Show(InfoComponenteDistintabase(), "Distinta Base", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        /// <summary>
+        /// Apre il form2 e permette di dare in input la giacenza iniziale del componente selezionato.
+        /// </summary>
+        private void impostaGiacenzaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (TreeView_DistintaBase.SelectedNode.Parent == null)
+            {
+                DataGridView_Produzione.CurrentCell = DataGridView_Produzione[1, 2];
+            }
+            else
+            {
+                Componente ComponenteSelezionato = DistintaBase.TreeNodeToNode(TreeView_DistintaBase.SelectedNode, TreeView_DistintaBase.SelectedNode.Parent);
+                Form2_GiacenzaSottoComponenti Form2 = new Form2_GiacenzaSottoComponenti(ComponenteSelezionato);//do in input il componente selezionato nella treeview
+                Form2.ShowDialog();
+                ComponenteSelezionato.Produzione[0].Giacenza = Form2.quantità;
+                while (Form2.attendo)
+                {
+
+                }
+            }
+        }
+
+        /// <summary>
+        /// Carica la produzione del componente selezionato nella tabella.
+        /// </summary>
+        private void visualizzaProduzioneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Componente ComponenteSelezionato = DistintaBase.TreeNodeToNode(TreeView_DistintaBase.SelectedNode, TreeView_DistintaBase.SelectedNode.Parent);
+            AggiornaTabella(ComponenteSelezionato.Produzione);
+            Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{ComponenteSelezionato.Nome.ToUpper()}'";
         }
 
         /// <summary>
@@ -745,5 +746,6 @@ namespace gestione_materiali
             if (Componente == null) return "selezionare un componente";
             return "NOME --> " + Componente.Nome + "\nCODICE --> " + Componente.Codice + "\nDESCRIZIONE --> " + Componente.Descrizione + "\nLEAD TIME --> " + Componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + Componente.LeadTimeSicurezza + "\nLOTTO --> " + Componente.Lotto + "\nSCORTA DI SICUREZZA --> " + Componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + Componente.PeriodoDiCopertura;
         }
+        
     }
 }

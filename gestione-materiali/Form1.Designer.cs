@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.DataGridView_Produzione = new System.Windows.Forms.DataGridView();
             this.Periodo = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -43,8 +43,9 @@
             this.Lbl_ComponenteCaricato = new System.Windows.Forms.Label();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.produzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.salvaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.esportaExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.distintaBaseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.caricaToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.pulisciTabellaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -55,11 +56,14 @@
             this.Btn_ProgrammazioneProduzione = new System.Windows.Forms.Button();
             this.cms_DistintaBase = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.informazioniToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.esportaExcelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.Cms_distintaBaseGiacenza = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.impostaGiacenzaToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.visualizzaProduzioneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.DataGridView_Produzione)).BeginInit();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpAndDown_Periodi)).BeginInit();
             this.cms_DistintaBase.SuspendLayout();
+            this.Cms_distintaBaseGiacenza.SuspendLayout();
             this.SuspendLayout();
             // 
             // DataGridView_Produzione
@@ -68,8 +72,8 @@
             this.DataGridView_Produzione.AllowUserToDeleteRows = false;
             this.DataGridView_Produzione.AllowUserToResizeColumns = false;
             this.DataGridView_Produzione.AllowUserToResizeRows = false;
-            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(239)))), ((int)(((byte)(249)))));
-            this.DataGridView_Produzione.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle1;
+            dataGridViewCellStyle2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(238)))), ((int)(((byte)(239)))), ((int)(((byte)(249)))));
+            this.DataGridView_Produzione.AlternatingRowsDefaultCellStyle = dataGridViewCellStyle2;
             this.DataGridView_Produzione.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.DataGridView_Produzione.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
             this.DataGridView_Produzione.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
@@ -180,6 +184,7 @@
             // 
             // menuStrip1
             // 
+            this.menuStrip1.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.produzioneToolStripMenuItem,
             this.distintaBaseToolStripMenuItem,
@@ -202,19 +207,26 @@
             this.produzioneToolStripMenuItem.Size = new System.Drawing.Size(86, 20);
             this.produzioneToolStripMenuItem.Text = "Produzione";
             // 
-            // salvaToolStripMenuItem
-            // 
-            this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
-            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.salvaToolStripMenuItem.Text = "Salva";
-            this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
-            // 
             // caricaToolStripMenuItem
             // 
             this.caricaToolStripMenuItem.Name = "caricaToolStripMenuItem";
-            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.caricaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
             this.caricaToolStripMenuItem.Text = "Carica";
             this.caricaToolStripMenuItem.Click += new System.EventHandler(this.caricaToolStripMenuItem_Click);
+            // 
+            // salvaToolStripMenuItem
+            // 
+            this.salvaToolStripMenuItem.Name = "salvaToolStripMenuItem";
+            this.salvaToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.salvaToolStripMenuItem.Text = "Salva";
+            this.salvaToolStripMenuItem.Click += new System.EventHandler(this.salvaToolStripMenuItem_Click);
+            // 
+            // esportaExcelToolStripMenuItem
+            // 
+            this.esportaExcelToolStripMenuItem.Name = "esportaExcelToolStripMenuItem";
+            this.esportaExcelToolStripMenuItem.Size = new System.Drawing.Size(154, 22);
+            this.esportaExcelToolStripMenuItem.Text = "Esporta Excel";
+            this.esportaExcelToolStripMenuItem.Click += new System.EventHandler(this.esportaExcelToolStripMenuItem_Click);
             // 
             // distintaBaseToolStripMenuItem
             // 
@@ -257,7 +269,6 @@
             this.TreeView_DistintaBase.TabIndex = 6;
             this.TreeView_DistintaBase.NodeMouseHover += new System.Windows.Forms.TreeNodeMouseHoverEventHandler(this.treeView_DistintaBase_NodeMouseHover_1);
             this.TreeView_DistintaBase.NodeMouseClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseClick);
-            this.TreeView_DistintaBase.NodeMouseDoubleClick += new System.Windows.Forms.TreeNodeMouseClickEventHandler(this.treeView_DistintaBase_NodeMouseDoubleClick);
             // 
             // NumericUpAndDown_Periodi
             // 
@@ -306,24 +317,41 @@
             // 
             // cms_DistintaBase
             // 
+            this.cms_DistintaBase.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
             this.cms_DistintaBase.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.visualizzaProduzioneToolStripMenuItem,
             this.informazioniToolStripMenuItem});
             this.cms_DistintaBase.Name = "cms_DistintaBase";
-            this.cms_DistintaBase.Size = new System.Drawing.Size(142, 26);
+            this.cms_DistintaBase.Size = new System.Drawing.Size(204, 70);
             // 
             // informazioniToolStripMenuItem
             // 
             this.informazioniToolStripMenuItem.Name = "informazioniToolStripMenuItem";
-            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(141, 22);
+            this.informazioniToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.informazioniToolStripMenuItem.Text = "Informazioni";
             this.informazioniToolStripMenuItem.Click += new System.EventHandler(this.informazioniToolStripMenuItem_Click);
             // 
-            // esportaExcelToolStripMenuItem
+            // Cms_distintaBaseGiacenza
             // 
-            this.esportaExcelToolStripMenuItem.Name = "esportaExcelToolStripMenuItem";
-            this.esportaExcelToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.esportaExcelToolStripMenuItem.Text = "Esporta Excel";
-            this.esportaExcelToolStripMenuItem.Click += new System.EventHandler(this.esportaExcelToolStripMenuItem_Click);
+            this.Cms_distintaBaseGiacenza.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.impostaGiacenzaToolStripMenuItem});
+            this.Cms_distintaBaseGiacenza.Name = "Cms_distintaBaseGiacenza";
+            this.Cms_distintaBaseGiacenza.Size = new System.Drawing.Size(178, 26);
+            // 
+            // impostaGiacenzaToolStripMenuItem
+            // 
+            this.impostaGiacenzaToolStripMenuItem.Font = new System.Drawing.Font("Microsoft Tai Le", 9.75F);
+            this.impostaGiacenzaToolStripMenuItem.Name = "impostaGiacenzaToolStripMenuItem";
+            this.impostaGiacenzaToolStripMenuItem.Size = new System.Drawing.Size(177, 22);
+            this.impostaGiacenzaToolStripMenuItem.Text = "Imposta giacenza";
+            this.impostaGiacenzaToolStripMenuItem.Click += new System.EventHandler(this.impostaGiacenzaToolStripMenuItem_Click);
+            // 
+            // visualizzaProduzioneToolStripMenuItem
+            // 
+            this.visualizzaProduzioneToolStripMenuItem.Name = "visualizzaProduzioneToolStripMenuItem";
+            this.visualizzaProduzioneToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
+            this.visualizzaProduzioneToolStripMenuItem.Text = "Visualizza produzione";
+            this.visualizzaProduzioneToolStripMenuItem.Click += new System.EventHandler(this.visualizzaProduzioneToolStripMenuItem_Click);
             // 
             // Form1
             // 
@@ -349,6 +377,7 @@
             this.menuStrip1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.NumericUpAndDown_Periodi)).EndInit();
             this.cms_DistintaBase.ResumeLayout(false);
+            this.Cms_distintaBaseGiacenza.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -380,6 +409,9 @@
         private System.Windows.Forms.ToolStripMenuItem pulisciTabellaToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem infoToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem esportaExcelToolStripMenuItem;
+        private System.Windows.Forms.ContextMenuStrip Cms_distintaBaseGiacenza;
+        private System.Windows.Forms.ToolStripMenuItem impostaGiacenzaToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem visualizzaProduzioneToolStripMenuItem;
     }
 }
 
