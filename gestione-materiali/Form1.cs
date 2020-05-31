@@ -160,7 +160,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// carica una produzione salvata in xml
+        /// Carica una produzione salvata in xml.
         /// </summary>
         private void caricaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -184,7 +184,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// carica una distinta base
+        /// Carica una distinta base.
         /// </summary>
         private void caricaToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -214,7 +214,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// elimina tutti i dati dalla tabella
+        /// Elimina tutti i dati dalla tabella.
         /// </summary>
         private void pulisciTabellaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -252,7 +252,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// se si clicca con tasto dx su un nodo chiama il contextMenuStrip
+        /// Se si clicca con tasto dx su un nodo chiama il contextMenuStrip.
         /// </summary>
         private void treeView_DistintaBase_NodeMouseClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -266,8 +266,8 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// in fase di programmazione con doppio click sul nodo si può impostare la giacenza del nodo al periodo 0
-        /// in fase di visualizzazione con doppio click sul nodo si visualizza la programmazione del nodo stesso
+        /// In fase di programmazione con doppio click sul nodo si può impostare la giacenza del nodo al periodo 0.
+        /// In fase di visualizzazione con doppio click sul nodo si visualizza la programmazione del nodo stesso.
         /// </summary>
         private void treeView_DistintaBase_NodeMouseDoubleClick(object sender, TreeNodeMouseClickEventArgs e)
         {
@@ -305,7 +305,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// in fase di programmazione se si posiziona il mouse sopra un nodo si visualizza la giacenza al periodo 0 del nodo stesso
+        /// In fase di programmazione se si posiziona il mouse sopra un nodo si visualizza la giacenza al periodo 0 del nodo stesso.
         /// </summary>
         private void treeView_DistintaBase_NodeMouseHover_1(object sender, TreeNodeMouseHoverEventArgs e)
         {
@@ -335,7 +335,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// mostra le informazione del nodo selezionato
+        /// Mostra le informazione del nodo selezionato.
         /// </summary>
         private void informazioniToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -345,7 +345,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// permette di selezionare il numero di periodi
+        /// Permette di selezionare il numero di periodi.
         /// </summary>
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
@@ -624,7 +624,7 @@ namespace gestione_materiali
         }
 
         /// <summary>
-        /// Pulisce tutte le celle della dataGridView
+        /// Pulisce tutte le celle della dataGridView.
         /// </summary>
         private void PulisciTabella()
         {
@@ -656,7 +656,9 @@ namespace gestione_materiali
             }
         }
 
-
+        /// <summary>
+        /// Restituisce una stringa contenente le informazioni del componente selezionato in TreeView.
+        /// </summary>
         private string InfoComponenteDistintabase()
         {
             TreeNode TreePadre = null;
