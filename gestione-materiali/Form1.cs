@@ -127,6 +127,7 @@ namespace gestione_materiali
                 AggiornaTabella(distintaBase.Albero.Produzione);
 
                 TabellaGenerata = true;
+                Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
 
                 if (product.PeriodiNegativi > 0)
                 {
@@ -200,7 +201,7 @@ namespace gestione_materiali
             treeView_DistintaBase.ExpandAll();
             Lbl_ComponenteCaricato.Text = $"Attualmente è mostrata la tabella di '{distintaBase.Albero.Nome.ToUpper()}'";
         }
-        
+
         /// <summary>
         /// Cliccata la voce info nel contextMenu viene chiamato il link dove è presente il tutorial se viene cliccato il si.
         /// </summary>
@@ -211,7 +212,7 @@ namespace gestione_materiali
                 System.Diagnostics.Process.Start("https://github.com/Cyanogene/gestionale-logistica/blob/master/README.md");
             }
         }
-            
+
         /// <summary>
         /// elimina tutti i dati dalla tabella
         /// </summary>
@@ -246,6 +247,8 @@ namespace gestione_materiali
                     distintaBase.ResettaProduzioneDistintaBase(distintaBase.Albero);
                 }
             }
+            TabellaGenerata = false;
+            Lbl_ComponenteCaricato.Text = "";
         }
 
         /// <summary>
@@ -310,16 +313,25 @@ namespace gestione_materiali
             if (TabellaGenerata) return;
             TreeNode treeNode = e.Node;
             Componente comp = new Componente();
+            string giacenza = "";
             if (treeNode.Parent == null)
             {
-                comp = distintaBase.Albero;
+                if (dataGridView1.Rows[2].Cells[1].Value != null)
+                {
+                    giacenza = dataGridView1.Rows[2].Cells[1].Value.ToString();
+                }
+                else
+                {
+                    giacenza = "0";
+                }
             }
             else
             {
                 comp = distintaBase.TreeNodeToNode(treeNode, treeNode.Parent);
+                giacenza = comp.Produzione[0].Giacenza.ToString();
             }
             toolTip = new ToolTip();
-            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + comp.Produzione[0].Giacenza.ToString());
+            toolTip.SetToolTip(treeView_DistintaBase, "La giacenza nel primo periodo è " + giacenza);
         }
 
         /// <summary>
@@ -406,7 +418,7 @@ namespace gestione_materiali
                 }
             }
         }
-        
+
         /// <summary>
         /// Controlla che siano state compilate le celle necessarie alla produzione.
         /// </summary>
@@ -556,7 +568,7 @@ namespace gestione_materiali
         private TreeNode FormCaricaDistintaBase()
         {
             distintaBase.NumPeriodi = NumPeriodi;
-            Componente comp = distintaBase.CaricaProduzione();
+            Componente comp = distintaBase.Carica();
             if (comp == null) return null;
             distintaBase.Albero = comp;
 
@@ -623,6 +635,7 @@ namespace gestione_materiali
                     cell.Value = null;
                 }
             }
+            TabellaGenerata = false;
         }
 
         /// <summary>
@@ -643,7 +656,7 @@ namespace gestione_materiali
             }
         }
 
-        
+
         private string InfoComponenteDistintabase()
         {
             TreeNode treePadre = null;
@@ -653,6 +666,6 @@ namespace gestione_materiali
             if (componente == null) return "selezionare un componente";
             return "NOME --> " + componente.Nome + "\nCODICE --> " + componente.Codice + "\nDESCRIZIONE --> " + componente.Descrizione + "\nLEAD TIME --> " + componente.LeadTime + "\nLEAD TIME SICUREZZA --> " + componente.LeadTimeSicurezza + "\nLOTTO --> " + componente.Lotto + "\nSCORTA DI SICUREZZA --> " + componente.ScortaSicurezza + "\nPERIODO DI COPERTURA --> " + componente.PeriodoDiCopertura;
         }
-        
+
     }
 }
