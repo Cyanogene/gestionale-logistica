@@ -1,7 +1,7 @@
 \documentclass[12pt,twoside]{report}
 \usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
 \usepackage{fancyhdr}
-\usepackage{xcolor}
+\usepackage[dvipsnames]{xcolor}
 \usepackage[hidelinks]{hyperref}
 \newcommand{\coloredbold}[2]{\textcolor{#1}{\textbf{#2}}}
 \renewcommand{\chaptername}{Capitolo}
@@ -272,7 +272,8 @@ Piccola guida sul menu:
 	
 	\begin{itemize}
 		\item \textbf{Salva}: la produzione viene salvata (se è presente una).
-		\item \textbf{Carica}: carica una produzione da file esterno.
+		\item \textbf{Carica}: carica una produzione da file esterno.\\
+		\coloredbold{red}{ATTENZIONE: IL PROGRAMMA ACCETTA SOLAMENTE FILE .XML COME INPUT, QUINDI NON E' POSSIBILE CARICARE UN FILE DI TIPO .XLSX (EXCEL)}
 	\end{itemize}
 
 	\item \textbf{Distinta base}:
@@ -346,9 +347,13 @@ Sono presenti nuove voci, ossia:
 	      
 \end{itemize}
 
-I primi risultati visualizzati sulla griglia sono quelli del prodotto finito. E' possibile vedere la griglia di un nodo semplicemente premendo 2 volte sul componente scelto.\\
+I primi risultati visualizzati sulla griglia sono quelli del prodotto finito. E' possibile vedere la griglia di un nodo semplicemente premendo il tasto destro del mouse sul componente scelto, e cliccando il pulsante \textbf{Visualizza produzione}.\\
 
-Al termine del terzo punto si potrà scegliere se salvare la produzione premendo, sul menu, sul pulsante \textbf{“Produzione”} e cliccare su \textbf{"Salva"}.
+Al termine del terzo punto si potrà scegliere se salvare la produzione premendo, sul menu, sul pulsante \textbf{“Produzione”} e cliccare su \textbf{"Salva"}. \\
+\coloredbold{cyan}{N.B: viene salvato un file di tipo .XML}\\
+
+Si può scegliere di salvare la produzione in .XLSX (Excel) andando sul menu, premendo il pulsante \textbf{“Produzione”} e cliccare su \textbf{"Esporta su Excel"}. \\
+\coloredbold{cyan}{N.B: a seconda delle prestazioni del vostro PC, l'esportazione varia dai 5 ai 15 secondi.}\\
 
 
 % --------------------------------------------
@@ -370,11 +375,10 @@ Al termine del terzo punto si potrà scegliere se salvare la produzione premendo
 \textbf{Per mostrare all'utente la distinta base}, guardare la sezione\\ \hyperlink{inputProduzione}{\textcolor{blue}{\underline{Input: preparazione alla programmazione della produzione}}}
 
 \bigskip
-\textbf{Per ricevere come input la giacenza di un sottocomponente} basta premere 2 volte sul componente scelto. Si aprirà una videata, contenente una casella numerica, dove si potrà inserire la giacenza (al periodo 0) di quel componente.
+\textbf{Per ricevere come input la giacenza di un sottocomponente} basta premere con il tasto destro sul componente scelto, e cliccare il pulsante \textbf{Imposta giacenza}. Si aprirà una videata, contenente una casella numerica, dove si potrà inserire la giacenza (al periodo 0) di quel componente.
 
 \bigskip
-\textbf{Per mostrare una finestra di informazioni del componente} basta premere il tasto destro sul componente scelto. Si aprirà una piccola finestra con un pulsante di nome \textbf{Informazioni}.
-Se si preme quest'ultimo pulsante, verranno mostrare le informazioni del componente seleaionato.
+\textbf{Per mostrare una finestra di informazioni del componente} basta premere il tasto destro sul componente scelto e cliccare il pulsante \textbf{Informazioni}. Si aprirà una videata contenente le informazioni del componente scelto.
 
 
 \section{Descrizione tecnica}
